@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChaoWorld2", "ChaoWorld2\ChaoWorld2\ChaoWorld2.csproj", "{8898BA88-CC77-4F70-877F-8BE6920B4A7F}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "ChaoWorld2Content", "ChaoWorld2\ChaoWorld2Content\ChaoWorld2Content.contentproj", "{FD06A4DB-5D8D-4B84-9FB8-FE17F1997552}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8898BA88-CC77-4F70-877F-8BE6920B4A7F}.Debug|x86.ActiveCfg = Debug|x86
+		{8898BA88-CC77-4F70-877F-8BE6920B4A7F}.Debug|x86.Build.0 = Debug|x86
+		{8898BA88-CC77-4F70-877F-8BE6920B4A7F}.Release|x86.ActiveCfg = Release|x86
+		{8898BA88-CC77-4F70-877F-8BE6920B4A7F}.Release|x86.Build.0 = Release|x86
+		{FD06A4DB-5D8D-4B84-9FB8-FE17F1997552}.Debug|x86.ActiveCfg = Debug|x86
+		{FD06A4DB-5D8D-4B84-9FB8-FE17F1997552}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
