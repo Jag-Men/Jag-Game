@@ -52,5 +52,10 @@ namespace ChaoWorld2
       else
         return path.Replace('/', '.');
     }
+
+    public static Vector2 GetTilePos(float x, float y)
+    {
+      return new Vector2((float)Math.Floor(x / Game1.TileSize), (float)Math.Floor(y / Game1.TileSize));
+    }
   }
 }

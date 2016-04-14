@@ -16,6 +16,8 @@ namespace ChaoWorld2.Entities
     public int facing;
     public int frame;
 
+    public List<FakePlayer> FakePlayers = new List<FakePlayer>();
+
     public Player(float x, float y)
     {
       this.X = x * Game1.TileSize + (Game1.TileSize / 2);
@@ -27,20 +29,25 @@ namespace ChaoWorld2.Entities
     int frameCount = 0;
     public void Update()
     {
+      int speed = 3;
+      if (KeyboardUtil.IsKeyDown(Keys.LeftShift))
+        speed = 12;
+
       Vector2 move = new Vector2(0, 0);
       if (KeyboardUtil.IsKeyDown(Keys.W))
-        move.Y -= 3;
+        move.Y -= 1;
       if (KeyboardUtil.IsKeyDown(Keys.S))
-        move.Y += 3;
+        move.Y += 1;
       if (KeyboardUtil.IsKeyDown(Keys.A))
-        move.X -= 3;
+        move.X -= 1;
       if (KeyboardUtil.IsKeyDown(Keys.D))
-        move.X += 3;
+        move.X += 1;
       if(move.X != 0 && move.Y != 0)
       {
         move.X /= (float)Math.Sqrt(2);
         move.Y /= (float)Math.Sqrt(2);
       }
+      move *= speed;
       if (move.X != 0 || move.Y != 0)
         if (this.frameCount == 0)
           this.frameCount = 32;
@@ -54,19 +61,29 @@ namespace ChaoWorld2.Entities
         this.facing = 1;
       this.frame = (int)Math.Floor(frameCount / 32.0) % 4;
 
+      List<FakePlayer> removedFakePlayers = new List<FakePlayer>();
+      foreach(var i in FakePlayers)
+      {
+        i.Update();
+        if (i.alpha <= 0)
+          removedFakePlayers.Add(i);
+      }
+      foreach (var i in removedFakePlayers)
+        FakePlayers.Remove(i);
+
+      if(speed == 12)
+        FakePlayers.Add(new FakePlayer(this.X, this.Y, this.facing, this.frame));
+
       if (move.X != 0 && move.Y != 0)
       {
-        TmxLayerTile tileX = Game1.GetTileAt(this.X + move.X, this.Y);
-        TmxLayerTile tileY = Game1.GetTileAt(this.X, this.Y + move.Y);
-        if (tileX != null && tileX.Gid != 0)
+        if (Game1.IsTilePassable(Utility.GetTilePos(this.X + move.X, this.Y)))
           this.X += move.X;
-        if (tileY != null && tileY.Gid != 0)
+        if (Game1.IsTilePassable(Utility.GetTilePos(this.X, this.Y + move.Y)))
           this.Y += move.Y;
       }
       else
       {
-        TmxLayerTile tile = Game1.GetTileAt(this.X + move.X, this.Y + move.Y);
-        if (tile != null && tile.Gid != 0)
+        if (Game1.IsTilePassable(Utility.GetTilePos(this.X + move.X, this.Y + move.Y)))
         {
           this.X += move.X;
           this.Y += move.Y;
@@ -76,7 +93,9 @@ namespace ChaoWorld2.Entities
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(ContentLibrary.Sprites["dogo"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 24, 16, 24), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f);
+      foreach (var i in FakePlayers)
+        i.Draw(spriteBatch);
+      spriteBatch.Draw(ContentLibrary.Sprites["dogo"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 24, 16, 24), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - Y / 100000f);
       spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.51f);
     }
   }

@@ -12,6 +12,7 @@ using TiledSharp;
 using System.IO;
 using ChaoWorld2.Util;
 using ChaoWorld2.Entities;
+using System.Collections.Concurrent;
 
 namespace ChaoWorld2
 {
@@ -64,8 +65,8 @@ namespace ChaoWorld2
 
       // TODO: use this.Content to load your game content here
       ContentLibrary.Init();
-      Game1.Map = ContentLibrary.Maps["map"];
-      Game1.Player = new Player(33, 23);
+      Game1.Map = ContentLibrary.Maps["area"];
+      Game1.Player = new Player(5, 5);
     }
 
     /// <summary>
@@ -108,8 +109,16 @@ namespace ChaoWorld2
 
       Vector2 playerPos = new Vector2(Player.X, Player.Y).AddZoom();
 
-      CameraPos.X = playerPos.X - (Game1.GameWidth / 2);
-      CameraPos.Y = playerPos.Y - (Game1.GameHeight / 2);
+      float mapWidth = Game1.Map.Width * Game1.TileSize * (Game1.PixelZoom / 4);
+      float mapHeight = Game1.Map.Height * Game1.TileSize * (Game1.PixelZoom / 4);
+      if (mapWidth < Game1.GameWidth)
+        CameraPos.X = -((Game1.GameWidth - mapWidth) / 2);
+      else
+        CameraPos.X = Math.Max(0, Math.Min(mapWidth - Game1.GameWidth, playerPos.X - (Game1.GameWidth / 2)));
+      if (mapHeight < Game1.GameHeight)
+        CameraPos.Y = -((Game1.GameHeight - mapHeight) / 2);
+      else
+        CameraPos.Y = Math.Max(0, Math.Min(mapHeight - Game1.GameHeight, playerPos.Y - (Game1.GameHeight / 2)));
 
       base.Update(gameTime);
     }
@@ -123,16 +132,34 @@ namespace ChaoWorld2
       GraphicsDevice.Clear(Color.Black);
 
       // TODO: Add your drawing code here
-      spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-      foreach(var layer in Game1.Map.Layers)
+      spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+      foreach(var tile in GetTilesInLayer("Ground"))
       {
-        foreach(var tile in layer.Tiles)
-        {
-          TmxTileset tileset = Utility.GetTilesetForTile(Game1.Map, tile);
-          if (tileset == null)
-            continue;
-          spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Game1.Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 1f);
-        }
+        TmxTileset tileset = Utility.GetTilesetForTile(Game1.Map, tile);
+        if (tileset == null)
+          continue;
+        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Game1.Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 1f);
+      }
+      foreach (var tile in GetTilesInLayer("Solid"))
+      {
+        TmxTileset tileset = Utility.GetTilesetForTile(Game1.Map, tile);
+        if (tileset == null)
+          continue;
+        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Game1.Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - (tile.Y * Game1.TileSize + (Game1.TileSize / 2)) / 100000f);
+      }
+      foreach (var tile in GetTilesInLayer("Above"))
+      {
+        TmxTileset tileset = Utility.GetTilesetForTile(Game1.Map, tile);
+        if (tileset == null)
+          continue;
+        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Game1.Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - ((tile.Y + 1) * Game1.TileSize + (Game1.TileSize / 2)) / 100000f);
+      }
+      foreach (var tile in GetTilesInLayer("Front"))
+      {
+        TmxTileset tileset = Utility.GetTilesetForTile(Game1.Map, tile);
+        if (tileset == null)
+          continue;
+        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Game1.Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.1f - (tile.Y * Game1.TileSize + (Game1.TileSize / 2)) / 100000f);
       }
       Player.Draw(spriteBatch);
       spriteBatch.End();
@@ -140,19 +167,43 @@ namespace ChaoWorld2
       base.Draw(gameTime);
     }
 
-    public static TmxLayerTile GetTileAt(float x, float y)
+    public static List<TmxLayerTile> GetTilesInLayer(string layer)
     {
-      return GetTileAt((int)Math.Floor(x / Game1.TileSize), (int)Math.Floor(y / Game1.TileSize));
+      if (!Game1.Map.Layers.Contains(layer))
+        return new List<TmxLayerTile>();
+      return Game1.Map.Layers[layer].Tiles.ToList();
     }
 
-    public static TmxLayerTile GetTileAt(int x, int y)
+    public static TmxLayerTile GetTileAt(Vector2 pos, string layer)
     {
-      if (Game1.Map == null || !Game1.Map.Layers.Contains("Ground"))
+      return GetTileAt((int)pos.X, (int)pos.Y, layer);
+    }
+    
+    public static TmxLayerTile GetTileAt(int x, int y, string layer)
+    {
+      if (Game1.Map == null || !Game1.Map.Layers.Contains(layer))
         return null;
-      foreach (var tile in Game1.Map.Layers["Ground"].Tiles)
+      foreach (var tile in Game1.Map.Layers[layer].Tiles)
         if (tile.X == x && tile.Y == y)
           return tile;
       return null;
+    }
+
+    public static bool IsTilePassable(Vector2 pos)
+    {
+      return IsTilePassable((int)pos.X, (int)pos.Y);
+    }
+
+    public static bool IsTilePassable(int x, int y)
+    {
+      TmxLayerTile tile;
+      tile = GetTileAt(x, y, "Ground");
+      if (tile == null || tile.Gid == 0)
+        return false;
+      tile = GetTileAt(x, y, "Solid");
+      if (tile != null && tile.Gid != 0)
+        return false;
+      return true;
     }
   }
 }

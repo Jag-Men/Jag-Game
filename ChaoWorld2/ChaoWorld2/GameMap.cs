@@ -20,10 +20,7 @@ namespace ChaoWorld2
         {
           TmxTileset tileset = Utility.GetTilesetForTile(this, tile);
           if (tileset != null && tileset.Name == "special" && tile.Gid - tileset.FirstGid == 0)
-          {
-            Console.WriteLine("ya");
             PlayerSpawn = new Vector2(tile.X, tile.Y);
-          }
         }
     }
   }

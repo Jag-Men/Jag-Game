@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentLibrary.cs" />
+    <Compile Include="Entities\FakePlayer.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="GameMap.cs" />
     <Compile Include="Util\KeyboardEventArgs.cs" />
@@ -83,6 +84,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\maps\area.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\maps\map.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
