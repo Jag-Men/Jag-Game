@@ -19,9 +19,8 @@ namespace ChaoWorld2
   /// <summary>
   /// This is the main type for your game
   /// </summary>
-  public class Game1 : Microsoft.Xna.Framework.Game
+  public class Game1 : Game
   {
-    public static SpriteFont fontman;
     public static int GameWidth = 1600;
     public static int GameHeight = 900;
     public static float TileSize = 64;
@@ -30,7 +29,12 @@ namespace ChaoWorld2
     public static ContentManager GameContent;
     public static Player Player;
     public static GameMap Map;
-    public static Stupidmadoka Stupidman;
+    public static Random Random;
+    public static bool Paused;
+
+    public static ConcurrentDictionary<int, Entity> Entities = new ConcurrentDictionary<int, Entity>();
+    public static int NextEntityID = 0;
+
     GraphicsDeviceManager graphics;
     SpriteBatch spriteBatch;
 
@@ -43,62 +47,66 @@ namespace ChaoWorld2
       Game1.GameContent = Content;
     }
 
-    /// <summary>
-    /// Allows the game to perform any initialization it needs to before starting to run.
-    /// This is where it can query for any required services and load any non-graphic
-    /// related content.  Calling base.Initialize will enumerate through any components
-    /// and initialize them as well.
-    /// </summary>
+
     protected override void Initialize()
     {
-
-
+      Game1.Random = new Random();
+      Game1.Paused = false;
       base.Initialize();
     }
 
-    /// <summary>
-    /// LoadContent will be called once per game and is the place to load
-    /// all of your content.
-    /// </summary>
+
     protected override void LoadContent()
     {
-      // Create a new SpriteBatch, which can be used to draw textures.
       spriteBatch = new SpriteBatch(GraphicsDevice);
-
-      // TODO: use this.Content to load your game content here
+      
       ContentLibrary.Init();
       Game1.Map = ContentLibrary.Maps["area"];
-      Game1.Player = new Player(5, 5);
-      Game1.Stupidman = new Stupidmadoka(8, 6);
-      fontman = Content.Load<SpriteFont>("SpriteFont1");
+
+      Game1.AddEntity(new Player(5, 5));
+      Game1.AddEntity(new Stupidmadoka(8, 6));
+      Game1.AddEntity(new Stupidmadoka(10, 8));
     }
 
-    /// <summary>
-    /// UnloadContent will be called once per game and is the place to unload
-    /// all content.
-    /// </summary>
     protected override void UnloadContent()
     {
-      // TODO: Unload any non ContentManager content her
-      int joaje;
+
     }
 
-    /// <summary>
-    /// Allows the game to run logic such as updating the world,
-    /// checking for collisions, gathering input, and playing audio.
-    /// </summary>
-    /// <param name="gameTime">Provides a snapshot of timing values.</param>
+    public static Entity AddEntity(Entity entity)
+    {
+      if (Game1.Entities.TryAdd(NextEntityID, entity))
+      {
+        entity.ID = NextEntityID;
+        if (entity is Player)
+          Game1.Player = entity as Player;
+        NextEntityID++;
+      }
+      return entity;
+    }
+
+    public static Entity RemoveEntity(Entity entity)
+    {
+      Entity dummy = entity;
+      if (Game1.Entities.TryRemove(entity.ID, out dummy))
+      {
+        if (entity is Player)
+          Game1.Player = null;
+      }
+      return dummy;
+    }
+
     protected override void Update(GameTime gameTime)
     {
-      System.Console.WriteLine("joaje");
-
-      // Allows the game to exit
-      if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-        this.Exit();
+      Game1.Random = new Random();
 
       KeyboardUtil.Update();
-      Player.Update();
-      Stupidman.Update();
+      foreach (var entity in Entities)
+      {
+        if(!Game1.Paused)
+          entity.Value.Update();
+        entity.Value.UpdateEvenWhenPaused();
+      }
       if (KeyboardUtil.KeyPressed(Keys.OemPlus))
       {
         if (Game1.PixelZoom < 1)
@@ -130,15 +138,10 @@ namespace ChaoWorld2
       base.Update(gameTime);
     }
 
-    /// <summary>
-    /// This is called when the game should draw itself.
-    /// </summary>
-    /// <param name="gameTime">Provides a snapshot of timing values.</param>
     protected override void Draw(GameTime gameTime)
     {
       GraphicsDevice.Clear(Color.Black);
-
-      // TODO: Add your drawing code here
+      
       spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
       foreach(var tile in GetTilesInLayer("Ground"))
       {
@@ -168,9 +171,9 @@ namespace ChaoWorld2
           continue;
         spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Game1.Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.1f - (tile.Y * Game1.TileSize + (Game1.TileSize / 2)) / 100000f);
       }
+      foreach (var entity in Entities)
+        entity.Value.Draw(spriteBatch);
       spriteBatch.Draw(ContentLibrary.Sprites["cursorPict"], new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Azure);
-      Player.Draw(spriteBatch);
-      Stupidman.Draw(spriteBatch);
       spriteBatch.End();
 
       base.Draw(gameTime);
@@ -214,6 +217,5 @@ namespace ChaoWorld2
         return false;
       return true;
     }
-
   }
 }

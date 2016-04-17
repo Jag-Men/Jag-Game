@@ -10,9 +10,10 @@ namespace ChaoWorld2
 {
   public static class ContentLibrary
   {
+    public static Dictionary<string, Texture2D> Sprites = new Dictionary<string, Texture2D>();
     public static Dictionary<string, GameMap> Maps = new Dictionary<string, GameMap>();
     public static Dictionary<string, Texture2D> Tilesets = new Dictionary<string, Texture2D>();
-    public static Dictionary<string, Texture2D> Sprites = new Dictionary<string, Texture2D>();
+    public static Dictionary<string, SpriteFont> Fonts = new Dictionary<string, SpriteFont>();
 
     public static void Init()
     {
@@ -32,6 +33,11 @@ namespace ChaoWorld2
         string fileName = Path.GetFileNameWithoutExtension(file);
         var map = new GameMap(file);
         Maps.Add(fileName, map);
+      }
+      foreach (var file in Directory.GetFiles(pathBase + "fonts"))
+      {
+        string fileName = Path.GetFileNameWithoutExtension(file);
+        Fonts.Add(fileName, Game1.GameContent.Load<SpriteFont>("fonts\\" + fileName));
       }
     }
   }

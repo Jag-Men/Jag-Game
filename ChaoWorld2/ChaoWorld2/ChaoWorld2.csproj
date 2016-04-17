@@ -64,6 +64,7 @@
     <Compile Include="Entities\Stupidmadoka.cs" />
     <Compile Include="Entities\FakePlayer.cs" />
     <Compile Include="Entities\Player.cs" />
+    <Compile Include="Entity.cs" />
     <Compile Include="GameMap.cs" />
     <Compile Include="Util\KeyboardEventArgs.cs" />
     <Compile Include="Util\KeyboardUtil.cs" />

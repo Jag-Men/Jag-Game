@@ -9,23 +9,12 @@ using TiledSharp;
 
 namespace ChaoWorld2.Entities
 {
-  public class Player
+  public class Player : Entity
   {
-    public float X;
-    public float Y;
     public int facing;
     public int frame;
 
     public List<FakePlayer> FakePlayers = new List<FakePlayer>();
-    public Vector2 XandY
-    {
-      get { return new Vector2(this.X, this.Y); }
-      set
-      {
-        this.X = value.X;
-        this.Y = value.Y;
-      }
-    }
 
     public Player(float x, float y)
     {
@@ -36,11 +25,11 @@ namespace ChaoWorld2.Entities
     }
 
     int frameCount = 0;
-    public void Update()
+    public override void Update()
     {
       int speed = 3;
       if (KeyboardUtil.IsKeyDown(Keys.LeftShift))
-        speed = 12;
+        speed = 24;
 
       Vector2 move = new Vector2(0, 0);
       if (KeyboardUtil.IsKeyDown(Keys.W))
@@ -80,9 +69,8 @@ namespace ChaoWorld2.Entities
       foreach (var i in removedFakePlayers)
         FakePlayers.Remove(i);
 
-      if(speed == 12)
+      if(speed == 24)
         FakePlayers.Add(new FakePlayer(this.X, this.Y, this.facing, this.frame));
-
       
       if (move.X != 0 && move.Y != 0)
       {
@@ -101,7 +89,7 @@ namespace ChaoWorld2.Entities
       }
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
     {
       foreach (var i in FakePlayers)
         i.Draw(spriteBatch);
