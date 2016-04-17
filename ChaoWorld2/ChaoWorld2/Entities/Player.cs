@@ -17,6 +17,15 @@ namespace ChaoWorld2.Entities
     public int frame;
 
     public List<FakePlayer> FakePlayers = new List<FakePlayer>();
+    public Vector2 XandY
+    {
+      get { return new Vector2(this.X, this.Y); }
+      set
+      {
+        this.X = value.X;
+        this.Y = value.Y;
+      }
+    }
 
     public Player(float x, float y)
     {
@@ -74,6 +83,7 @@ namespace ChaoWorld2.Entities
       if(speed == 12)
         FakePlayers.Add(new FakePlayer(this.X, this.Y, this.facing, this.frame));
 
+      
       if (move.X != 0 && move.Y != 0)
       {
         if (Game1.IsTilePassable(Utility.GetTilePos(this.X + move.X, this.Y)))
