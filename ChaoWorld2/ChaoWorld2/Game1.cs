@@ -173,6 +173,7 @@ namespace ChaoWorld2
       }
       foreach (var entity in Entities)
         entity.Value.Draw(spriteBatch);
+      if (Game1.Paused == true)
       spriteBatch.Draw(ContentLibrary.Sprites["cursorPict"], new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Azure);
       spriteBatch.End();
 
