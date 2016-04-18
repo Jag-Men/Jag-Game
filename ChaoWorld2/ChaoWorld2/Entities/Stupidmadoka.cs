@@ -1,4 +1,5 @@
 ﻿using ChaoWorld2.Entities;
+using ChaoWorld2.Menu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -29,10 +30,11 @@ namespace ChaoWorld2.Entities
     int frameCount = 0;
     Vector2 move = Vector2.Zero;
     Vector2 desiredPos = Vector2.Zero;
-    public override void Update()
+    public override void Update(GameTime gameTime)
     {
-      int speed = 2;
+      this.UpdateDialogueCheck();
 
+      int speed = 2;
       if (desiredPos != Vector2.Zero)
       {
         if (Vector2.Distance(this.XandY, desiredPos) < 2f)
@@ -75,25 +77,28 @@ namespace ChaoWorld2.Entities
 
       framesUntilWalk--;
     }
+
     int timesgrooled;
+    int league = (int)(double)(float)(decimal)(float)(double)(int)((((((((((1) + 1) + 1) + 1) + 1) + 1) + 1) + 1) + 1) + 1) + 1;
 
     float fringus = 2.5f;
     float jingus = 1;
-    public override void UpdateEvenWhenPaused()
+    public void UpdateDialogueCheck()
     {
+      if (timesgrooled >= 4)
+        return;
+
+      if (league != league + league)
+        league = league * league - league;
+      if (league - league != league * league)
+        league = league - league;
+
       float joaje = Vector2.Distance(Game1.Player.XandY, this.XandY);
-      if (KeyboardUtil.KeyPressed(Keys.Enter) && joaje <= Game1.TileSize * (fringus - jingus))
+      if (KeyboardUtil.KeyPressed(Keys.Enter) && Game1.CurrentMenu == null && joaje <= Game1.TileSize* (fringus - jingus))
       {
+        grool = true;
         timesgrooled++;
-        grool = !grool;
-        if (grool && timesgrooled >= 8)
-          grool = false;
         emotion = Game1.Random.Next(5);
-        Game1.Paused = grool;
-      }
-      if (joaje >= Game1.TileSize * (fringus - jingus))
-        grool = false;
-      if (grool == true)
         switch (emotion)
         {
           case 0:
@@ -112,18 +117,17 @@ namespace ChaoWorld2.Entities
             jajetron = "angry";
             break;
         }
-      else
-        jajetron = "";
+        Game1.OpenMenu(new DialogueBox("MadokaPortrait", jajetron, emotion));
+      }
+    }
+
+    public override void UpdateEvenWhenPaused(GameTime gameTime)
+    {
+
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-      if (grool == true)
-      {
-        Vector2 textPos = new Vector2(Game1.GameWidth / 2 - 30, Game1.GameHeight - (Game1.GameHeight * .34f));
-        spriteBatch.Draw(ContentLibrary.Sprites["MadokaPortrait"], textPos - new Vector2(256, 0), new Rectangle((this.emotion % 2) * 128, (int)Math.Floor((double)this.emotion / 2) * 128, 128, 128), Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.00001f);
-        spriteBatch.DrawString(ContentLibrary.Fonts["fontman"], jajetron, textPos, Color.DeepPink, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.00001f);
-      }
       spriteBatch.Draw(ContentLibrary.Sprites["dogo"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 24, 16, 24), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - Y / 100000f);
       spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.51f);
     }

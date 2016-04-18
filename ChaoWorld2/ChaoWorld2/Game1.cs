@@ -13,6 +13,7 @@ using System.IO;
 using ChaoWorld2.Util;
 using ChaoWorld2.Entities;
 using System.Collections.Concurrent;
+using ChaoWorld2.Menu;
 
 namespace ChaoWorld2
 {
@@ -31,6 +32,7 @@ namespace ChaoWorld2
     public static GameMap Map;
     public static Random Random;
     public static bool Paused;
+    public static IMenu CurrentMenu;
 
     public static ConcurrentDictionary<int, Entity> Entities = new ConcurrentDictionary<int, Entity>();
     public static int NextEntityID = 0;
@@ -52,6 +54,7 @@ namespace ChaoWorld2
     {
       Game1.Random = new Random();
       Game1.Paused = false;
+      Game1.CurrentMenu = null;
       base.Initialize();
     }
 
@@ -101,12 +104,21 @@ namespace ChaoWorld2
       Game1.Random = new Random();
 
       KeyboardUtil.Update();
+      if (Game1.CurrentMenu != null)
+      {
+        Game1.CurrentMenu.Update(gameTime);
+        KeyboardUtil.Update();
+      }
       foreach (var entity in Entities)
       {
         if(!Game1.Paused)
-          entity.Value.Update();
-        entity.Value.UpdateEvenWhenPaused();
+          entity.Value.Update(gameTime);
+        entity.Value.UpdateEvenWhenPaused(gameTime);
       }
+
+      if (KeyboardUtil.KeyPressed(Keys.E) && Game1.CurrentMenu == null)
+        Game1.OpenMenu(new JagInventory());
+
       if (KeyboardUtil.KeyPressed(Keys.OemPlus))
       {
         if (Game1.PixelZoom < 1)
@@ -173,7 +185,8 @@ namespace ChaoWorld2
       }
       foreach (var entity in Entities)
         entity.Value.Draw(spriteBatch);
-      if (Game1.Paused == true)
+      if (Game1.CurrentMenu != null)
+        Game1.CurrentMenu.Draw(spriteBatch);
       spriteBatch.Draw(ContentLibrary.Sprites["cursorPict"], new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Azure);
       spriteBatch.End();
 
@@ -217,6 +230,21 @@ namespace ChaoWorld2
       if (tile != null && tile.Gid != 0)
         return false;
       return true;
+    }
+    
+    public static IMenu OpenMenu(IMenu menu)
+    {
+      Game1.CurrentMenu = menu;
+      Game1.Paused = true;
+      return menu;
+    }
+
+    public static IMenu CloseMenu()
+    {
+      IMenu menu = Game1.CurrentMenu;
+      Game1.CurrentMenu = null;
+      Game1.Paused = false;
+      return menu;
     }
   }
 }

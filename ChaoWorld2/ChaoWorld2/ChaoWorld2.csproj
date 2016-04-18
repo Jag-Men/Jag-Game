@@ -66,6 +66,9 @@
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="GameMap.cs" />
+    <Compile Include="Menu\DialogueBox.cs" />
+    <Compile Include="Menu\IMenu.cs" />
+    <Compile Include="Menu\JagInventory.cs" />
     <Compile Include="Util\KeyboardEventArgs.cs" />
     <Compile Include="Util\KeyboardUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

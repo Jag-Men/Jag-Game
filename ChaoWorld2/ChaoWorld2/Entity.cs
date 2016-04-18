@@ -22,8 +22,8 @@ namespace ChaoWorld2
       }
     }
 
-    public virtual void Update() { }
-    public virtual void UpdateEvenWhenPaused() { }
+    public virtual void Update(GameTime gameTime) { }
+    public virtual void UpdateEvenWhenPaused(GameTime gameTime) { }
     public virtual void Draw(SpriteBatch spriteBatch) { }
   }
 }

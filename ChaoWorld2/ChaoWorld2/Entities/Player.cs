@@ -25,10 +25,8 @@ namespace ChaoWorld2.Entities
     }
 
     int frameCount = 0;
-    public override void Update()
+    public override void Update(GameTime gameTime)
     {
-
-
       int speed = 3;
       if (KeyboardUtil.IsKeyDown(Keys.LeftShift))
         speed = 24;
@@ -91,35 +89,18 @@ namespace ChaoWorld2.Entities
       }
     }
     Color color;
-    bool isgroolopen;
-    public override void UpdateEvenWhenPaused()
+    public override void UpdateEvenWhenPaused(GameTime gameTime)
     {
-      if (KeyboardUtil.KeyPressed(Keys.E) && isgroolopen != true)
-      {
-        isgroolopen = true;
+      if (KeyboardUtil.KeyPressed(Keys.E))
         color = Color.Blue;
-        if (color == Color.Blue)
-        {
-          Game1.Paused = true;
-        }
-      }
-      else if (KeyboardUtil.KeyPressed(Keys.E) && isgroolopen == true)
-      {
-        isgroolopen = false;
+      else if (KeyboardUtil.KeyReleased(Keys.E))
         color = Color.Purple;
-        if (color == Color.Purple)
-        {
-          Game1.Paused = false;
-        }
-      }
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
       foreach (var i in FakePlayers)
         i.Draw(spriteBatch);
-      if (isgroolopen)
-        spriteBatch.Draw(ContentLibrary.Sprites["Untitled"], Vector2.Zero, Color.White);
       spriteBatch.Draw(ContentLibrary.Sprites["dogo"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 24, 16, 24), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - Y / 100000f);
       spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.51f);
     }
