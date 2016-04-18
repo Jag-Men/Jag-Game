@@ -75,6 +75,7 @@ namespace ChaoWorld2.Entities
 
       framesUntilWalk--;
     }
+    int timesgrooled;
 
     float fringus = 2.5f;
     float jingus = 1;
@@ -83,7 +84,10 @@ namespace ChaoWorld2.Entities
       float joaje = Vector2.Distance(Game1.Player.XandY, this.XandY);
       if (KeyboardUtil.KeyPressed(Keys.Enter) && joaje <= Game1.TileSize * (fringus - jingus))
       {
+        timesgrooled++;
         grool = !grool;
+        if (grool && timesgrooled >= 8)
+          grool = false;
         emotion = Game1.Random.Next(5);
         Game1.Paused = grool;
       }
