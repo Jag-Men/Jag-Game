@@ -93,19 +93,19 @@ namespace ChaoWorld2.Entities
         switch (emotion)
         {
           case 0:
-            jajetron = "talk i guess?";
+            jajetron = "manawyrm";
             break;
           case 1:
             jajetron = "happy";
             break;
           case 2:
-            jajetron = "goron";
+            jajetron = "sad";
             break;
           case 3:
-            jajetron = "meh";
+            jajetron = "o";
             break;
           case 4:
-            jajetron = "blush";
+            jajetron = "angry";
             break;
         }
       else
@@ -117,7 +117,7 @@ namespace ChaoWorld2.Entities
       if (grool == true)
       {
         Vector2 textPos = new Vector2(Game1.GameWidth / 2 - 30, Game1.GameHeight - (Game1.GameHeight * .34f));
-        spriteBatch.Draw(ContentLibrary.Sprites["Ashley"], textPos - new Vector2(256, 0), new Rectangle((this.emotion % 2) * 64, (int)Math.Floor((double)this.emotion / 2) * 64, 64, 64), Color.White, 0f,Vector2.Zero,4,SpriteEffects.None, 0.00001f);
+        spriteBatch.Draw(ContentLibrary.Sprites["MadokaPortrait"], textPos - new Vector2(256, 0), new Rectangle((this.emotion % 2) * 128, (int)Math.Floor((double)this.emotion / 2) * 128, 128, 128), Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.00001f);
         spriteBatch.DrawString(ContentLibrary.Fonts["fontman"], jajetron, textPos, Color.DeepPink, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.00001f);
       }
       spriteBatch.Draw(ContentLibrary.Sprites["dogo"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 24, 16, 24), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - Y / 100000f);
