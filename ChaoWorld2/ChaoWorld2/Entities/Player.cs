@@ -11,7 +11,6 @@ namespace ChaoWorld2.Entities
 {
   public class Player : Entity
   {
-    public int god;
     public int facing;
     public int frame;
 
