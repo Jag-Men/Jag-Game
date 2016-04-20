@@ -22,6 +22,7 @@ namespace ChaoWorld2.Menu
         Game1.CloseMenu();
         return;
       }
+      
     }
 
     public void Draw(SpriteBatch spriteBatch)
