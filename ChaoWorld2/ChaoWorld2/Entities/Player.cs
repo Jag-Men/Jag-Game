@@ -28,6 +28,10 @@ namespace ChaoWorld2.Entities
     int frameCount = 0;
     public override void Update(GameTime gameTime)
     {
+      if (KeyboardUtil.KeyPressed(Keys.H))
+        health--;
+      if (health<0)
+        health++;
       int speed = 3;
       if (KeyboardUtil.IsKeyDown(Keys.LeftShift))
         speed = 24;
@@ -97,13 +101,14 @@ namespace ChaoWorld2.Entities
       else if (KeyboardUtil.KeyReleased(Keys.E))
         color = Color.Purple;
     }
-    int health = 100;
-    int maxhealth = 100;
+    public int health = 115;
+    int maxhealth = 115;
     
     public override void Draw(SpriteBatch spriteBatch)
     {
       foreach (var i in FakePlayers)
         i.Draw(spriteBatch);
+      spriteBatch.Draw(ContentLibrary.Sprites["hp"], new Vector2(628, 600), new Rectangle(0, 0, 2 * (int)(((double)health/maxhealth)*100), 32), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0.00003f);
       spriteBatch.Draw(ContentLibrary.Sprites["superfancyhpbar1"], new Vector2(600, 600), new Rectangle(0, 0, 128, 16), Color.White, 0 , Vector2.Zero,2,SpriteEffects.None, 0.00002f);
       spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], health + "", new Vector2(828, 600), Color.White);
       spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], "__", new Vector2(830, 602), Color.White);
