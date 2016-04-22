@@ -96,7 +96,6 @@ namespace ChaoWorld2.Entities
       float joaje = Vector2.Distance(Game1.Player.XandY, this.XandY);
       if (KeyboardUtil.KeyPressed(Keys.Enter) && Game1.CurrentMenu == null && joaje <= Game1.TileSize* (fringus - jingus))
       {
-         
         grool = true;
         timesgrooled++;
         emotion = Game1.Random.Next(5);
