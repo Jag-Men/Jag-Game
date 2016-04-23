@@ -69,6 +69,14 @@
     <Compile Include="Menu\DialogueBox.cs" />
     <Compile Include="Menu\IMenu.cs" />
     <Compile Include="Menu\JagInventory.cs" />
+    <Compile Include="Networking\Packets\Client\ClientPingPacket.cs" />
+    <Compile Include="Networking\Packets\Client\HelloPacket.cs" />
+    <Compile Include="Networking\Packets\Client\SendMessagePacket.cs" />
+    <Compile Include="Networking\Packets\Packet.cs" />
+    <Compile Include="Networking\Packets\PacketHandler.cs" />
+    <Compile Include="Networking\Packets\PacketID.cs" />
+    <Compile Include="Networking\Packets\Server\ChatMessagePacket.cs" />
+    <Compile Include="Networking\Packets\Server\ServerPingPacket.cs" />
     <Compile Include="Util\KeyboardEventArgs.cs" />
     <Compile Include="Util\KeyboardUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
