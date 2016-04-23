@@ -19,6 +19,8 @@ namespace ChaoWorld2.Entities
     public bool grool = false;
     public int emotion;
 
+    public Stupidmadoka() { }
+
     public Stupidmadoka(float x, float y)
     {
       this.X = x * Game1.TileSize + (Game1.TileSize / 2);
