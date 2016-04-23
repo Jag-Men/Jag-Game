@@ -14,6 +14,8 @@ namespace ChaoWorld2.Entities
     public int god;
     public int facing;
     public int frame;
+    public int health = 115;
+    public int maxhealth = 115;
 
     public List<FakePlayer> FakePlayers = new List<FakePlayer>();
 
@@ -101,20 +103,24 @@ namespace ChaoWorld2.Entities
       else if (KeyboardUtil.KeyReleased(Keys.E))
         color = Color.Purple;
     }
-    public int health = 115;
-    int maxhealth = 115;
     
     public override void Draw(SpriteBatch spriteBatch)
     {
       foreach (var i in FakePlayers)
         i.Draw(spriteBatch);
-      spriteBatch.Draw(ContentLibrary.Sprites["hp"], new Vector2(628, 600), new Rectangle(0, 0, 2 * (int)(((double)health/maxhealth)*100), 32), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0.00003f);
-      spriteBatch.Draw(ContentLibrary.Sprites["superfancyhpbar1"], new Vector2(600, 600), new Rectangle(0, 0, 128, 16), Color.White, 0 , Vector2.Zero,2,SpriteEffects.None, 0.00002f);
-      spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], health + "", new Vector2(828, 600), Color.White);
-      spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], "__", new Vector2(830, 602), Color.White);
-      spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], maxhealth + "", new Vector2(828, 615), Color.White);
       spriteBatch.Draw(ContentLibrary.Sprites["dogo"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 24, 16, 24), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - Y / 100000f);
       spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.51f);
+      this.DrawHealthBar(spriteBatch);
+    }
+
+    void DrawHealthBar(SpriteBatch spriteBatch)
+    {
+      Vector2 barPos = new Vector2(Game1.GameWidth - 276, Game1.GameHeight - 52);
+      spriteBatch.Draw(ContentLibrary.Sprites["hp"], barPos + new Vector2(28, 0), new Rectangle(0, 0, 2 * (int)(((double)health / maxhealth) * 100), 32), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0.000022f);
+      spriteBatch.Draw(ContentLibrary.Sprites["superfancyhpbar1"], barPos, new Rectangle(0, 0, 128, 16), Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, 0.000021f);
+      spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], health + "", barPos + new Vector2(228, 0), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0.00002f);
+      spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], "__", barPos + new Vector2(230, 2), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0.00002f);
+      spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], maxhealth + "", barPos + new Vector2(228, 15), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0.00002f);
     }
   }
 }

@@ -85,7 +85,7 @@ namespace ChaoWorld2.Entities
     float jingus = 1;
     public void UpdateDialogueCheck()
     {
-      if (timesgrooled >= 4)
+      if (timesgrooled >= 400)
         return;
 
       if (league != league + league)
