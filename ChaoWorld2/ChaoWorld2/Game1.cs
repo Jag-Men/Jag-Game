@@ -33,6 +33,8 @@ namespace ChaoWorld2
     public static Random Random;
     public static bool Paused;
     public static IMenu CurrentMenu;
+    public static bool Server = false;
+    public static bool Host = true;
 
     public static ConcurrentDictionary<int, Entity> Entities = new ConcurrentDictionary<int, Entity>();
     public static int NextEntityID = 0;
@@ -249,7 +251,8 @@ namespace ChaoWorld2
     public static IMenu OpenMenu(IMenu menu)
     {
       Game1.CurrentMenu = menu;
-      Game1.Paused = true;
+      if(!Game1.Server)
+        Game1.Paused = true;
       return menu;
     }
 

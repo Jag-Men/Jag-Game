@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TiledSharp;
+using System.IO;
+using System.Collections.Concurrent;
 
 namespace ChaoWorld2.Entities
 {
@@ -17,7 +19,7 @@ namespace ChaoWorld2.Entities
     public int health = 115;
     public int maxhealth = 115;
 
-    public List<FakePlayer> FakePlayers = new List<FakePlayer>();
+    public Player() { }
 
     public Player(float x, float y)
     {
@@ -30,6 +32,9 @@ namespace ChaoWorld2.Entities
     int frameCount = 0;
     public override void Update(GameTime gameTime)
     {
+      if (this != Game1.Player)
+        return;
+
       if (KeyboardUtil.KeyPressed(Keys.H))
         health--;
       if (health<0)
@@ -66,18 +71,8 @@ namespace ChaoWorld2.Entities
         this.facing = 1;
       this.frame = (int)Math.Floor(frameCount / 32.0) % 4;
 
-      List<FakePlayer> removedFakePlayers = new List<FakePlayer>();
-      foreach(var i in FakePlayers)
-      {
-        i.Update();
-        if (i.alpha <= 0)
-          removedFakePlayers.Add(i);
-      }
-      foreach (var i in removedFakePlayers)
-        FakePlayers.Remove(i);
-
       if(speed == 24)
-        FakePlayers.Add(new FakePlayer(this.X, this.Y, this.facing, this.frame));
+        Game1.AddEntity(new FakePlayer(this.X, this.Y, this.facing, this.frame));
       
       if (move.X != 0 && move.Y != 0)
       {
@@ -106,8 +101,6 @@ namespace ChaoWorld2.Entities
     
     public override void Draw(SpriteBatch spriteBatch)
     {
-      foreach (var i in FakePlayers)
-        i.Draw(spriteBatch);
       spriteBatch.Draw(ContentLibrary.Sprites["dogo"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 24, 16, 24), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - Y / 100000f);
       spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.51f);
       this.DrawHealthBar(spriteBatch);
@@ -121,6 +114,24 @@ namespace ChaoWorld2.Entities
       spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], health + "", barPos + new Vector2(228, 0), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0.00002f);
       spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], "__", barPos + new Vector2(230, 2), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0.00002f);
       spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], maxhealth + "", barPos + new Vector2(228, 15), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0.00002f);
+    }
+
+    public override void Read(BinaryReader rdr)
+    {
+      facing = rdr.ReadInt32();
+      frame = rdr.ReadInt32();
+      health = rdr.ReadInt32();
+      maxhealth = rdr.ReadInt32();
+      base.Read(rdr);
+    }
+
+    public override void Write(BinaryWriter wtr)
+    {
+      wtr.Write(facing);
+      wtr.Write(frame);
+      wtr.Write(health);
+      wtr.Write(maxhealth);
+      base.Write(wtr);
     }
   }
 }

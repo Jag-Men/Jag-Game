@@ -16,6 +16,7 @@ namespace ChaoWorld2.Networking.Packets.Client
     public override void Read(BinaryReader rdr)
     {
       Text = rdr.ReadString();
+      
     }
 
     public override void Write(BinaryWriter wtr)

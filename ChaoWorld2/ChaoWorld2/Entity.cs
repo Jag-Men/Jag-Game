@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -22,8 +23,24 @@ namespace ChaoWorld2
       }
     }
 
+    public Entity() { }
+
     public virtual void Update(GameTime gameTime) { }
     public virtual void UpdateEvenWhenPaused(GameTime gameTime) { }
     public virtual void Draw(SpriteBatch spriteBatch) { }
+
+    public virtual void Read(BinaryReader rdr)
+    {
+      ID = rdr.ReadInt32();
+      X = rdr.ReadSingle();
+      Y = rdr.ReadSingle();
+    }
+
+    public virtual void Write(BinaryWriter wtr)
+    {
+      wtr.Write(ID);
+      wtr.Write(X);
+      wtr.Write(Y);
+    }
   }
 }

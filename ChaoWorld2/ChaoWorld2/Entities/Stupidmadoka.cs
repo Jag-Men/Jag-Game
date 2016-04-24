@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace ChaoWorld2.Entities
 {
@@ -18,6 +19,8 @@ namespace ChaoWorld2.Entities
     public string jajetron = "";
     public bool grool = false;
     public int emotion;
+
+    public Stupidmadoka() { }
 
     public Stupidmadoka(float x, float y)
     {
@@ -33,6 +36,9 @@ namespace ChaoWorld2.Entities
     public override void Update(GameTime gameTime)
     {
       this.UpdateDialogueCheck();
+
+      if (!Game1.Host)
+        return;
 
       int speed = 2;
       if (desiredPos != Vector2.Zero)
@@ -56,7 +62,7 @@ namespace ChaoWorld2.Entities
       if (framesUntilWalk <= 0 && desiredPos == Vector2.Zero)
       {
         Vector2 desiredMove = new Vector2(Game1.Random.Next(-1, 2), Game1.Random.Next(-1, 2));
-        if(desiredMove != Vector2.Zero && Game1.IsTilePassable(Utility.GetTilePos(this.XandY.X, this.XandY.Y) + (desiredMove)))
+        if (desiredMove != Vector2.Zero && Game1.IsTilePassable(Utility.GetTilePos(this.XandY.X, this.XandY.Y) + (desiredMove)))
         {
           desiredPos = this.XandY + (desiredMove) * Game1.TileSize;
           move = desiredMove;
@@ -130,6 +136,20 @@ namespace ChaoWorld2.Entities
     {
       spriteBatch.Draw(ContentLibrary.Sprites["dogo"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 24, 16, 24), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - Y / 100000f);
       spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.51f);
+    }
+
+    public override void Read(BinaryReader rdr)
+    {
+      facing = rdr.ReadInt32();
+      frame = rdr.ReadInt32();
+      base.Read(rdr);
+    }
+
+    public override void Write(BinaryWriter wtr)
+    {
+      wtr.Write(facing);
+      wtr.Write(frame);
+      base.Write(wtr);
     }
   }
 }
