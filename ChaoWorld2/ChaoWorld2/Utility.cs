@@ -57,5 +57,10 @@ namespace ChaoWorld2
     {
       return new Vector2((float)Math.Floor(x / Game1.TileSize), (float)Math.Floor(y / Game1.TileSize));
     }
+
+    public static int GetUnixTimestamp()
+    {
+      return (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+    }
   }
 }
