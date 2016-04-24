@@ -149,13 +149,27 @@ namespace ChaoWorld2
 
       base.Update(gameTime);
     }
-
+    string stringman;
+    
+    float vecx;
+    float vecy;
     protected override void Draw(GameTime gameTime)
     {
       GraphicsDevice.Clear(Color.Black);
       
       spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-      foreach(var tile in GetTilesInLayer("Ground"))
+      if (KeyboardUtil.KeyPressed(Keys.G))
+      {
+        stringman ="doggo";
+        vecx = 100;
+        vecy = 100;
+        if (stringman.Length > 10 * vecx)
+        {
+
+        }
+        spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], stringman, new Vector2(vecx, vecy), Color.White);
+      }
+      foreach (var tile in GetTilesInLayer("Ground"))
       {
         TmxTileset tileset = Utility.GetTilesetForTile(Game1.Map, tile);
         if (tileset == null)
