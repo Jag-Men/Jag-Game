@@ -39,6 +39,13 @@ namespace ChaoWorld2.Entities
         health--;
       if (health<0)
         health++;
+
+      if (KeyboardUtil.KeyPressed(Keys.F2))
+      {
+        var tilePos = Utility.GetTilePos(X, Y);
+        Game1.AddEntity(new Stupidmadoka(tilePos.X, tilePos.Y));
+      }
+
       int speed = 3;
       if (KeyboardUtil.IsKeyDown(Keys.LeftShift))
         speed = 24;

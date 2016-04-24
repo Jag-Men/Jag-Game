@@ -16,8 +16,8 @@ namespace ChaoWorld2.Networking.Packets
     {
       switch ((PacketID)id)
       {
-        case PacketID.Hello:
-          return new HelloPacket();
+        case PacketID.Connect:
+          return new ConnectPacket();
         case PacketID.ServerPingPacket:
           return new ServerPingPacket();
         case PacketID.ClientPingPacket:
@@ -26,6 +26,12 @@ namespace ChaoWorld2.Networking.Packets
           return new SendMessagePacket();
         case PacketID.ChatMessage:
           return new ChatMessagePacket();
+        case PacketID.Hello:
+          return new HelloPacket();
+        case PacketID.UpdateEntities:
+          return new UpdateEntitiesPacket();
+        case PacketID.AddRemoveEntities:
+          return new AddRemoveEntitiesPacket();
         default:
           return null;
       }

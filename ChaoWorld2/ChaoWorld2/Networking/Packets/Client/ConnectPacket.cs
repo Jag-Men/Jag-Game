@@ -7,9 +7,9 @@ using System.IO;
 
 namespace ChaoWorld2.Networking.Packets.Client
 {
-  public class HelloPacket : Packet
+  public class ConnectPacket : Packet
   {
-    public HelloPacket() : base(PacketID.Hello) { }
+    public ConnectPacket() : base(PacketID.Connect) { }
 
     public string Username;
 

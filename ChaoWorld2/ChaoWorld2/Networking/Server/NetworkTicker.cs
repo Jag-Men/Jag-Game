@@ -15,7 +15,7 @@ namespace ChaoWorld2.Networking.Server
     public NetworkTicker(int port)
     {
       this.Port = port;
-      this.Listener = new TcpListener(IPAddress.Any, 9018);
+      this.Listener = new TcpListener(IPAddress.Any, port);
       this.Listener.Start();
     }
 

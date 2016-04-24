@@ -71,11 +71,14 @@
     <Compile Include="Menu\JagInventory.cs" />
     <Compile Include="Networking\Client\Client.cs" />
     <Compile Include="Networking\Packets\Client\ClientPingPacket.cs" />
-    <Compile Include="Networking\Packets\Client\HelloPacket.cs" />
+    <Compile Include="Networking\Packets\Client\ConnectPacket.cs" />
     <Compile Include="Networking\Packets\Client\SendMessagePacket.cs" />
     <Compile Include="Networking\Packets\Packet.cs" />
     <Compile Include="Networking\Packets\PacketHandler.cs" />
     <Compile Include="Networking\Packets\PacketID.cs" />
+    <Compile Include="Networking\Packets\Server\AddRemoveEntitiesPacket.cs" />
+    <Compile Include="Networking\Packets\Server\UpdateEntitiesPacket.cs" />
+    <Compile Include="Networking\Packets\Server\HelloPacket.cs" />
     <Compile Include="Networking\Packets\Server\ChatMessagePacket.cs" />
     <Compile Include="Networking\Packets\Server\ServerPingPacket.cs" />
     <Compile Include="Networking\Server\NetworkTicker.cs" />

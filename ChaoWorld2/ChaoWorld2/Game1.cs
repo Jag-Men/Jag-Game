@@ -14,6 +14,8 @@ using ChaoWorld2.Util;
 using ChaoWorld2.Entities;
 using System.Collections.Concurrent;
 using ChaoWorld2.Menu;
+using ChaoWorld2.Networking.Server;
+using ChaoWorld2.Networking.Packets.Server;
 
 namespace ChaoWorld2
 {
@@ -22,8 +24,8 @@ namespace ChaoWorld2
   /// </summary>
   public class Game1 : Game
   {
-    public static int GameWidth = 1600;
-    public static int GameHeight = 900;
+    public static int GameWidth = 800;
+    public static int GameHeight = 600;
     public static float TileSize = 64;
     public static float PixelZoom = 4;
     public static Vector2 CameraPos = new Vector2(0, 0);
@@ -33,8 +35,9 @@ namespace ChaoWorld2
     public static Random Random;
     public static bool Paused;
     public static IMenu CurrentMenu;
-    public static bool Server = false;
+    public static bool Server = true;
     public static bool Host = true;
+    public static int PlayerId = -1;
 
     public static ConcurrentDictionary<int, Entity> Entities = new ConcurrentDictionary<int, Entity>();
     public static int NextEntityID = 0;
@@ -51,6 +54,13 @@ namespace ChaoWorld2
       Game1.GameContent = Content;
     }
 
+    public Game1(string ip, int port)
+      :this()
+    {
+      Host = false;
+      Program.Client.DestIp = ip + ":" + port;
+    }
+
 
     protected override void Initialize()
     {
@@ -58,6 +68,18 @@ namespace ChaoWorld2
       Game1.Paused = false;
       Game1.CurrentMenu = null;
       base.Initialize();
+    }
+
+    protected override void OnExiting(object sender, EventArgs args)
+    {
+      if (Program.Client != null)
+        Program.Client.Terminating = true;
+      if (Program.ClientThread != null)
+        Program.ClientThread.Abort();
+      ClientManager.Terminated = true;
+      if (Program.NetworkThread != null)
+        Program.NetworkThread.Abort();
+      base.OnExiting(sender, args);
     }
 
 
@@ -68,9 +90,13 @@ namespace ChaoWorld2
       ContentLibrary.Init();
       Game1.Map = ContentLibrary.Maps["area"];
 
-      Game1.AddEntity(new Player(5, 5));
-      Game1.AddEntity(new Stupidmadoka(8, 6));
-      Game1.AddEntity(new Stupidmadoka(10, 8));
+      if (Game1.Host)
+      {
+        Game1.Player = (Player)Game1.AddEntity(new Player(5, 5));
+        Game1.PlayerId = Game1.Player.ID;
+        Game1.AddEntity(new Stupidmadoka(8, 6));
+        Game1.AddEntity(new Stupidmadoka(10, 8));
+      }
     }
 
     protected override void UnloadContent()
@@ -80,29 +106,49 @@ namespace ChaoWorld2
 
     public static Entity AddEntity(Entity entity)
     {
-      if (Game1.Entities.TryAdd(NextEntityID, entity))
+      int nextId = entity.ID;
+      if (nextId == -1)
+        nextId = NextEntityID++;
+      if (Game1.Entities.TryAdd(nextId, entity))
       {
-        entity.ID = NextEntityID;
-        if (entity is Player)
+        AddedEntities.Add(entity);
+        entity.ID = nextId;
+        if (entity is Player && entity.ID == PlayerId)
           Game1.Player = entity as Player;
-        NextEntityID++;
+      }
+      else
+      {
+        Console.WriteLine(false);
       }
       return entity;
     }
 
     public static Entity RemoveEntity(Entity entity)
     {
-      Entity dummy = entity;
-      if (Game1.Entities.TryRemove(entity.ID, out dummy))
-      {
-        if (entity is Player)
-          Game1.Player = null;
-      }
-      return dummy;
+      return RemoveEntity(entity.ID);
     }
 
+    public static Entity RemoveEntity(int id)
+    {
+      Entity entity;
+      if (Game1.Entities.TryRemove(id, out entity))
+      {
+        RemovedEntities.Add(id);
+        if (Game1.Player == entity)
+          Game1.Player = null;
+      }
+      return entity;
+    }
+
+    private static List<Entity> AddedEntities = new List<Entity>();
+    private static List<int> RemovedEntities = new List<int>();
     protected override void Update(GameTime gameTime)
     {
+      AddedEntities.Clear();
+      RemovedEntities.Clear();
+      if (Game1.Player == null)
+        return;
+
       Game1.Random = new Random();
 
       KeyboardUtil.Update();
@@ -148,6 +194,27 @@ namespace ChaoWorld2
         CameraPos.Y = -((Game1.GameHeight - mapHeight) / 2);
       else
         CameraPos.Y = Math.Max(0, Math.Min(mapHeight - Game1.GameHeight, playerPos.Y - (Game1.GameHeight / 2)));
+
+      if(Game1.Server && Game1.Host)
+      {
+        foreach(var i in ClientManager.Clients.Values)
+        {
+          i.SendPacket(new AddRemoveEntitiesPacket
+          {
+            AddedEntities = AddedEntities,
+            RemovedEntities = RemovedEntities
+          });
+
+          List<Entity> SendUpdate = new List<Entity>();
+          foreach(var e in Game1.Entities.Values)
+            if (i.PlayerId != e.ID && !AddedEntities.Contains(e))
+              SendUpdate.Add(e);
+          i.SendPacket(new UpdateEntitiesPacket
+          {
+            WriteEntities = SendUpdate
+          });
+        }
+      }
 
       base.Update(gameTime);
     }

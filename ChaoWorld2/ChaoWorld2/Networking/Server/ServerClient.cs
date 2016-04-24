@@ -14,6 +14,7 @@ namespace ChaoWorld2.Networking.Server
   public class ServerClient
   {
     public int ID;
+    public int PlayerId = -1;
     public string RealUsername;
     public string Username;
     public TcpClient TcpClient;
@@ -36,7 +37,7 @@ namespace ChaoWorld2.Networking.Server
     }
 
 
-    public void HandleHelloPacket(HelloPacket pkt)
+    public void HandleConnectPacket(ConnectPacket pkt)
     {
       if (pkt.Username != "")
       {
@@ -115,8 +116,8 @@ namespace ChaoWorld2.Networking.Server
     {
       switch (packet.ID)
       {
-        case PacketID.Hello:
-          HandleHelloPacket(packet as HelloPacket); break;
+        case PacketID.Connect:
+          HandleConnectPacket(packet as ConnectPacket); break;
         case PacketID.SendMessage:
           HandleSendMessagePacket(packet as SendMessagePacket); break;
         case PacketID.ClientPingPacket:

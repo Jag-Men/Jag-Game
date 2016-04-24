@@ -4,6 +4,7 @@ using ChaoWorld2.Networking.Packets.Server;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -26,6 +27,41 @@ namespace ChaoWorld2.Networking.Client
       this.Handler = new PacketHandler(this.TcpClient);
     }
 
+    public void ReceivePacket(Packet pkt)
+    {
+      switch (pkt.ID)
+      {
+        case PacketID.ChatMessage:
+          HandleChatMessagePacket(pkt as ChatMessagePacket); break;
+        case PacketID.Hello:
+          HandleHelloPacket(pkt as HelloPacket); break;
+        case PacketID.UpdateEntities:
+          HandleUpdateEntitiesPacket(pkt as UpdateEntitiesPacket); break;
+        case PacketID.AddRemoveEntities:
+          HandleAddRemoveEntitiesPacket(pkt as AddRemoveEntitiesPacket); break;
+      }
+    }
+
+    private void HandleAddRemoveEntitiesPacket(AddRemoveEntitiesPacket pkt)
+    {
+      foreach (var i in pkt.AddedEntities)
+        Game1.AddEntity(i);
+      foreach (var i in pkt.RemovedEntities)
+        Game1.RemoveEntity(i);
+    }
+
+    private void HandleUpdateEntitiesPacket(UpdateEntitiesPacket pkt)
+    {
+      foreach(var i in pkt.ReadEntities)
+      {
+        MemoryStream mem = new MemoryStream(i.Value);
+        BinaryReader rdr = new BinaryReader(mem);
+        if(Game1.Entities.ContainsKey(i.Key))
+          Game1.Entities[i.Key].Read(rdr);
+        rdr.Close();
+      }
+    }
+
     public void HandleChatMessagePacket(ChatMessagePacket pkt)
     {
       string senderName = pkt.Sender;
@@ -37,13 +73,13 @@ namespace ChaoWorld2.Networking.Client
       Msg((senderName != "" ? ("<" + senderName + "> ") : "") + pkt.Text, pkt.Sender);
     }
 
-    public void ReceivePacket(Packet pkt)
+    public void HandleHelloPacket(HelloPacket pkt)
     {
-      switch (pkt.ID)
-      {
-        case PacketID.ChatMessage:
-          HandleChatMessagePacket(pkt as ChatMessagePacket); break;
-      }
+      Game1.Entities.Clear();
+
+      Game1.PlayerId = pkt.PlayerId;
+      foreach(var i in pkt.Entities)
+        Game1.AddEntity(i);
     }
 
     public void SendPacket(Packet pkt)
@@ -65,7 +101,7 @@ namespace ChaoWorld2.Networking.Client
               Msg("Connecting to " + DestIp, "*Client*");
               this.TcpClient.Connect(DestIp.Split(':')[0], Convert.ToInt32(DestIp.Split(':')[1]));
               Msg("Connected", "*Client*");
-              SendPacket(new HelloPacket
+              SendPacket(new ConnectPacket
               {
                 Username = ""
               });
