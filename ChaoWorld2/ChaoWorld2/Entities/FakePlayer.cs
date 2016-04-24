@@ -27,6 +27,9 @@ namespace ChaoWorld2.Entities
 
     public override void Update(GameTime gameTime)
     {
+      if (!Game1.Host)
+        return;
+
       this.alpha -= 0.05f;
       if (this.alpha <= 0)
         Game1.RemoveEntity(this);

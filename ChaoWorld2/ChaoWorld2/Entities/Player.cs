@@ -32,6 +32,9 @@ namespace ChaoWorld2.Entities
     int frameCount = 0;
     public override void Update(GameTime gameTime)
     {
+      if (this != Game1.Player)
+        return;
+
       if (KeyboardUtil.KeyPressed(Keys.H))
         health--;
       if (health<0)
@@ -67,8 +70,6 @@ namespace ChaoWorld2.Entities
       if (move.X < 0)
         this.facing = 1;
       this.frame = (int)Math.Floor(frameCount / 32.0) % 4;
-
-      List<FakePlayer> removedFakePlayers = new List<FakePlayer>();
 
       if(speed == 24)
         Game1.AddEntity(new FakePlayer(this.X, this.Y, this.facing, this.frame));
@@ -117,11 +118,19 @@ namespace ChaoWorld2.Entities
 
     public override void Read(BinaryReader rdr)
     {
+      facing = rdr.ReadInt32();
+      frame = rdr.ReadInt32();
+      health = rdr.ReadInt32();
+      maxhealth = rdr.ReadInt32();
       base.Read(rdr);
     }
 
     public override void Write(BinaryWriter wtr)
     {
+      wtr.Write(facing);
+      wtr.Write(frame);
+      wtr.Write(health);
+      wtr.Write(maxhealth);
       base.Write(wtr);
     }
   }
