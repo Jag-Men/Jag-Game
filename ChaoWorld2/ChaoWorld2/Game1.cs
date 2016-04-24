@@ -24,8 +24,8 @@ namespace ChaoWorld2
   /// </summary>
   public class Game1 : Game
   {
-    public static int GameWidth = 800;
-    public static int GameHeight = 600;
+    public static int GameWidth = 1600;
+    public static int GameHeight = 900;
     public static float TileSize = 64;
     public static float PixelZoom = 4;
     public static Vector2 CameraPos = new Vector2(0, 0);
