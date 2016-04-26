@@ -15,7 +15,10 @@ namespace ChaoWorld2
       TmxTileset currentTileset = null;
       foreach (var tileset in map.Tilesets.OrderByDescending(_ => _.FirstGid))
         if (tile.Gid >= tileset.FirstGid)
+        {
           currentTileset = tileset;
+          return currentTileset;
+        }
       return currentTileset;
     }
 
