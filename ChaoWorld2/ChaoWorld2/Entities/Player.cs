@@ -111,6 +111,35 @@ namespace ChaoWorld2.Entities
       spriteBatch.Draw(ContentLibrary.Sprites["dogo"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 24, 16, 24), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - Y / 100000f);
       spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.51f);
       this.DrawHealthBar(spriteBatch);
+      this.DrawCrossBow(spriteBatch);
+    }
+    void DrawCrossBow(SpriteBatch spriteBatch)
+    {
+      Vector2 bowdirection = new Vector2();
+      float joaje;
+      switch (this.frame)
+      {
+        case 0 :
+          joaje = 0;
+          break;
+        case 1 :
+          joaje = 4;
+          break;
+        case 2 :
+          joaje = 0;
+          break;
+        case 3 :
+          joaje = -8;
+          break;
+        default:
+          joaje = 0;
+          break;
+          
+      }
+      if (this.facing == 0)
+        spriteBatch.Draw(ContentLibrary.Sprites["crossman"],new Vector2(X+58+joaje,Y-40).DrawPos(), null, Color.White,-30,Vector2.Zero,3.5f,  SpriteEffects.FlipHorizontally, 0.5f - Y / 100000f);
+      if (this.facing == 1)
+        spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 58 + -90 -joaje, Y - 40).DrawPos(), null, Color.White, 30, Vector2.Zero, 3.5f, SpriteEffects.None, 0);
     }
 
     void DrawHealthBar(SpriteBatch spriteBatch)
