@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentLibrary.cs" />
+    <Compile Include="Entities\Arrow.cs" />
     <Compile Include="Entities\Stupidmadoka.cs" />
     <Compile Include="Entities\FakePlayer.cs" />
     <Compile Include="Entities\Player.cs" />
