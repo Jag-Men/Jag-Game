@@ -112,6 +112,12 @@ namespace ChaoWorld2.Entities
       spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.51f);
       this.DrawHealthBar(spriteBatch);
       this.DrawCrossBow(spriteBatch);
+      this.jon("tronss",spriteBatch);
+    }
+
+    void jon(string trons, SpriteBatch spriteBatch)
+    {
+      spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], trons, Vector2.Zero, Color.White);
     }
     void DrawCrossBow(SpriteBatch spriteBatch)
     {
@@ -136,10 +142,24 @@ namespace ChaoWorld2.Entities
           break;
           
       }
-      if (this.facing == 0)
-        spriteBatch.Draw(ContentLibrary.Sprites["crossman"],new Vector2(X+58+joaje,Y-40).DrawPos(), null, Color.White,-30,Vector2.Zero,3.5f,  SpriteEffects.FlipHorizontally, 0.5f - Y / 100000f);
-      if (this.facing == 1)
-        spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 58 + -90 -joaje, Y - 40).DrawPos(), null, Color.White, 30, Vector2.Zero, 3.5f, SpriteEffects.None, 0);
+      string byakuya = "morning naegi";
+      if (byakuya == "morning naegi")
+      {
+      }
+      if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+      {
+        if (this.facing == 0)
+          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X +13 + joaje, Y - 60).DrawPos(), null, Color.White, 0, Vector2.Zero, 3.5f, SpriteEffects.FlipHorizontally, 0.5f - Y / 100000f);
+        if (this.facing == 1)
+          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 58 + -90 + joaje, Y + 10).DrawPos(), null, Color.White, 0, Vector2.Zero, 3.5f, SpriteEffects.None, 0);
+      }
+      else
+      {
+        if (this.facing == 0)
+          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 50 + joaje, Y - 50).DrawPos(), null, Color.White, -30, Vector2.Zero, 3.5f, SpriteEffects.FlipHorizontally, 0.5f - Y / 100000f);
+        if (this.facing == 1)
+          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 58 + -90 + joaje, Y + 10).DrawPos(), null, Color.White, 30, Vector2.Zero, 3.5f, SpriteEffects.None, 0);
+      }
     }
 
     void DrawHealthBar(SpriteBatch spriteBatch)
