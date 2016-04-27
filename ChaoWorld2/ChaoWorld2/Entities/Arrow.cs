@@ -10,31 +10,37 @@ namespace ChaoWorld2.Entities
 {
   public class Arrow : Entity
   {
-    void arrowmove(bool brool) 
-    {
-      if (brool == true)
-      {
+    public double Angle;
+    public int Speed;
+    public int Lifetime;
 
-      }
+    public Arrow() { }
+    public Arrow(double angle, int speed, int lifetime)
+    {
+      this.Angle = angle;
+      this.Speed = speed;
+      this.Lifetime = lifetime;
     }
-    bool groolean;
-    int jagxcache;
-    int jagycache;
+
     public override void Update(GameTime gameTime)
     {
-      base.Update(gameTime);
-      if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+      if (!Game1.Host)
+        return;
+
+      this.Lifetime -= gameTime.ElapsedGameTime.Milliseconds;
+      if (this.Lifetime <= 0)
       {
-        groolean = true;
-
+        Game1.RemoveEntity(this);
+        return;
       }
-
-
+      this.X += (float)Math.Round(this.Speed * Math.Cos(this.Angle));
+      this.Y += (float)Math.Round(this.Speed * Math.Sin(this.Angle));
     }
+
     public override void Draw(SpriteBatch spriteBatch)
     {
-      if (groolean == true)
-      spriteBatch.Draw(ContentLibrary.Sprites["arrow"], new Vector2(0, 0), Color.White);
+      spriteBatch.Draw(ContentLibrary.Sprites["arrow"], new Vector2(X, Y - (Game1.TileSize / 2)).DrawPos(), null, Color.White, (float)this.Angle, new Vector2(8, 8), 3f, SpriteEffects.None, 0.5f - Y / 100000f);
+      spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.51f);
     }
   }
 }

@@ -43,9 +43,24 @@ namespace ChaoWorld2
       return vector - Game1.CameraPos;
     }
 
+    public static Vector2 RemoveZoom(this Vector2 vector)
+    {
+      return vector / (Game1.PixelZoom / 4);
+    }
+
+    public static Vector2 RemoveCamera(this Vector2 vector)
+    {
+      return vector + Game1.CameraPos;
+    }
+
     public static Vector2 DrawPos(this Vector2 vector)
     {
       return vector.AddZoom().AddCamera();
+    }
+
+    public static Vector2 WorldPos(this Vector2 vector)
+    {
+      return vector.RemoveZoom().RemoveCamera();
     }
 
     public static string GetResourceName(string path)

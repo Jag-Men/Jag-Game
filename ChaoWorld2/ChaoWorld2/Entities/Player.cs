@@ -63,6 +63,15 @@ namespace ChaoWorld2.Entities
       {
         move.X /= 2;
         move.Y /= 2;
+        if(Game1.Random.Next(20) == 0)
+        {
+          double my = Mouse.GetState().Y - this.XandY.DrawPos().Y;
+          double mx = Mouse.GetState().X - this.XandY.DrawPos().X;
+          Arrow arrow = new Arrow(Math.Atan2(my, mx), 8, 1000);
+          arrow.X = this.X;
+          arrow.Y = this.Y;
+          Game1.AddEntity(arrow);
+        }
       }
       if (move.X != 0 && move.Y != 0)
       {
