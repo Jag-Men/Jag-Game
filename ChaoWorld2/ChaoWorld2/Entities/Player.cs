@@ -18,7 +18,7 @@ namespace ChaoWorld2.Entities
     public int frame;
     public int health = 115;
     public int maxhealth = 115;
-    int joj;
+    
     public Player() { }
 
     public Player(float x, float y)
@@ -29,10 +29,11 @@ namespace ChaoWorld2.Entities
       this.frame = 0;
     }
 
+    int joj;
+    int timeUntilJoj = 0;
     int frameCount = 0;
     public override void Update(GameTime gameTime)
     {
-      joj += gameTime.ElapsedGameTime.Milliseconds/1000;
       if (this != Game1.Player)
         return;
 
@@ -60,11 +61,31 @@ namespace ChaoWorld2.Entities
         move.X -= 1;
       if (KeyboardUtil.IsKeyDown(Keys.D))
         move.X += 1;
+      if (move.X > 0)
+        this.facing = 0;
+      if (move.X < 0)
+        this.facing = 1;
       if (Mouse.GetState().LeftButton == ButtonState.Pressed)
       {
         move.X /= 2;
         move.Y /= 2;
-        if(Game1.Random.Next(20) == 0)
+        if (joj < 3)
+        {
+          timeUntilJoj += gameTime.ElapsedGameTime.Milliseconds;
+          if (timeUntilJoj >= 200)
+          {
+            joj++;
+            timeUntilJoj = 0;
+          }
+        }
+        if (Mouse.GetState().X < this.XandY.DrawPos().X)
+          this.facing = 1;
+        else if (Mouse.GetState().X > this.XandY.DrawPos().X)
+          this.facing = 0;
+      }
+      else
+      {
+        if(joj == 3)
         {
           double my = Mouse.GetState().Y - this.XandY.DrawPos().Y;
           double mx = Mouse.GetState().X - this.XandY.DrawPos().X;
@@ -73,6 +94,8 @@ namespace ChaoWorld2.Entities
           arrow.Y = this.Y;
           Game1.AddEntity(arrow);
         }
+        joj = 0;
+        timeUntilJoj = 1000;
       }
       if (move.X != 0 && move.Y != 0)
       {
@@ -87,10 +110,6 @@ namespace ChaoWorld2.Entities
           this.frameCount += 3;
       else
         this.frameCount = 0;
-      if (move.X > 0)
-        this.facing = 0;
-      if (move.X < 0)
-        this.facing = 1;
       this.frame = (int)Math.Floor(frameCount / 32.0) % 4;
 
       if(speed == 24)
@@ -164,16 +183,16 @@ namespace ChaoWorld2.Entities
       if (Mouse.GetState().LeftButton == ButtonState.Pressed)
       {
         if (this.facing == 0)
-          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X +13 + joaje, Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f, SpriteEffects.None, 0.5f - Y / 100000f);
+          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X +13 + joaje, Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f, SpriteEffects.None, 0.5f - (Y + 1) / 100000f);
         if (this.facing == 1)
-          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 50 + -90 + joaje, Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f, SpriteEffects.FlipHorizontally, 0);
+          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 50 + -90 + joaje, Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f, SpriteEffects.FlipHorizontally, 0.5f - (Y + 1) / 100000f);
       }
       else
       {
         if (this.facing == 0)
-          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 50 + joaje, Y - 50).DrawPos(), new Rectangle(joj*16, 0, 16, 16), Color.White, -30, Vector2.Zero, 3.5f, SpriteEffects.None, 0.5f - Y / 100000f);
+          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 50 + joaje, Y - 50).DrawPos(), new Rectangle(joj*16, 0, 16, 16), Color.White, -30, Vector2.Zero, 3.5f, SpriteEffects.None, 0.5f - (Y + 1) / 100000f);
         if (this.facing == 1)
-          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 58 + -90 + joaje, Y + 10).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 30, Vector2.Zero, 3.5f, SpriteEffects.FlipHorizontally, 0);
+          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 58 + -90 + joaje, Y + 10).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 30, Vector2.Zero, 3.5f, SpriteEffects.FlipHorizontally, 0.5f - (Y + 1) / 100000f);
       }
     }
 
