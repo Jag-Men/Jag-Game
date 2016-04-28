@@ -47,6 +47,11 @@ namespace ChaoWorld2.Entities
         var tilePos = Utility.GetTilePos(X, Y);
         Game1.AddEntity(new Stupidmadoka(tilePos.X, tilePos.Y));
       }
+      if (KeyboardUtil.KeyPressed(Keys.F3))
+      {
+        var tilePos = Utility.GetTilePos(X, Y);
+        Game1.AddEntity(new Enemy(tilePos.X, tilePos.Y));
+      }
 
       int speed = 3;
       if (KeyboardUtil.IsKeyDown(Keys.LeftShift))
@@ -183,16 +188,16 @@ namespace ChaoWorld2.Entities
       if (Mouse.GetState().LeftButton == ButtonState.Pressed)
       {
         if (this.facing == 0)
-          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X +13 + joaje, Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f, SpriteEffects.None, 0.5f - (Y + 1) / 100000f);
+          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X +13 + joaje, Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.None, 0.5f - (Y + 1) / 100000f);
         if (this.facing == 1)
-          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 50 + -90 + joaje, Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f, SpriteEffects.FlipHorizontally, 0.5f - (Y + 1) / 100000f);
+          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 50 + -90 + joaje, Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.FlipHorizontally, 0.5f - (Y + 1) / 100000f);
       }
       else
       {
         if (this.facing == 0)
-          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 50 + joaje, Y - 50).DrawPos(), new Rectangle(joj*16, 0, 16, 16), Color.White, -30, Vector2.Zero, 3.5f, SpriteEffects.None, 0.5f - (Y + 1) / 100000f);
+          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 50 + joaje, Y - 50).DrawPos(), new Rectangle(joj*16, 0, 16, 16), Color.White, -30, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.None, 0.5f - (Y + 1) / 100000f);
         if (this.facing == 1)
-          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 58 + -90 + joaje, Y + 10).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 30, Vector2.Zero, 3.5f, SpriteEffects.FlipHorizontally, 0.5f - (Y + 1) / 100000f);
+          spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X + 58 + -90 + joaje, Y + 10).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 30, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.FlipHorizontally, 0.5f - (Y + 1) / 100000f);
       }
     }
 

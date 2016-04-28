@@ -29,6 +29,11 @@ namespace ChaoWorld2
     public virtual void UpdateEvenWhenPaused(GameTime gameTime) { }
     public virtual void Draw(SpriteBatch spriteBatch) { }
 
+    public virtual Rectangle GetCollisionBox()
+    {
+      return new Rectangle((int)X, (int)Y, Game1.TileSize, Game1.TileSize);
+    }
+
     public virtual void Read(BinaryReader rdr)
     {
       ID = rdr.ReadInt32();

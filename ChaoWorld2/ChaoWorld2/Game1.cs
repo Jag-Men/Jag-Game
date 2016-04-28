@@ -26,7 +26,7 @@ namespace ChaoWorld2
   {
     public static int GameWidth = 1600;
     public static int GameHeight = 900;
-    public static float TileSize = 64;
+    public static int TileSize = 64;
     public static float PixelZoom = 4;
     public static Vector2 CameraPos = new Vector2(0, 0);
     public static ContentManager GameContent;
@@ -296,6 +296,13 @@ namespace ChaoWorld2
         if (tile.X == x && tile.Y == y)
           return tile;
       return null;
+    }
+
+    public static IEnumerable<Entity> GetEntitiesInside(Rectangle rect)
+    {
+      foreach (var entity in Game1.Entities.Values)
+        if (entity.GetCollisionBox().Intersects(rect))
+          yield return entity;
     }
 
     public static bool IsTilePassable(Vector2 pos)
