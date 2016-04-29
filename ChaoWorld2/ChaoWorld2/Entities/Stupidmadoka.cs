@@ -132,6 +132,11 @@ namespace ChaoWorld2.Entities
 
     }
 
+    public override Rectangle GetCollisionBox()
+    {
+      return new Rectangle((int)(X - (Game1.TileSize / 4)), (int)(Y - (Game1.TileSize / 4)), Game1.TileSize / 2, Game1.TileSize / 2);
+    }
+
     public override void Draw(SpriteBatch spriteBatch)
     {
       spriteBatch.Draw(ContentLibrary.Sprites["dogo"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 24, 16, 24), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - Y / 100000f);

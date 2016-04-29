@@ -27,11 +27,25 @@ namespace ChaoWorld2.Entities
       if (!Game1.Host)
         return;
 
+      if(!Game1.IsTilePassable(Utility.GetTilePos(X, Y)))
+      {
+        Game1.AddEntity(new Explosion(X, Y - (Game1.TileSize / 2)));
+        Game1.RemoveEntity(this);
+        return;
+      }
+
       foreach (var i in Game1.GetEntitiesInside(this.GetCollisionBox()))
         if(i is Enemy)
         {
           int dmg = Game1.Random.Next(5, 16);
           (i as Enemy).Damage(dmg);
+          Game1.RemoveEntity(this);
+          return;
+        }
+        else if(i is Stupidmadoka)
+        {
+          Game1.AddEntity(new Explosion(i.X, i.Y - (Game1.TileSize / 2)));
+          Game1.RemoveEntity(i);
           Game1.RemoveEntity(this);
           return;
         }

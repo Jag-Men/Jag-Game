@@ -24,6 +24,8 @@ namespace ChaoWorld2
   /// </summary>
   public class Game1 : Game
   {
+    public static Game1 Instance;
+
     public static int GameWidth = 1600;
     public static int GameHeight = 900;
     public static int TileSize = 64;
@@ -47,6 +49,8 @@ namespace ChaoWorld2
 
     public Game1()
     {
+      Game1.Instance = this;
+
       graphics = new GraphicsDeviceManager(this);
       graphics.PreferredBackBufferWidth = Game1.GameWidth;
       graphics.PreferredBackBufferHeight = Game1.GameHeight;
@@ -82,6 +86,10 @@ namespace ChaoWorld2
       base.OnExiting(sender, args);
     }
 
+    public static bool IsPaused()
+    {
+      return !Game1.Instance.IsActive || Game1.Paused;
+    }
 
     protected override void LoadContent()
     {
@@ -159,7 +167,7 @@ namespace ChaoWorld2
       }
       foreach (var entity in Entities)
       {
-        if(!Game1.Paused)
+        if(!Game1.IsPaused())
           entity.Value.Update(gameTime);
         entity.Value.UpdateEvenWhenPaused(gameTime);
       }
