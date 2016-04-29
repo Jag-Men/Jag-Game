@@ -8,6 +8,7 @@ using System.Text;
 using TiledSharp;
 using System.IO;
 using System.Collections.Concurrent;
+using ChaoWorld2.Util;
 
 namespace ChaoWorld2.Entities
 {
@@ -32,6 +33,8 @@ namespace ChaoWorld2.Entities
     int joj;
     int timeUntilJoj = 0;
     int frameCount = 0;
+    bool chargingShot = false;
+    bool lockedShot = false;
     public override void Update(GameTime gameTime)
     {
       if (this != Game1.Player)
@@ -70,10 +73,22 @@ namespace ChaoWorld2.Entities
         this.facing = 0;
       if (move.X < 0)
         this.facing = 1;
-      if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+      if(MouseUtil.ButtonPressed(MouseButton.LeftButton) && !lockedShot && !chargingShot)
+        chargingShot = true;
+      if(MouseUtil.IsButtonUp(MouseButton.LeftButton) && !lockedShot && chargingShot)
+      {
+        joj = 0;
+        timeUntilJoj = 0;
+        chargingShot = false;
+      }
+      if (chargingShot || lockedShot)
       {
         move.X /= 2;
         move.Y /= 2;
+        if (MouseUtil.X < this.XandY.DrawPos().X)
+          this.facing = 1;
+        else if (MouseUtil.X > this.XandY.DrawPos().X)
+          this.facing = 0;
         if (joj < 3)
         {
           timeUntilJoj += gameTime.ElapsedGameTime.Milliseconds;
@@ -83,25 +98,30 @@ namespace ChaoWorld2.Entities
             timeUntilJoj = 0;
           }
         }
-        if (Mouse.GetState().X < this.XandY.DrawPos().X)
-          this.facing = 1;
-        else if (Mouse.GetState().X > this.XandY.DrawPos().X)
-          this.facing = 0;
-      }
-      else
-      {
-        if(joj == 3)
+        if(joj == 3 && !lockedShot)
         {
-          double my = Mouse.GetState().Y - this.XandY.DrawPos().Y;
-          double mx = Mouse.GetState().X - this.XandY.DrawPos().X;
-          Arrow arrow = new Arrow(Math.Atan2(my, mx), 8, 1000);
-          arrow.X = this.X;
-          arrow.Y = this.Y;
-          Game1.AddEntity(arrow);
-          Game1.PlaySound("shoot");
+          chargingShot = false;
+          lockedShot = true;
+          Game1.PlaySound("lock");
         }
+      }
+      if(MouseUtil.ButtonPressed(MouseButton.LeftButton) && lockedShot)
+      {
+        double my = MouseUtil.Y - this.XandY.DrawPos().Y;
+        double mx = MouseUtil.X - this.XandY.DrawPos().X;
+        Arrow arrow = new Arrow(Math.Atan2(my, mx), 8, 1000);
+        arrow.X = this.X;
+        arrow.Y = this.Y;
+        Game1.AddEntity(arrow);
+        Game1.PlaySound("shoot");
+        lockedShot = false;
         joj = 0;
-        timeUntilJoj = 1000;
+        timeUntilJoj = 0;
+      }
+      if(MouseUtil.IsButtonUp(MouseButton.LeftButton) && !lockedShot)
+      {
+        joj = 0;
+        timeUntilJoj = 0;
       }
       if (move.X != 0 && move.Y != 0)
       {
@@ -186,7 +206,7 @@ namespace ChaoWorld2.Entities
       if (byakuya == "morning naegi")
       {
       }
-      if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+      if (chargingShot || lockedShot)
       {
         if (this.facing == 0)
           spriteBatch.Draw(ContentLibrary.Sprites["crossman"], new Vector2(X +13 + joaje, Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.None, 0.5f - (Y + 1) / 100000f);

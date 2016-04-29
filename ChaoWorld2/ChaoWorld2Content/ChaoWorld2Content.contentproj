@@ -192,15 +192,24 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
-    <Compile Include="sounds\aaaugh.wav">
-      <Name>aaaugh</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="sounds\enemy_hit.wav">
+      <Name>enemy_hit</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sounds\enemy_hit.wav">
-      <Name>enemy_hit</Name>
+    <Compile Include="sounds\madoka_death.wav">
+      <Name>madoka_death</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="sounds\lock.wav">
+      <Name>lock</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

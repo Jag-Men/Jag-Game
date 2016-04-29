@@ -32,13 +32,13 @@ namespace ChaoWorld2
       }
       else
       {
-        NetworkTicker = new NetworkTicker(9018);
-        NetworkThread = new Thread(NetworkTicker.TickLoop)
-        {
-          Name = "Server",
-          CurrentCulture = CultureInfo.InvariantCulture
-        };
-        NetworkThread.Start();
+        //NetworkTicker = new NetworkTicker(9018);
+        //NetworkThread = new Thread(NetworkTicker.TickLoop)
+        //{
+        //  Name = "Server",
+        //  CurrentCulture = CultureInfo.InvariantCulture
+        //};
+        //NetworkThread.Start();
 
         using (Game1 game = new Game1())
         {

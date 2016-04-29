@@ -45,22 +45,40 @@ namespace ChaoWorld2
 
     public static bool IsKeyDown(Keys key)
     {
+      if (!Game1.Instance.IsActive)
+        return false;
       return Keyboard.GetState().IsKeyDown(key);
     }
 
     public static bool IsKeyUp(Keys key)
     {
+      if (!Game1.Instance.IsActive)
+        return false;
       return Keyboard.GetState().IsKeyUp(key);
     }
 
     public static bool KeyPressed(Keys key)
     {
+      if (!Game1.Instance.IsActive)
+        return false;
       return justPressed.Contains(key);
     }
 
     public static bool KeyReleased(Keys key)
     {
+      if (!Game1.Instance.IsActive)
+        return false;
       return justReleased.Contains(key);
     }
+  }
+
+  public class KeyboardEventArgs : EventArgs
+  {
+    public KeyboardEventArgs(Keys key)
+    {
+      Key = key;
+    }
+
+    public Keys Key;
   }
 }

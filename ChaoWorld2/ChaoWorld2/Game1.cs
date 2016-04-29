@@ -37,7 +37,7 @@ namespace ChaoWorld2
     public static Random Random;
     public static bool Paused;
     public static IMenu CurrentMenu;
-    public static bool Server = true;
+    public static bool Server = false;
     public static bool Host = true;
     public static int PlayerId = -1;
 
@@ -154,21 +154,23 @@ namespace ChaoWorld2
     private static List<int> RemovedEntities = new List<int>();
     protected override void Update(GameTime gameTime)
     {
-      AddedEntities.Clear();
-      RemovedEntities.Clear();
-      if (Game1.Player == null)
-        return;
+      KeyboardUtil.Update();
+      MouseUtil.Update();
 
-      if(!playedMusic)
+      if (!playedMusic)
       {
         Music.Play("music");
         Music.Volume(0.2f);
         playedMusic = true;
       }
 
-      Game1.Random = new Random();
+      AddedEntities.Clear();
+      RemovedEntities.Clear();
+      if (Game1.Player == null)
+        return;
 
-      KeyboardUtil.Update();
+      Game1.Random = new Random();
+      
       if (Game1.CurrentMenu != null)
       {
         Game1.CurrentMenu.Update(gameTime);
