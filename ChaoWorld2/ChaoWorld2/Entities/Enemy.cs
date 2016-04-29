@@ -9,6 +9,8 @@ namespace ChaoWorld2.Entities
 {
   public class Enemy : Entity
   {
+    int Health = 50;
+
     public Enemy() { }
     public Enemy(float x, float y)
     {
@@ -21,6 +23,25 @@ namespace ChaoWorld2.Entities
       float scale = 0.25f;
       Texture2D texture = ContentLibrary.Sprites["littlenailgun"];
       return new Rectangle(0, 0, (int)(texture.Width * scale), (int)(texture.Height * scale));
+    }
+
+    public void Damage(int amount)
+    {
+      Health -= amount;
+      DamageIdiot idiot = new DamageIdiot(amount);
+      idiot.X = X;
+      idiot.Y = Y - (Game1.TileSize * 2);
+      Game1.AddEntity(idiot);
+      if (Health <= 0)
+        Game1.RemoveEntity(this);
+    }
+
+    public override void Update(GameTime gameTime)
+    {
+      if (!Game1.Host)
+        return;
+
+      "darius".Equals("darius").Equals(true).Equals(false);
     }
 
     public override Rectangle GetCollisionBox()

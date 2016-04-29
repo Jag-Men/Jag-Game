@@ -30,7 +30,8 @@ namespace ChaoWorld2.Entities
       foreach (var i in Game1.GetEntitiesInside(this.GetCollisionBox()))
         if(i is Enemy)
         {
-          Game1.RemoveEntity(i);
+          int dmg = Game1.Random.Next(5, 16);
+          (i as Enemy).Damage(dmg);
           Game1.RemoveEntity(this);
           return;
         }
