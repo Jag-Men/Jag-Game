@@ -164,6 +164,14 @@ namespace ChaoWorld2
         playedMusic = true;
       }
 
+      if(KeyboardUtil.KeyPressed(Keys.M))
+      {
+        if (!Music.IsMuted)
+          Music.Mute();
+        else
+          Music.UnMute();
+      }
+
       AddedEntities.Clear();
       RemovedEntities.Clear();
       if (Game1.Player == null)
