@@ -71,6 +71,7 @@ namespace ChaoWorld2
       Game1.Random = new Random();
       Game1.Paused = false;
       Game1.CurrentMenu = null;
+
       base.Initialize();
     }
 
@@ -148,6 +149,7 @@ namespace ChaoWorld2
       return entity;
     }
 
+    bool playedMusic = false;
     private static List<Entity> AddedEntities = new List<Entity>();
     private static List<int> RemovedEntities = new List<int>();
     protected override void Update(GameTime gameTime)
@@ -156,6 +158,13 @@ namespace ChaoWorld2
       RemovedEntities.Clear();
       if (Game1.Player == null)
         return;
+
+      if(!playedMusic)
+      {
+        Music.Play("music");
+        Music.Volume(0.2f);
+        playedMusic = true;
+      }
 
       Game1.Random = new Random();
 
@@ -344,6 +353,11 @@ namespace ChaoWorld2
       Game1.CurrentMenu = null;
       Game1.Paused = false;
       return menu;
+    }
+
+    public static void PlaySound(string name, float volume = 0.5f)
+    {
+      ContentLibrary.Sounds[name].Play(volume, 0, 0);
     }
   }
 }

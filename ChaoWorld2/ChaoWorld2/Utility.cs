@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -89,6 +90,33 @@ namespace ChaoWorld2
       spriteBatch.DrawString(spriteFont, text, Vector2.Add(new Vector2(-outlineDepth, outlineDepth), position), outlineColor, rotation, origin, scale, effects, layerDepth + (0.0000001f));
       spriteBatch.DrawString(spriteFont, text, Vector2.Add(new Vector2(outlineDepth, -outlineDepth), position), outlineColor, rotation, origin, scale, effects, layerDepth + (0.0000001f));
       spriteBatch.DrawString(spriteFont, text, position, color, rotation, origin, scale, effects, layerDepth);
+    }
+
+    public static Dictionary<string, T> LoadListContent<T>(this ContentManager contentManager, string contentFolder)
+    {
+      DirectoryInfo dir = new DirectoryInfo(contentManager.RootDirectory + "/" + contentFolder);
+      if (!dir.Exists)
+        throw new DirectoryNotFoundException();
+      Dictionary<String, T> result = new Dictionary<String, T>();
+
+      FileInfo[] files = dir.GetFiles("*.*");
+      foreach (FileInfo file in files)
+      {
+        string key = Path.GetFileNameWithoutExtension(file.Name);
+
+
+        result[key] = contentManager.Load<T>(contentFolder + "/" + key);
+      }
+      DirectoryInfo[] directories = dir.GetDirectories();
+      foreach (DirectoryInfo directory in directories)
+      {
+        Dictionary<string, T> nextDict = contentManager.LoadListContent<T>(contentFolder + Path.DirectorySeparatorChar + directory.Name);
+        foreach (var i in nextDict)
+        {
+          result[directory.Name + ":" + i.Key] = i.Value;
+        }
+      }
+      return result;
     }
   }
 }

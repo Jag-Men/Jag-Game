@@ -98,6 +98,7 @@ namespace ChaoWorld2.Entities
           arrow.X = this.X;
           arrow.Y = this.Y;
           Game1.AddEntity(arrow);
+          Game1.PlaySound("shoot");
         }
         joj = 0;
         timeUntilJoj = 1000;

@@ -17,6 +17,7 @@ namespace ChaoWorld2.Entities
     {
       this.X = x;
       this.Y = y;
+      Game1.PlaySound("explosion", 0.15f);
     }
 
     public override void Update(GameTime gameTime)

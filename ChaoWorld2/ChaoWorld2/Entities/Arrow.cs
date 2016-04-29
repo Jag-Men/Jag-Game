@@ -47,6 +47,7 @@ namespace ChaoWorld2.Entities
           Game1.AddEntity(new Explosion(i.X, i.Y - (Game1.TileSize / 2)));
           Game1.RemoveEntity(i);
           Game1.RemoveEntity(this);
+          Game1.PlaySound("aaaugh", 0.2f);
           return;
         }
 

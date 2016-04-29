@@ -33,7 +33,12 @@ namespace ChaoWorld2.Entities
       idiot.Y = Y - (Game1.TileSize * 2);
       Game1.AddEntity(idiot);
       if (Health <= 0)
+      {
         Game1.RemoveEntity(this);
+        Game1.PlaySound("enemy_death");
+      }
+      else
+        Game1.PlaySound("enemy_hit");
     }
 
     public override void Update(GameTime gameTime)
