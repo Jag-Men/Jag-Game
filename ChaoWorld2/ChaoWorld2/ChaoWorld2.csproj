@@ -69,6 +69,7 @@
     <Compile Include="Entities\DamageIdiot.cs" />
     <Compile Include="Entities\Enemy.cs" />
     <Compile Include="Entities\Explosion.cs" />
+    <Compile Include="Entities\Reallystupidmadoka.cs" />
     <Compile Include="Entities\Stupidmadoka.cs" />
     <Compile Include="Entities\FakePlayer.cs" />
     <Compile Include="Entities\Player.cs" />

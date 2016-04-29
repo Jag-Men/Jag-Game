@@ -35,6 +35,8 @@ namespace ChaoWorld2.Entities
     int frameCount = 0;
     bool chargingShot = false;
     bool lockedShot = false;
+    bool siegeOfMadoka = false;
+    int somSpawnTime = 0;
     public override void Update(GameTime gameTime)
     {
       if (this != Game1.Player)
@@ -45,6 +47,26 @@ namespace ChaoWorld2.Entities
       if (health<0)
         health++;
 
+      if (siegeOfMadoka)
+      {
+        somSpawnTime += gameTime.ElapsedGameTime.Milliseconds;
+        if (somSpawnTime >= 1750)
+        {
+          var rsm = new Reallystupidmadoka();
+          Game1.AddEntity(rsm);
+          somSpawnTime = 0;
+        }
+        float shortestDist = Game1.TileSize * 16;
+        foreach (var i in Game1.Entities.Values)
+          if(i is Reallystupidmadoka)
+          {
+            float dist = Vector2.Distance(i.XandY, this.XandY);
+            if (dist < shortestDist)
+              shortestDist = dist;
+          }
+        Music.Volume(Math.Max(0, (1 - (shortestDist / (Game1.TileSize * 14))) * 0.3f));
+      }
+
       if (KeyboardUtil.KeyPressed(Keys.F2))
       {
         var tilePos = Utility.GetTilePos(X, Y);
@@ -54,6 +76,10 @@ namespace ChaoWorld2.Entities
       {
         var tilePos = Utility.GetTilePos(X, Y);
         Game1.AddEntity(new Enemy(tilePos.X, tilePos.Y));
+      }
+      if (KeyboardUtil.KeyPressed(Keys.F4))
+      {
+        siegeOfMadoka = !siegeOfMadoka;
       }
 
       int speed = 3;
