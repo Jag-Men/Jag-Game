@@ -156,7 +156,12 @@ namespace ChaoWorld2
     {
       KeyboardUtil.Update();
       MouseUtil.Update();
-
+      if (MouseUtil.ButtonPressed(MouseButton.RightButton))
+        Game1.AddEntity(new Plant(Utility.GetTilePos(Player.X,Player.Y)));
+      if (KeyboardUtil.KeyPressed(Keys.J))
+      {
+        Game1.AddEntity(new Treeeeeeee(Utility.GetTilePos(Player.X, Player.Y)));
+      }
       if (!playedMusic)
       {
         Music.Play("music");

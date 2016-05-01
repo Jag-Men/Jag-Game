@@ -69,10 +69,12 @@
     <Compile Include="Entities\DamageIdiot.cs" />
     <Compile Include="Entities\Enemy.cs" />
     <Compile Include="Entities\Explosion.cs" />
+    <Compile Include="Entities\Plant.cs" />
     <Compile Include="Entities\Reallystupidmadoka.cs" />
     <Compile Include="Entities\Stupidmadoka.cs" />
     <Compile Include="Entities\FakePlayer.cs" />
     <Compile Include="Entities\Player.cs" />
+    <Compile Include="Entities\Treeeeeeee.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="GameMap.cs" />
     <Compile Include="Menu\DialogueBox.cs" />
