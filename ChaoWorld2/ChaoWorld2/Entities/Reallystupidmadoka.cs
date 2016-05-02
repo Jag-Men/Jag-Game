@@ -69,13 +69,22 @@ namespace ChaoWorld2.Entities
 
         float py = Game1.Player.Y - this.Y;
         float px = Game1.Player.X - this.X;
-        this.X += 2 * (float)Math.Cos(Math.Atan2(py, px));
-        this.Y += 2 * (float)Math.Sin(Math.Atan2(py, px));
 
-        if (this.X > prevX)
+        float desiredX = 2 * (float)Math.Cos(Math.Atan2(py, px));
+        float desiredY = 2 * (float)Math.Sin(Math.Atan2(py, px));
+
+        if (this.X + desiredX > prevX)
           this.facing = 0;
-        else if (this.X < prevX)
+        else if (this.X + desiredX < prevX)
           this.facing = 1;
+        
+        var cbox = GetCollisionBox();
+        foreach (var i in Game1.GetEntitiesInside(new Rectangle(cbox.X + (int)desiredX, cbox.Y + (int)desiredY, cbox.Width, cbox.Height), "Player", "NPC"))
+          if (i != this)
+            return;
+        
+        this.X += desiredX;
+        this.Y += desiredY;
       }
     }
   }

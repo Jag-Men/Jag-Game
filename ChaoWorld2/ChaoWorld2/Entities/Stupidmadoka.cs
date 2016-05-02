@@ -77,8 +77,8 @@ namespace ChaoWorld2.Entities
           move *= speed;
           if (move.X != 0 && move.Y != 0)
           {
-            move.X = (int)Math.Round(move.X / (float)Math.Sqrt(2));
-            move.Y = (int)Math.Round(move.Y / (float)Math.Sqrt(2));
+            move.X /= (float)Math.Sqrt(2);
+            move.Y /= (float)Math.Sqrt(2);
           }
           frameCount = 32;
         }
