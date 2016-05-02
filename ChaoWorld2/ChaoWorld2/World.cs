@@ -14,14 +14,44 @@ namespace ChaoWorld2
 {
   public class World
   {
+    public static ConcurrentDictionary<string, World> Worlds = new ConcurrentDictionary<string, World>();
+
+    public static World GetInstance(string name)
+    {
+      World world = null;
+      if (Worlds.ContainsKey(name))
+        Worlds.TryGetValue(name, out world);
+      if (world == null)
+        world = new World(name);
+      return world;
+    }
+
     public GameMap Map;
+    public List<WorldWarpPoint> WarpPoints = new List<WorldWarpPoint>();
 
     public ConcurrentDictionary<int, Entity> Entities = new ConcurrentDictionary<int, Entity>();
     public int NextEntityID = 0;
 
-    public World(GameMap map)
+    public World(string name)
     {
-      this.Map = map;
+      this.Map = ContentLibrary.Maps[name];
+      if (!Worlds.ContainsKey(name))
+        Worlds.TryAdd(name, this);
+      if(Map.Properties.ContainsKey("warp"))
+      {
+        int index = 0;
+        string[] args = Map.Properties["warp"].Split(' ');
+        while (index < args.Length)
+        {
+          Console.WriteLine(args.Length);
+          int fromPosX = Convert.ToInt32(args[index++]);
+          int fromPosY = Convert.ToInt32(args[index++]);
+          string destination = args[index++];
+          int toPosX = Convert.ToInt32(args[index++]);
+          int toPosY = Convert.ToInt32(args[index++]);
+          WarpPoints.Add(new WorldWarpPoint(destination, new Vector2(fromPosX, fromPosY), new Vector2(toPosX, toPosY)));
+        }
+      }
     }
 
     private List<Entity> AddedEntities = new List<Entity>();
@@ -73,6 +103,24 @@ namespace ChaoWorld2
           });
         }
       }
+
+      if (Game1.Host)
+      {
+        foreach(var i in WarpPoints)
+        {
+          Vector2 tilePos = Utility.GetTilePos(Game1.Player.X, Game1.Player.Y);
+          if(tilePos.X == i.FromPos.X && tilePos.Y == i.FromPos.Y)
+          {
+            RemoveEntity(Game1.Player);
+            World newWorld = World.GetInstance(i.Destination);
+            newWorld.AddEntity(Game1.Player);
+            Game1.Player.X = i.ToPos.X * Game1.TileSize + (Game1.TileSize / 2);
+            Game1.Player.Y = i.ToPos.Y * Game1.TileSize + (Game1.TileSize / 2);
+            Game1.World = newWorld;
+            return;
+          }
+        }
+      }
     }
 
     public Entity AddEntity(Entity entity)
@@ -107,8 +155,8 @@ namespace ChaoWorld2
       {
         RemovedEntities.Add(id);
         entity.Owner = null;
-        if (Game1.Player == entity)
-          Game1.Player = null;
+        //if (Game1.Player == entity)
+        //  Game1.Player = null;
       }
       return entity;
     }
@@ -231,6 +279,20 @@ namespace ChaoWorld2
       }
       foreach (var entity in Entities)
         entity.Value.Draw(spriteBatch);
+    }
+  }
+
+  public class WorldWarpPoint
+  {
+    public Vector2 FromPos;
+    public Vector2 ToPos;
+    public string Destination;
+
+    public WorldWarpPoint(string destination, Vector2 from, Vector2 to)
+    {
+      this.Destination = destination;
+      this.FromPos = from;
+      this.ToPos = to;
     }
   }
 }

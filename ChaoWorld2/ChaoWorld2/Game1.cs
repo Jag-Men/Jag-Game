@@ -94,7 +94,7 @@ namespace ChaoWorld2
       spriteBatch = new SpriteBatch(GraphicsDevice);
       
       ContentLibrary.Init();
-      Game1.World = new World(ContentLibrary.Maps["area"]);
+      Game1.World = new World("area");
 
       if (Game1.Host)
       {

@@ -27,7 +27,8 @@ namespace ChaoWorld2.Entities
     public override void UpdateEvenWhenPaused(GameTime gameTime)
     {
       Rectangle hideRect = new Rectangle((int)this.X - (Game1.TileSize), (int)this.Y - (Game1.TileSize * 4), Game1.TileSize * 3, Game1.TileSize * 3);
-      if (Game1.Player.GetCollisionBox().Intersects(hideRect))
+      Rectangle plrRect = new Rectangle((int)Game1.Player.X - (Game1.TileSize / 2) + 16, (int)Game1.Player.Y - (int)(Game1.TileSize * 0.8f), Game1.TileSize - 32, (int)(Game1.TileSize * 0.8f));
+      if (plrRect.Intersects(hideRect))
         underneath = true;
       else
         underneath = false;
