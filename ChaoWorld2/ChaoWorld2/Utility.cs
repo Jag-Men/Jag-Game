@@ -63,7 +63,7 @@ namespace ChaoWorld2
 
     public static Vector2 WorldPos(this Vector2 vector)
     {
-      return vector.RemoveZoom().RemoveCamera();
+      return vector.RemoveCamera().RemoveZoom();
     }
 
     public static string GetResourceName(string path)
