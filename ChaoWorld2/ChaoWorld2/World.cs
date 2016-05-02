@@ -213,7 +213,7 @@ namespace ChaoWorld2
         TmxTileset tileset = Utility.GetTilesetForTile(Map, tile);
         if (tileset == null)
           continue;
-        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - (tile.Y * Game1.TileSize + Game1.TileSize) / 100000f);
+        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - (tile.Y * Game1.TileSize) / 100000f);
       }
       foreach (var tile in GetTilesInLayer("Above"))
       {
