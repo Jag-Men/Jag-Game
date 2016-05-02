@@ -30,12 +30,12 @@ namespace ChaoWorld2.Networking.Server
         client.SendMessage("Connected to groombaland");
         SendMessage(client.Username + " entered the room");
 
-        var plr = Game1.AddEntity(new Player(10, 10));
+        var plr = Game1.World.AddEntity(new Player(10, 10));
         client.PlayerId = plr.ID;
         client.SendPacket(new HelloPacket
         {
           PlayerId = plr.ID,
-          Entities = Game1.Entities.Values.ToList()
+          Entities = Game1.World.Entities.Values.ToList()
         });
       }
     }
@@ -45,7 +45,7 @@ namespace ChaoWorld2.Networking.Server
       ServerClient dummy;
       if (Clients.TryRemove(client.ID, out dummy))
       {
-        Game1.RemoveEntity(client.PlayerId);
+        Game1.World.RemoveEntity(client.PlayerId);
       }
     }
 

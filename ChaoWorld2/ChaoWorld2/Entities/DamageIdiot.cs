@@ -24,7 +24,7 @@ namespace ChaoWorld2.Entities
       this.Y -= 2;
       this.Alpha -= 0.05f;
       if (this.Alpha <= 0)
-        Game1.RemoveEntity(this);
+        Owner.RemoveEntity(this);
     }
 
     public override void Draw(SpriteBatch spriteBatch)

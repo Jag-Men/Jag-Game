@@ -45,9 +45,9 @@ namespace ChaoWorld2.Networking.Client
     private void HandleAddRemoveEntitiesPacket(AddRemoveEntitiesPacket pkt)
     {
       foreach (var i in pkt.AddedEntities)
-        Game1.AddEntity(i);
+        Game1.World.AddEntity(i);
       foreach (var i in pkt.RemovedEntities)
-        Game1.RemoveEntity(i);
+        Game1.World.RemoveEntity(i);
     }
 
     private void HandleUpdateEntitiesPacket(UpdateEntitiesPacket pkt)
@@ -56,8 +56,8 @@ namespace ChaoWorld2.Networking.Client
       {
         MemoryStream mem = new MemoryStream(i.Value);
         BinaryReader rdr = new BinaryReader(mem);
-        if(Game1.Entities.ContainsKey(i.Key))
-          Game1.Entities[i.Key].Read(rdr);
+        if(Game1.World.Entities.ContainsKey(i.Key))
+          Game1.World.Entities[i.Key].Read(rdr);
         rdr.Close();
       }
     }
@@ -75,11 +75,11 @@ namespace ChaoWorld2.Networking.Client
 
     public void HandleHelloPacket(HelloPacket pkt)
     {
-      Game1.Entities.Clear();
+      Game1.World.Entities.Clear();
 
       Game1.PlayerId = pkt.PlayerId;
       foreach(var i in pkt.Entities)
-        Game1.AddEntity(i);
+        Game1.World.AddEntity(i);
     }
 
     public void SendPacket(Packet pkt)

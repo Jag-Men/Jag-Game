@@ -13,6 +13,7 @@ namespace ChaoWorld2
     public float X;
     public float Y;
     public int ID = -1;
+    public World Owner;
     public List<string> Collision = new List<string>();
     
     public Vector2 XandY

@@ -33,16 +33,13 @@ namespace ChaoWorld2
     public static Vector2 CameraPos = new Vector2(0, 0);
     public static ContentManager GameContent;
     public static Player Player;
-    public static GameMap Map;
+    public static World World;
     public static Random Random;
     public static bool Paused;
     public static IMenu CurrentMenu;
     public static bool Server = false;
     public static bool Host = true;
     public static int PlayerId = -1;
-
-    public static ConcurrentDictionary<int, Entity> Entities = new ConcurrentDictionary<int, Entity>();
-    public static int NextEntityID = 0;
 
     GraphicsDeviceManager graphics;
     SpriteBatch spriteBatch;
@@ -97,14 +94,14 @@ namespace ChaoWorld2
       spriteBatch = new SpriteBatch(GraphicsDevice);
       
       ContentLibrary.Init();
-      Game1.Map = ContentLibrary.Maps["area"];
+      Game1.World = new World(ContentLibrary.Maps["area"]);
 
       if (Game1.Host)
       {
-        Game1.Player = (Player)Game1.AddEntity(new Player(5, 5));
+        Game1.Player = (Player)Game1.World.AddEntity(new Player(5, 5));
         Game1.PlayerId = Game1.Player.ID;
-        Game1.AddEntity(new Stupidmadoka(8, 6));
-        Game1.AddEntity(new Stupidmadoka(10, 8));
+        Game1.World.AddEntity(new Stupidmadoka(8, 6));
+        Game1.World.AddEntity(new Stupidmadoka(10, 8));
       }
     }
 
@@ -113,55 +110,17 @@ namespace ChaoWorld2
 
     }
 
-    public static Entity AddEntity(Entity entity)
-    {
-      int nextId = entity.ID;
-      if (nextId == -1)
-        nextId = NextEntityID++;
-      if (Game1.Entities.TryAdd(nextId, entity))
-      {
-        AddedEntities.Add(entity);
-        entity.ID = nextId;
-        if (entity is Player && entity.ID == PlayerId)
-          Game1.Player = entity as Player;
-      }
-      else
-      {
-        Console.WriteLine(false);
-      }
-      return entity;
-    }
-
-    public static Entity RemoveEntity(Entity entity)
-    {
-      return RemoveEntity(entity.ID);
-    }
-
-    public static Entity RemoveEntity(int id)
-    {
-      Entity entity;
-      if (Game1.Entities.TryRemove(id, out entity))
-      {
-        RemovedEntities.Add(id);
-        if (Game1.Player == entity)
-          Game1.Player = null;
-      }
-      return entity;
-    }
-
     bool playedMusic = false;
-    private static List<Entity> AddedEntities = new List<Entity>();
-    private static List<int> RemovedEntities = new List<int>();
     protected override void Update(GameTime gameTime)
     {
       KeyboardUtil.Update();
       MouseUtil.Update();
+
       if (MouseUtil.ButtonPressed(MouseButton.RightButton))
-        Game1.AddEntity(new Plant(Utility.GetTilePos(Player.X,Player.Y)));
+        Game1.World.AddEntity(new Plant(Utility.GetTilePos(Player.X,Player.Y)));
       if (KeyboardUtil.KeyPressed(Keys.J))
-      {
-        Game1.AddEntity(new Treeeeeeee(Utility.GetTilePos(Player.X, Player.Y)));
-      }
+        Game1.World.AddEntity(new Treeeeeeee(Utility.GetTilePos(Player.X, Player.Y)));
+
       if (!playedMusic)
       {
         Music.Play("music");
@@ -177,11 +136,6 @@ namespace ChaoWorld2
           Music.UnMute();
       }
 
-      AddedEntities.Clear();
-      RemovedEntities.Clear();
-      if (Game1.Player == null)
-        return;
-
       Game1.Random = new Random();
       
       if (Game1.CurrentMenu != null)
@@ -189,12 +143,9 @@ namespace ChaoWorld2
         Game1.CurrentMenu.Update(gameTime);
         KeyboardUtil.Update();
       }
-      foreach (var entity in Entities)
-      {
-        if(!Game1.IsPaused())
-          entity.Value.Update(gameTime);
-        entity.Value.UpdateEvenWhenPaused(gameTime);
-      }
+
+      if(Game1.World != null)
+        Game1.World.Update(gameTime);
 
       if (KeyboardUtil.KeyPressed(Keys.E) && Game1.CurrentMenu == null)
         Game1.OpenMenu(new JagInventory());
@@ -214,40 +165,6 @@ namespace ChaoWorld2
           Game1.PixelZoom--;
       }
 
-      Vector2 playerPos = new Vector2(Player.X, Player.Y).AddZoom();
-
-      float mapWidth = Game1.Map.Width * Game1.TileSize * (Game1.PixelZoom / 4);
-      float mapHeight = Game1.Map.Height * Game1.TileSize * (Game1.PixelZoom / 4);
-      if (mapWidth < Game1.GameWidth)
-        CameraPos.X = (int)-((Game1.GameWidth - mapWidth) / 2);
-      else
-        CameraPos.X = (int)Math.Max(0, Math.Min(mapWidth - Game1.GameWidth, playerPos.X - (Game1.GameWidth / 2)));
-      if (mapHeight < Game1.GameHeight)
-        CameraPos.Y = (int)-((Game1.GameHeight - mapHeight) / 2);
-      else
-        CameraPos.Y = (int)Math.Max(0, Math.Min(mapHeight - Game1.GameHeight, playerPos.Y - (Game1.GameHeight / 2)));
-
-      if(Game1.Server && Game1.Host)
-      {
-        foreach(var i in ClientManager.Clients.Values)
-        {
-          i.SendPacket(new AddRemoveEntitiesPacket
-          {
-            AddedEntities = AddedEntities,
-            RemovedEntities = RemovedEntities
-          });
-
-          List<Entity> SendUpdate = new List<Entity>();
-          foreach(var e in Game1.Entities.Values)
-            if (i.PlayerId != e.ID && !AddedEntities.Contains(e))
-              SendUpdate.Add(e);
-          i.SendPacket(new UpdateEntitiesPacket
-          {
-            WriteEntities = SendUpdate
-          });
-        }
-      }
-
       base.Update(gameTime);
     }
     string stringman;
@@ -259,140 +176,14 @@ namespace ChaoWorld2
       GraphicsDevice.Clear(Color.Black);
       
       spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-      if (KeyboardUtil.KeyPressed(Keys.G))
-      {
-        stringman ="doggo";
-        vecx = 100;
-        vecy = 100;
-        if (stringman.Length > 10 * vecx)
-        {
-
-        }
-        spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], stringman, new Vector2(vecx, vecy), Color.White);
-      }
-      foreach (var tile in GetTilesInLayer("Ground"))
-      {
-        TmxTileset tileset = Utility.GetTilesetForTile(Game1.Map, tile);
-        if (tileset == null)
-          continue;
-        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Game1.Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 1f);
-      }
-      foreach (var tile in GetTilesInLayer("Solid"))
-      {
-        TmxTileset tileset = Utility.GetTilesetForTile(Game1.Map, tile);
-        if (tileset == null)
-          continue;
-        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Game1.Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - (tile.Y * Game1.TileSize + Game1.TileSize) / 100000f);
-      }
-      foreach (var tile in GetTilesInLayer("Above"))
-      {
-        TmxTileset tileset = Utility.GetTilesetForTile(Game1.Map, tile);
-        if (tileset == null)
-          continue;
-        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Game1.Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - ((tile.Y + 1) * Game1.TileSize + Game1.TileSize) / 100000f);
-      }
-      foreach (var tile in GetTilesInLayer("Front"))
-      {
-        TmxTileset tileset = Utility.GetTilesetForTile(Game1.Map, tile);
-        if (tileset == null)
-          continue;
-        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Game1.Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.1f - (tile.Y * Game1.TileSize + Game1.TileSize) / 100000f);
-      }
-      foreach (var entity in Entities)
-        entity.Value.Draw(spriteBatch);
+      if(Game1.World != null)
+        Game1.World.Draw(spriteBatch);
       if (Game1.CurrentMenu != null)
         Game1.CurrentMenu.Draw(spriteBatch);
       spriteBatch.Draw(ContentLibrary.Sprites["cursorPict"], new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Azure);
       spriteBatch.End();
 
       base.Draw(gameTime);
-    }
-
-    public static List<TmxLayerTile> GetTilesInLayer(string layer)
-    {
-      if (!Game1.Map.Layers.Contains(layer))
-        return new List<TmxLayerTile>();
-      return Game1.Map.Layers[layer].Tiles.ToList();
-    }
-
-    public static TmxLayerTile GetTileAt(Vector2 pos, string layer)
-    {
-      return GetTileAt((int)pos.X, (int)pos.Y, layer);
-    }
-    
-    public static TmxLayerTile GetTileAt(int x, int y, string layer)
-    {
-      if (Game1.Map == null || !Game1.Map.Layers.Contains(layer))
-        return null;
-      foreach (var tile in Game1.Map.Layers[layer].Tiles)
-        if (tile.X == x && tile.Y == y)
-          return tile;
-      return null;
-    }
-
-    public static IEnumerable<Entity> GetEntitiesInside(Rectangle rect, params string[] collision)
-    {
-      if (collision.Length == 0)
-      {
-        foreach (var entity in Game1.Entities.Values)
-          if (entity.GetCollisionBox().Intersects(rect))
-            yield return entity;
-      }
-      else
-      {
-        foreach (var entity in Game1.Entities.Values)
-          if(entity.GetCollisionBox().Intersects(rect))
-            foreach (var i in collision)
-              if (entity.Collision.Contains(i))
-              {
-                yield return entity;
-                break;
-              }
-      }
-    }
-
-    public static IEnumerable<TmxLayerTile> GetTilesInside(Rectangle rect, string layer)
-    {
-      foreach (var tile in Game1.Map.Layers[layer].Tiles)
-        if (new Rectangle(tile.X * Game1.TileSize, tile.Y * Game1.TileSize, Game1.TileSize, Game1.TileSize).Intersects(rect))
-          yield return tile;
-    }
-
-    public static bool RectCollidesWith(Rectangle rect, params string[] collision)
-    {
-      if (GetEntitiesInside(rect, collision).Count() > 0)
-        return true;
-      foreach (var i in collision)
-        if (Game1.Map.Layers.Contains(i))
-          foreach (var tile in GetTilesInside(rect, i))
-            if (i == "Ground")
-            {
-              if (tile.Gid == 0)
-                return true;
-            }
-            else
-            {
-              if (tile.Gid != 0)
-                return true;
-            }
-      return false;
-    }
-
-    public static bool IsTilePassable(Vector2 pos)
-    {
-      return IsTilePassable((int)pos.X, (int)pos.Y);
-    }
-
-    public static bool IsTilePassable(int x, int y)
-    {
-      TmxLayerTile tile;
-      tile = GetTileAt(x, y, "Ground");
-      if (tile == null || tile.Gid == 0)
-        return false;
-      tile = GetTileAt(x, y, "Solid");
-      if (tile != null && tile.Gid != 0)
-        return false;
-      return true;
     }
     
     public static IMenu OpenMenu(IMenu menu)

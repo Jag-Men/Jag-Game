@@ -102,6 +102,7 @@
     <Compile Include="Utility.cs" />
     <Compile Include="Util\MouseUtil.cs" />
     <Compile Include="Util\Music.cs" />
+    <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\music\music.mp3">

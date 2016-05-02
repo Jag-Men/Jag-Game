@@ -57,7 +57,8 @@ namespace ChaoWorld2
 
     public static Vector2 DrawPos(this Vector2 vector)
     {
-      return vector.AddZoom().AddCamera();
+      Vector2 vec = vector.AddZoom().AddCamera();
+      return new Vector2((int)vec.X, (int)vec.Y);
     }
 
     public static Vector2 WorldPos(this Vector2 vector)

@@ -29,7 +29,7 @@ namespace ChaoWorld2.Entities
         int ytile = 0;
         if(side == 0 || side == 1)
         {
-          xtile = Game1.Random.Next(-1, Game1.Map.Width + 1);
+          xtile = Game1.Random.Next(-1, Owner.Map.Width + 1);
           if (side == 0)
           {
             ytile = -1;
@@ -37,13 +37,13 @@ namespace ChaoWorld2.Entities
           }
           if (side == 1)
           {
-            ytile = Game1.Map.Height + 1;
+            ytile = Owner.Map.Height + 1;
             facing = 1;
           }
         }
         if(side == 2 || side == 3)
         {
-          ytile = Game1.Random.Next(-1, Game1.Map.Height + 1);
+          ytile = Game1.Random.Next(-1, Owner.Map.Height + 1);
           if (side == 2)
           {
             xtile = -1;
@@ -51,7 +51,7 @@ namespace ChaoWorld2.Entities
           }
           if (side == 3)
           {
-            xtile = Game1.Map.Width;
+            xtile = Owner.Map.Width;
             facing = 1;
           }
         }
@@ -79,7 +79,7 @@ namespace ChaoWorld2.Entities
           this.facing = 1;
         
         var cbox = GetCollisionBox();
-        foreach (var i in Game1.GetEntitiesInside(new Rectangle(cbox.X + (int)desiredX, cbox.Y + (int)desiredY, cbox.Width, cbox.Height), "Player", "NPC"))
+        foreach (var i in Owner.GetEntitiesInside(new Rectangle(cbox.X + (int)desiredX, cbox.Y + (int)desiredY, cbox.Width, cbox.Height), "Player", "NPC"))
           if (i != this)
             return;
         

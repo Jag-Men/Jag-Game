@@ -27,40 +27,40 @@ namespace ChaoWorld2.Entities
       if (!Game1.Host)
         return;
 
-      if(!Game1.IsTilePassable(Utility.GetTilePos(X, Y)))
+      if(!Owner.IsTilePassable(Utility.GetTilePos(X, Y)))
       {
-        Game1.AddEntity(new Explosion(X, Y - (Game1.TileSize / 2)));
-        Game1.RemoveEntity(this);
+        Owner.AddEntity(new Explosion(X, Y - (Game1.TileSize / 2)));
+        Owner.RemoveEntity(this);
         return;
       }
 
-      foreach (var i in Game1.GetEntitiesInside(this.GetCollisionBox(), "NPC"))
+      foreach (var i in Owner.GetEntitiesInside(this.GetCollisionBox(), "NPC"))
         if(i is Enemy)
         {
           int dmg = Game1.Random.Next(5, 16);
           (i as Enemy).Damage(dmg);
-          Game1.RemoveEntity(this);
+          Owner.RemoveEntity(this);
           return;
         }
         else if(i is Stupidmadoka)
         {
-          Game1.AddEntity(new Explosion(i.X, i.Y - (Game1.TileSize / 2)));
-          Game1.RemoveEntity(i);
-          Game1.RemoveEntity(this);
+          Owner.AddEntity(new Explosion(i.X, i.Y - (Game1.TileSize / 2)));
+          Owner.RemoveEntity(i);
+          Owner.RemoveEntity(this);
           Game1.PlaySound("madoka_death", 0.2f);
           return;
         }
 
-      if (Game1.RectCollidesWith(this.GetCollisionBox(), "Solid"))
+      if (Owner.RectCollidesWith(this.GetCollisionBox(), "Solid"))
       {
-        Game1.RemoveEntity(this);
+        Owner.RemoveEntity(this);
         return;
       }
 
       this.Lifetime -= gameTime.ElapsedGameTime.Milliseconds;
       if (this.Lifetime <= 0)
       {
-        Game1.RemoveEntity(this);
+        Owner.RemoveEntity(this);
         return;
       }
       this.X += (float)Math.Round(this.Speed * Math.Cos(this.Angle));

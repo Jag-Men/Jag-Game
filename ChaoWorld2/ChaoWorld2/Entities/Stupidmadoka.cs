@@ -59,7 +59,7 @@ namespace ChaoWorld2.Entities
         else
         {
           var cbox = GetCollisionBox();
-          if(!Game1.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), "Player"))
+          if(!Owner.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), "Player"))
           {
             this.X += move.X;
             this.Y += move.Y;
@@ -70,7 +70,7 @@ namespace ChaoWorld2.Entities
       if (framesUntilWalk <= 0 && desiredPos == Vector2.Zero)
       {
         Vector2 desiredMove = new Vector2(Game1.Random.Next(-1, 2), Game1.Random.Next(-1, 2));
-        if (desiredMove != Vector2.Zero && Game1.IsTilePassable(Utility.GetTilePos(this.XandY.X, this.XandY.Y) + (desiredMove)))
+        if (desiredMove != Vector2.Zero && Owner.IsTilePassable(Utility.GetTilePos(this.XandY.X, this.XandY.Y) + (desiredMove)))
         {
           desiredPos = this.XandY + (desiredMove) * Game1.TileSize;
           move = desiredMove;

@@ -57,11 +57,11 @@ namespace ChaoWorld2.Entities
         if (somSpawnTime >= 1750)
         {
           var rsm = new Reallystupidmadoka();
-          Game1.AddEntity(rsm);
+          Owner.AddEntity(rsm);
           somSpawnTime = 0;
         }
         float shortestDist = Game1.TileSize * 16;
-        foreach (var i in Game1.Entities.Values)
+        foreach (var i in Owner.Entities.Values)
           if(i is Reallystupidmadoka)
           {
             float dist = Vector2.Distance(i.XandY, this.XandY);
@@ -74,12 +74,12 @@ namespace ChaoWorld2.Entities
       if (KeyboardUtil.KeyPressed(Keys.F2))
       {
         var tilePos = Utility.GetTilePos(X, Y);
-        Game1.AddEntity(new Stupidmadoka(tilePos.X, tilePos.Y));
+        Owner.AddEntity(new Stupidmadoka(tilePos.X, tilePos.Y));
       }
       if (KeyboardUtil.KeyPressed(Keys.F3))
       {
         var tilePos = Utility.GetTilePos(X, Y);
-        Game1.AddEntity(new Enemy(tilePos.X, tilePos.Y));
+        Owner.AddEntity(new Enemy(tilePos.X, tilePos.Y));
       }
       if (KeyboardUtil.KeyPressed(Keys.F4))
       {
@@ -142,7 +142,7 @@ namespace ChaoWorld2.Entities
         Arrow arrow = new Arrow(Math.Atan2(my, mx), 8, 1000);
         arrow.X = this.X;
         arrow.Y = this.Y;
-        Game1.AddEntity(arrow);
+        Owner.AddEntity(arrow);
         Game1.PlaySound("shoot");
         lockedShot = false;
         joj = 0;
@@ -157,8 +157,8 @@ namespace ChaoWorld2.Entities
       move *= speed;
       if (move.X != 0 && move.Y != 0)
       {
-        move.X = (int)Math.Round(move.X / Math.Sqrt(2));
-        move.Y = (int)Math.Round(move.Y / Math.Sqrt(2));
+        move.X /= (float)Math.Sqrt(2);
+        move.Y /= (float)Math.Sqrt(2);
       }
       
       if (move.X != 0 || move.Y != 0)
@@ -171,7 +171,7 @@ namespace ChaoWorld2.Entities
       this.frame = (int)Math.Floor(frameCount / 32.0) % 4;
 
       if(speed == 24)
-        Game1.AddEntity(new FakePlayer(this.X, this.Y, this.facing, this.frame));
+        Owner.AddEntity(new FakePlayer(this.X, this.Y, this.facing, this.frame));
 
       string[] collisions = new string[] { "Solid", "Ground", "NPC" };
       var cbox = GetCollisionBox();
@@ -179,11 +179,11 @@ namespace ChaoWorld2.Entities
       {
         float prevX = this.X;
         float prevY = this.Y;
-        if (!Game1.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y, cbox.Width, cbox.Height), collisions))
+        if (!Owner.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y, cbox.Width, cbox.Height), collisions))
           this.X += move.X;
-        if (!Game1.RectCollidesWith(new Rectangle(cbox.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), collisions))
+        if (!Owner.RectCollidesWith(new Rectangle(cbox.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), collisions))
           this.Y += move.Y;
-        if (Game1.RectCollidesWith(GetCollisionBox(), collisions))
+        if (Owner.RectCollidesWith(GetCollisionBox(), collisions))
         {
           this.X = prevX;
           this.Y = prevY;
@@ -191,7 +191,7 @@ namespace ChaoWorld2.Entities
       }
       else
       {
-        if (!Game1.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), collisions))
+        if (!Owner.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), collisions))
         {
           this.X += move.X;
           this.Y += move.Y;

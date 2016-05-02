@@ -36,10 +36,10 @@ namespace ChaoWorld2.Entities
       DamageIdiot idiot = new DamageIdiot(amount);
       idiot.X = X;
       idiot.Y = Y - (Game1.TileSize * 2);
-      Game1.AddEntity(idiot);
+      Owner.AddEntity(idiot);
       if (Health <= 0)
       {
-        Game1.RemoveEntity(this);
+        Owner.RemoveEntity(this);
         Game1.PlaySound("enemy_death");
       }
       else

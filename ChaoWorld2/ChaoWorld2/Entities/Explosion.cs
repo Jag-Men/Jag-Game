@@ -27,7 +27,7 @@ namespace ChaoWorld2.Entities
         this.Frame++;
       if (this.Frame > 5)
       {
-        Game1.RemoveEntity(this);
+        Owner.RemoveEntity(this);
         return;
       }
     }
