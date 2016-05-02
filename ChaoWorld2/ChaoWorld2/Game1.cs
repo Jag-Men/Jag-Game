@@ -219,13 +219,13 @@ namespace ChaoWorld2
       float mapWidth = Game1.Map.Width * Game1.TileSize * (Game1.PixelZoom / 4);
       float mapHeight = Game1.Map.Height * Game1.TileSize * (Game1.PixelZoom / 4);
       if (mapWidth < Game1.GameWidth)
-        CameraPos.X = -((Game1.GameWidth - mapWidth) / 2);
+        CameraPos.X = (int)-((Game1.GameWidth - mapWidth) / 2);
       else
-        CameraPos.X = Math.Max(0, Math.Min(mapWidth - Game1.GameWidth, playerPos.X - (Game1.GameWidth / 2)));
+        CameraPos.X = (int)Math.Max(0, Math.Min(mapWidth - Game1.GameWidth, playerPos.X - (Game1.GameWidth / 2)));
       if (mapHeight < Game1.GameHeight)
-        CameraPos.Y = -((Game1.GameHeight - mapHeight) / 2);
+        CameraPos.Y = (int)-((Game1.GameHeight - mapHeight) / 2);
       else
-        CameraPos.Y = Math.Max(0, Math.Min(mapHeight - Game1.GameHeight, playerPos.Y - (Game1.GameHeight / 2)));
+        CameraPos.Y = (int)Math.Max(0, Math.Min(mapHeight - Game1.GameHeight, playerPos.Y - (Game1.GameHeight / 2)));
 
       if(Game1.Server && Game1.Host)
       {
@@ -330,11 +330,52 @@ namespace ChaoWorld2
       return null;
     }
 
-    public static IEnumerable<Entity> GetEntitiesInside(Rectangle rect)
+    public static IEnumerable<Entity> GetEntitiesInside(Rectangle rect, params string[] collision)
     {
-      foreach (var entity in Game1.Entities.Values)
-        if (entity.GetCollisionBox().Intersects(rect))
-          yield return entity;
+      if (collision.Length == 0)
+      {
+        foreach (var entity in Game1.Entities.Values)
+          if (entity.GetCollisionBox().Intersects(rect))
+            yield return entity;
+      }
+      else
+      {
+        foreach (var entity in Game1.Entities.Values)
+          if(entity.GetCollisionBox().Intersects(rect))
+            foreach (var i in collision)
+              if (entity.Collision.Contains(i))
+              {
+                yield return entity;
+                break;
+              }
+      }
+    }
+
+    public static IEnumerable<TmxLayerTile> GetTilesInside(Rectangle rect, string layer)
+    {
+      foreach (var tile in Game1.Map.Layers[layer].Tiles)
+        if (new Rectangle(tile.X * Game1.TileSize, tile.Y * Game1.TileSize, Game1.TileSize, Game1.TileSize).Intersects(rect))
+          yield return tile;
+    }
+
+    public static bool RectCollidesWith(Rectangle rect, params string[] collision)
+    {
+      if (GetEntitiesInside(rect, collision).Count() > 0)
+        return true;
+      foreach (var i in collision)
+        if (Game1.Map.Layers.Contains(i))
+          foreach (var tile in GetTilesInside(rect, i))
+            if (i == "Ground")
+            {
+              if (tile.Gid == 0)
+                return true;
+            }
+            else
+            {
+              if (tile.Gid != 0)
+                return true;
+            }
+      return false;
     }
 
     public static bool IsTilePassable(Vector2 pos)

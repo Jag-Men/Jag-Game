@@ -9,6 +9,7 @@ namespace ChaoWorld2.Entities
   public class Reallystupidmadoka : Stupidmadoka
   {
     public Reallystupidmadoka()
+      :base()
     {
       this.X = -100;
       this.Y = -100;

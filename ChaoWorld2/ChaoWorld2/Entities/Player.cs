@@ -20,9 +20,13 @@ namespace ChaoWorld2.Entities
     public int health = 115;
     public int maxhealth = 115;
     
-    public Player() { }
+    public Player()
+    {
+      Collision.Add("Player");
+    }
 
     public Player(float x, float y)
+      :this()
     {
       this.X = x * Game1.TileSize + (Game1.TileSize / 2);
       this.Y = y * Game1.TileSize + (Game1.TileSize / 2);
@@ -149,12 +153,14 @@ namespace ChaoWorld2.Entities
         joj = 0;
         timeUntilJoj = 0;
       }
+
+      move *= speed;
       if (move.X != 0 && move.Y != 0)
       {
-        move.X /= (float)Math.Sqrt(2);
-        move.Y /= (float)Math.Sqrt(2);
+        move.X = (int)Math.Round(move.X / Math.Sqrt(2));
+        move.Y = (int)Math.Round(move.Y / Math.Sqrt(2));
       }
-      move *= speed;
+      
       if (move.X != 0 || move.Y != 0)
         if (this.frameCount == 0)
           this.frameCount = 32;
@@ -166,17 +172,26 @@ namespace ChaoWorld2.Entities
 
       if(speed == 24)
         Game1.AddEntity(new FakePlayer(this.X, this.Y, this.facing, this.frame));
-      
+
+      string[] collisions = new string[] { "Solid", "Ground", "NPC" };
+      var cbox = GetCollisionBox();
       if (move.X != 0 && move.Y != 0)
       {
-        if (Game1.IsTilePassable(Utility.GetTilePos(this.X + move.X, this.Y)))
+        float prevX = this.X;
+        float prevY = this.Y;
+        if (!Game1.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y, cbox.Width, cbox.Height), collisions))
           this.X += move.X;
-        if (Game1.IsTilePassable(Utility.GetTilePos(this.X, this.Y + move.Y)))
+        if (!Game1.RectCollidesWith(new Rectangle(cbox.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), collisions))
           this.Y += move.Y;
+        if (Game1.RectCollidesWith(GetCollisionBox(), collisions))
+        {
+          this.X = prevX;
+          this.Y = prevY;
+        }
       }
       else
       {
-        if (Game1.IsTilePassable(Utility.GetTilePos(this.X + move.X, this.Y + move.Y)))
+        if (!Game1.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), collisions))
         {
           this.X += move.X;
           this.Y += move.Y;
@@ -191,7 +206,12 @@ namespace ChaoWorld2.Entities
       else if (KeyboardUtil.KeyReleased(Keys.E))
         color = Color.Purple;
     }
-    
+
+    public override Rectangle GetCollisionBox()
+    {
+      return new Rectangle((int)X - (Game1.TileSize / 2) + 4, (int)Y - (Game1.TileSize / 4), Game1.TileSize - 8, Game1.TileSize / 2);
+    }
+
     public override void Draw(SpriteBatch spriteBatch)
     {
       spriteBatch.Draw(ContentLibrary.Sprites["dogo"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 24, 16, 24), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - Y / 100000f);

@@ -13,6 +13,8 @@ namespace ChaoWorld2
     public float X;
     public float Y;
     public int ID = -1;
+    public List<string> Collision = new List<string>();
+    
     public Vector2 XandY
     {
       get { return new Vector2(this.X, this.Y); }

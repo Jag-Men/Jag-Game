@@ -11,8 +11,13 @@ namespace ChaoWorld2.Entities
   {
     int Health = 50;
 
-    public Enemy() { }
+    public Enemy()
+    {
+      Collision.Add("NPC");
+    }
+
     public Enemy(float x, float y)
+      :this()
     {
       this.X = x * Game1.TileSize + (Game1.TileSize / 2);
       this.Y = y * Game1.TileSize + (Game1.TileSize / 2);

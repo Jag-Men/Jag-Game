@@ -34,7 +34,7 @@ namespace ChaoWorld2.Entities
         return;
       }
 
-      foreach (var i in Game1.GetEntitiesInside(this.GetCollisionBox()))
+      foreach (var i in Game1.GetEntitiesInside(this.GetCollisionBox(), "NPC"))
         if(i is Enemy)
         {
           int dmg = Game1.Random.Next(5, 16);
@@ -50,6 +50,12 @@ namespace ChaoWorld2.Entities
           Game1.PlaySound("madoka_death", 0.2f);
           return;
         }
+
+      if (Game1.RectCollidesWith(this.GetCollisionBox(), "Solid"))
+      {
+        Game1.RemoveEntity(this);
+        return;
+      }
 
       this.Lifetime -= gameTime.ElapsedGameTime.Milliseconds;
       if (this.Lifetime <= 0)

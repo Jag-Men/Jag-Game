@@ -20,9 +20,13 @@ namespace ChaoWorld2.Entities
     public bool grool = false;
     public int emotion;
 
-    public Stupidmadoka() { }
+    public Stupidmadoka()
+    {
+      Collision.Add("NPC");
+    }
 
     public Stupidmadoka(float x, float y)
+      :this()
     {
       this.X = x * Game1.TileSize + (Game1.TileSize / 2);
       this.Y = y * Game1.TileSize + (Game1.TileSize / 2);
@@ -54,8 +58,12 @@ namespace ChaoWorld2.Entities
         }
         else
         {
-          this.X += move.X;
-          this.Y += move.Y;
+          var cbox = GetCollisionBox();
+          if(!Game1.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), "Player"))
+          {
+            this.X += move.X;
+            this.Y += move.Y;
+          }
           this.frameCount += 3;
         }
       }
@@ -66,12 +74,12 @@ namespace ChaoWorld2.Entities
         {
           desiredPos = this.XandY + (desiredMove) * Game1.TileSize;
           move = desiredMove;
+          move *= speed;
           if (move.X != 0 && move.Y != 0)
           {
-            move.X /= (float)Math.Sqrt(2);
-            move.Y /= (float)Math.Sqrt(2);
+            move.X = (int)Math.Round(move.X / (float)Math.Sqrt(2));
+            move.Y = (int)Math.Round(move.Y / (float)Math.Sqrt(2));
           }
-          move *= speed;
           frameCount = 32;
         }
       }
