@@ -191,10 +191,14 @@ namespace ChaoWorld2.Entities
       }
       else
       {
-        if (!Owner.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), collisions))
+        float prevX = this.X;
+        float prevY = this.Y;
+        this.X += move.X;
+        this.Y += move.Y;
+        if (Owner.RectCollidesWith(GetCollisionBox(), collisions))
         {
-          this.X += move.X;
-          this.Y += move.Y;
+          this.X = prevX;
+          this.Y = prevY;
         }
       }
     }
