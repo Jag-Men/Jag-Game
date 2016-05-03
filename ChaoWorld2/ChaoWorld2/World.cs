@@ -1,6 +1,7 @@
 ﻿using ChaoWorld2.Entities;
 using ChaoWorld2.Networking.Packets.Server;
 using ChaoWorld2.Networking.Server;
+using ChaoWorld2.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -111,15 +112,29 @@ namespace ChaoWorld2
           Vector2 tilePos = Utility.GetTilePos(Game1.Player.X, Game1.Player.Y);
           if(tilePos.X == i.FromPos.X && tilePos.Y == i.FromPos.Y)
           {
-            RemoveEntity(Game1.Player);
-            World newWorld = World.GetInstance(i.Destination);
-            newWorld.AddEntity(Game1.Player);
-            Game1.Player.X = i.ToPos.X * Game1.TileSize + (Game1.TileSize / 2);
-            Game1.Player.Y = i.ToPos.Y * Game1.TileSize + (Game1.TileSize / 2);
-            Game1.World = newWorld;
+            Game1.Paused = true;
+            if (Game1.Fade < 1f)
+              Game1.Fade += 0.05f;
+            else
+            {
+              RemoveEntity(Game1.Player);
+              World newWorld = World.GetInstance(i.Destination);
+              newWorld.AddEntity(Game1.Player);
+              Game1.Player.X = i.ToPos.X * Game1.TileSize + (Game1.TileSize / 2);
+              Game1.Player.Y = i.ToPos.Y * Game1.TileSize + (Game1.TileSize / 2);
+              Game1.World = newWorld;
+            }
             return;
           }
         }
+      }
+      if (Game1.Fade > 0)
+      {
+        Game1.Fade -= 0.05f;
+        if (Game1.Fade < 0)
+          Game1.Fade = 0;
+        if (Game1.Fade == 0)
+          Game1.Paused = false;
       }
     }
 
@@ -254,28 +269,28 @@ namespace ChaoWorld2
         TmxTileset tileset = Utility.GetTilesetForTile(Map, tile);
         if (tileset == null)
           continue;
-        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 1f);
+        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.Ground);
       }
       foreach (var tile in GetTilesInLayer("Solid"))
       {
         TmxTileset tileset = Utility.GetTilesetForTile(Map, tile);
         if (tileset == null)
           continue;
-        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - (tile.Y * Game1.TileSize) / 100000f);
+        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.Object - (tile.Y * Game1.TileSize) / 1e5f);
       }
       foreach (var tile in GetTilesInLayer("Above"))
       {
         TmxTileset tileset = Utility.GetTilesetForTile(Map, tile);
         if (tileset == null)
           continue;
-        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.5f - ((tile.Y + 1) * Game1.TileSize + Game1.TileSize) / 100000f);
+        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.Object - ((tile.Y + 1) * Game1.TileSize + Game1.TileSize) / 1e5f);
       }
       foreach (var tile in GetTilesInLayer("Front"))
       {
         TmxTileset tileset = Utility.GetTilesetForTile(Map, tile);
         if (tileset == null)
           continue;
-        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.1f - (tile.Y * Game1.TileSize + Game1.TileSize) / 100000f);
+        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.AboveObject - (tile.Y * Game1.TileSize + Game1.TileSize) / 1e5f);
       }
       foreach (var entity in Entities)
         entity.Value.Draw(spriteBatch);

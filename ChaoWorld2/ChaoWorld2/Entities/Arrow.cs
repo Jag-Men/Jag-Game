@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ChaoWorld2.Util;
 
 namespace ChaoWorld2.Entities
 {
@@ -74,8 +75,8 @@ namespace ChaoWorld2.Entities
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(ContentLibrary.Sprites["arrow"], new Vector2(X, Y - (Game1.TileSize / 2)).DrawPos(), null, Color.White, (float)this.Angle, new Vector2(8, 8), 3f * (Game1.PixelZoom / 4), SpriteEffects.None, 0.5f - Y / 100000f);
-      spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.51f);
+      spriteBatch.Draw(ContentLibrary.Sprites["arrow"], new Vector2(X, Y - (Game1.TileSize / 2)).DrawPos(), null, Color.White, (float)this.Angle, new Vector2(8, 8), 3f * (Game1.PixelZoom / 4), SpriteEffects.None, Layer.Object - Y / 1e5f);
+      spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.BelowObject);
     }
   }
 }

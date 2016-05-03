@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using ChaoWorld2.Util;
 
 namespace ChaoWorld2.Entities
 {
@@ -32,7 +33,7 @@ namespace ChaoWorld2.Entities
       string drawText = "-" + DamaaaaaageIdiot;
       var fonnman = ContentLibrary.Fonts["fonnman"];
       Vector2 textSize = fonnman.MeasureString(drawText) * Game1.PixelZoom;
-      spriteBatch.DrawOutlinedString(ContentLibrary.Fonts["fonnman"], drawText, new Vector2(X - (textSize.X / 2), Y - (textSize.Y / 2)).DrawPos(), new Color(255, 0, 0, Alpha), 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.1f, Color.Black, 1);
+      spriteBatch.DrawOutlinedString(ContentLibrary.Fonts["fonnman"], drawText, new Vector2(X - (textSize.X / 2), Y - (textSize.Y / 2)).DrawPos(), new Color(255, 0, 0, Alpha), 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.AboveObject, Color.Black, 1);
     }
   }
 }
