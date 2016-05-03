@@ -40,6 +40,7 @@ namespace ChaoWorld2
     public static bool Server = false;
     public static bool Host = true;
     public static int PlayerId = -1;
+    public static float Fade = 0;
 
     GraphicsDeviceManager graphics;
     SpriteBatch spriteBatch;
@@ -180,7 +181,10 @@ namespace ChaoWorld2
         Game1.World.Draw(spriteBatch);
       if (Game1.CurrentMenu != null)
         Game1.CurrentMenu.Draw(spriteBatch);
-      spriteBatch.Draw(ContentLibrary.Sprites["cursorPict"], new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Azure);
+      spriteBatch.Draw(ContentLibrary.Sprites["cursorPict"], new Vector2(Mouse.GetState().X, Mouse.GetState().Y), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, Layer.Mouse);
+      Texture2D blank = new Texture2D(GraphicsDevice, 1, 1);
+      blank.SetData(new Color[] { Color.White });
+      spriteBatch.Draw(blank, new Rectangle(0, 0, Game1.GameWidth, Game1.GameHeight), Color.Black * Fade);
       spriteBatch.End();
 
       base.Draw(gameTime);

@@ -100,6 +100,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Utility.cs" />
+    <Compile Include="Util\Layer.cs" />
     <Compile Include="Util\MouseUtil.cs" />
     <Compile Include="Util\Music.cs" />
     <Compile Include="World.cs" />
