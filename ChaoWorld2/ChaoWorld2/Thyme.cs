@@ -16,12 +16,15 @@ namespace ChaoWorld2
     public static void Update(GameTime gameTime)
     {
       timenoc += gameTime.ElapsedGameTime.Milliseconds;
-      if (timenoc >= 60000)
+      if (timenoc >= 600)
       {
         timenoc = 0;
         minutes++;
-
+        if (hours <= 1)
+          hours = 1;
       }
+      if (hours <= 1)
+        hours = 1;
       if (minutes >= 60)
       {
         minutes = 0;
@@ -33,6 +36,11 @@ namespace ChaoWorld2
         if (ampm == "am")
           ampm = "pm";
         else if (ampm == "pm")
+        {
+
+          ampm = "am";
+        }
+        else
           ampm = "am";
           
       }
@@ -40,7 +48,10 @@ namespace ChaoWorld2
     }
     public static void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], "" + minutes, new Vector2(100, 100), Color.Pink);
+      if (minutes < 10)
+      spriteBatch.DrawString(ContentLibrary.Fonts["fonfman"], ""+ hours + ":" +"0"+ minutes + ampm, new Vector2(100, 100), Color.Pink);
+      else
+        spriteBatch.DrawString(ContentLibrary.Fonts["fonfman"], "" + hours + ":" + minutes + ampm, new Vector2(100, 100), Color.Pink);
     }
   }
 }
