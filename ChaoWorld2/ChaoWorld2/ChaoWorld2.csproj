@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentLibrary.cs" />
+    <Compile Include="Thyme.cs" />
     <Compile Include="Entities\Arrow.cs" />
     <Compile Include="Entities\DamageIdiot.cs" />
     <Compile Include="Entities\Enemy.cs" />
@@ -128,6 +129,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\maps\map.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\maps\untitled.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

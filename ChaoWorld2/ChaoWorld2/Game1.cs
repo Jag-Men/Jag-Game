@@ -17,6 +17,7 @@ using ChaoWorld2.Menu;
 using ChaoWorld2.Networking.Server;
 using ChaoWorld2.Networking.Packets.Server;
 
+
 namespace ChaoWorld2
 {
   /// <summary>
@@ -116,7 +117,8 @@ namespace ChaoWorld2
     {
       KeyboardUtil.Update();
       MouseUtil.Update();
-
+      Thyme.Update(gameTime);
+      
       if (MouseUtil.ButtonPressed(MouseButton.RightButton))
         Game1.World.AddEntity(new Treeeeeeee(Utility.GetTilePos(MouseUtil.WorldPos.X,MouseUtil.WorldPos.Y)));
       if (KeyboardUtil.KeyPressed(Keys.J))
@@ -177,7 +179,7 @@ namespace ChaoWorld2
       GraphicsDevice.Clear(Color.Black);
       
       spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-      if(Game1.World != null)
+      if (Game1.World != null)
         Game1.World.Draw(spriteBatch);
       if (Game1.CurrentMenu != null)
         Game1.CurrentMenu.Draw(spriteBatch);
@@ -185,6 +187,7 @@ namespace ChaoWorld2
       Texture2D blank = new Texture2D(GraphicsDevice, 1, 1);
       blank.SetData(new Color[] { Color.White });
       spriteBatch.Draw(blank, new Rectangle(0, 0, Game1.GameWidth, Game1.GameHeight), Color.Black * Fade);
+      Thyme.Draw(spriteBatch);
       spriteBatch.End();
 
       base.Draw(gameTime);
