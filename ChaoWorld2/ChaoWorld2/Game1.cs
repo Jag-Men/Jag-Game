@@ -131,10 +131,19 @@ namespace ChaoWorld2
 
       if(KeyboardUtil.KeyPressed(Keys.M))
       {
-        if (!Music.IsMuted)
-          Music.Mute();
+        if (KeyboardUtil.IsKeyDown(Keys.LeftControl))
+        {
+          Music.Dispose();
+          Music.Play("monoman");
+          Music.Volume(0.3f);
+        }
         else
-          Music.UnMute();
+        {
+          if (!Music.IsMuted)
+            Music.Mute();
+          else
+            Music.UnMute();
+        }
       }
 
       Game1.Random = new Random();
