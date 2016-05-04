@@ -12,11 +12,11 @@ namespace ChaoWorld2
     static int timenoc;
     static int minutes;
     static int hours;
-    static string ampm;
+    static string ampm = "am";
     public static void Update(GameTime gameTime)
     {
       timenoc += gameTime.ElapsedGameTime.Milliseconds;
-      if (timenoc >= 600)
+      if (timenoc >= 1000)
       {
         timenoc = 0;
         minutes++;
@@ -36,13 +36,7 @@ namespace ChaoWorld2
         if (ampm == "am")
           ampm = "pm";
         else if (ampm == "pm")
-        {
-
           ampm = "am";
-        }
-        else
-          ampm = "am";
-          
       }
         
     }
