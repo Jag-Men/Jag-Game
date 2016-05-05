@@ -42,9 +42,11 @@ namespace ChaoWorld2
     public static bool Host = true;
     public static int PlayerId = -1;
     public static float Fade = 0;
-
+    
     GraphicsDeviceManager graphics;
     SpriteBatch spriteBatch;
+    RenderTarget2D gameRender;
+    RenderTarget2D lighting;
 
     public Game1()
     {
@@ -94,7 +96,10 @@ namespace ChaoWorld2
     protected override void LoadContent()
     {
       spriteBatch = new SpriteBatch(GraphicsDevice);
-      
+
+      gameRender = new RenderTarget2D(GraphicsDevice, Game1.GameWidth, Game1.GameHeight);
+      lighting = new RenderTarget2D(GraphicsDevice, Game1.GameWidth, Game1.GameHeight);
+
       ContentLibrary.Init();
       Game1.World = new World("area");
 
@@ -123,6 +128,9 @@ namespace ChaoWorld2
         Game1.World.AddEntity(new Treeeeeeee(Utility.GetTilePos(MouseUtil.WorldPos.X,MouseUtil.WorldPos.Y)));
       if (KeyboardUtil.KeyPressed(Keys.J))
         Game1.World.AddEntity(new Plant(Utility.GetTilePos(Player.X, Player.Y)));
+
+      if (KeyboardUtil.KeyPressed(Keys.T))
+        Thyme.active = !Thyme.active;
 
       if (!playedMusic)
       {
@@ -186,7 +194,8 @@ namespace ChaoWorld2
     protected override void Draw(GameTime gameTime)
     {
       GraphicsDevice.Clear(Color.Black);
-      
+
+      GraphicsDevice.SetRenderTarget(gameRender);
       spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
       if (Game1.World != null)
         Game1.World.Draw(spriteBatch);
@@ -197,6 +206,11 @@ namespace ChaoWorld2
       blank.SetData(new Color[] { Color.White });
       spriteBatch.Draw(blank, new Rectangle(0, 0, Game1.GameWidth, Game1.GameHeight), Color.Black * Fade);
       Thyme.Draw(spriteBatch);
+      spriteBatch.End();
+
+      GraphicsDevice.SetRenderTarget(null);
+      spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+      spriteBatch.Draw(gameRender, Vector2.Zero, null, Thyme.light);
       spriteBatch.End();
 
       base.Draw(gameTime);
