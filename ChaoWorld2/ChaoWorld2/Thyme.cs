@@ -9,6 +9,7 @@ namespace ChaoWorld2
 {
   public class Thyme
   {
+
     public const int MSPerMinute = 500;
 
     static int timenoc;
@@ -23,7 +24,7 @@ namespace ChaoWorld2
       if (active)
       {
         timenoc += gameTime.ElapsedGameTime.Milliseconds;
-        if (timenoc >= MSPerMinute)
+        if (timenoc >= MSPerMinute * Game1.timescale(1))
         {
           timenoc = 0;
           minutes++;

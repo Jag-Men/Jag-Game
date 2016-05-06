@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentLibrary.cs" />
+    <Compile Include="Entities\Soda.cs" />
     <Compile Include="Entities\Sodamachine.cs" />
     <Compile Include="Thyme.cs" />
     <Compile Include="Entities\Arrow.cs" />

@@ -118,12 +118,22 @@ namespace ChaoWorld2
     }
 
     bool playedMusic = false;
+    public static int timeman;
+    public static int timescale(int integer)
+    {
+      integer += timeman + 1;
+      return integer;
+    }
     protected override void Update(GameTime gameTime)
     {
       KeyboardUtil.Update();
       MouseUtil.Update();
       Thyme.Update(gameTime);
-      
+      if (KeyboardUtil.KeyPressed(Keys.K))
+        timeman++;
+      if (KeyboardUtil.KeyPressed(Keys.J))
+        timeman--;
+
       if (MouseUtil.ButtonPressed(MouseButton.RightButton))
         Game1.World.AddEntity(new Treeeeeeee(Utility.GetTilePos(MouseUtil.WorldPos.X,MouseUtil.WorldPos.Y)));
       if (KeyboardUtil.KeyPressed(Keys.J))
