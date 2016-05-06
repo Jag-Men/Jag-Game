@@ -209,9 +209,6 @@ namespace ChaoWorld2
       spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
       if (Game1.World != null)
         Game1.World.Draw(spriteBatch);
-      if (Game1.CurrentMenu != null)
-        Game1.CurrentMenu.Draw(spriteBatch);
-      spriteBatch.Draw(ContentLibrary.Sprites["cursorPict"], new Vector2(Mouse.GetState().X, Mouse.GetState().Y), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, Layer.Mouse);
       Texture2D blank = new Texture2D(GraphicsDevice, 1, 1);
       blank.SetData(new Color[] { Color.White });
       spriteBatch.Draw(blank, new Rectangle(0, 0, Game1.GameWidth, Game1.GameHeight), Color.Black * Fade);
@@ -220,7 +217,10 @@ namespace ChaoWorld2
 
       GraphicsDevice.SetRenderTarget(null);
       spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-      spriteBatch.Draw(gameRender, Vector2.Zero, null, Thyme.light);
+      spriteBatch.Draw(gameRender, Vector2.Zero, null, Thyme.light, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
+      if (Game1.CurrentMenu != null)
+        Game1.CurrentMenu.Draw(spriteBatch);
+      spriteBatch.Draw(ContentLibrary.Sprites["cursorPict"], new Vector2(Mouse.GetState().X, Mouse.GetState().Y), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, Layer.Mouse);
       spriteBatch.End();
 
       base.Draw(gameTime);
