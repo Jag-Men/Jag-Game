@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ChaoWorld2.Util;
 
 namespace ChaoWorld2.Menu
 {
@@ -27,7 +28,7 @@ namespace ChaoWorld2.Menu
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(ContentLibrary.Sprites["Untitled"], Vector2.Zero, Color.White);
+      spriteBatch.Draw(ContentLibrary.Sprites["Untitled"],new Vector2(Game1.GameWidth/2-128*2, Game1.GameHeight/2 -128*2),new Rectangle(0,0,128,128),Color.White,0f,Vector2.Zero,new Vector2(4,4),SpriteEffects.None,Layer.Menu);
     }
   }
 }
