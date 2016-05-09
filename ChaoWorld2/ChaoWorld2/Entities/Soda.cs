@@ -7,5 +7,9 @@ namespace ChaoWorld2.Entities
 {
   class Soda : Entity
   {
+    public static void jaggus(int integer)
+    {
+
+    }
   }
 }
