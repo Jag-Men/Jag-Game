@@ -220,7 +220,7 @@ namespace ChaoWorld2
       spriteBatch.Draw(gameRender, Vector2.Zero, null, Thyme.light, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
       if (Game1.CurrentMenu != null)
         Game1.CurrentMenu.Draw(spriteBatch);
-      spriteBatch.Draw(ContentLibrary.Sprites["cursorPict"], new Vector2(Mouse.GetState().X, Mouse.GetState().Y), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, Layer.Mouse);
+      spriteBatch.Draw(ContentLibrary.Sprites["ui:cursorPict"], new Vector2(Mouse.GetState().X, Mouse.GetState().Y), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, Layer.Mouse);
       spriteBatch.End();
 
       base.Draw(gameTime);

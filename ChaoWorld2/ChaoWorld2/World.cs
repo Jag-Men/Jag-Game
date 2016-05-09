@@ -53,6 +53,10 @@ namespace ChaoWorld2
           WarpPoints.Add(new WorldWarpPoint(destination, new Vector2(fromPosX, fromPosY), new Vector2(toPosX, toPosY)));
         }
       }
+      foreach(var i in Map.Trees)
+      {
+        AddEntity(new Treeeeeeee(i));
+      }
     }
 
     private List<Entity> AddedEntities = new List<Entity>();
@@ -120,6 +124,7 @@ namespace ChaoWorld2
               RemoveEntity(Game1.Player);
               World newWorld = World.GetInstance(i.Destination);
               newWorld.AddEntity(Game1.Player);
+              Game1.PlayerId = Game1.Player.ID;
               Game1.Player.X = i.ToPos.X * Game1.TileSize + (Game1.TileSize / 2);
               Game1.Player.Y = i.ToPos.Y * Game1.TileSize + (Game1.TileSize / 2);
               Game1.World = newWorld;
@@ -141,7 +146,7 @@ namespace ChaoWorld2
     public Entity AddEntity(Entity entity)
     {
       int nextId = entity.ID;
-      if (nextId == -1)
+      if (nextId == -1 || Entities.ContainsKey(nextId))
         nextId = NextEntityID++;
       if (Entities.TryAdd(nextId, entity))
       {

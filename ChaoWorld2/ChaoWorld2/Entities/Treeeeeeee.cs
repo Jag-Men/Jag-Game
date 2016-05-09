@@ -42,7 +42,7 @@ namespace ChaoWorld2.Entities
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-      var sprite = ContentLibrary.Sprites["Tree"];
+      var sprite = ContentLibrary.Sprites["ent:Tree"];
       spriteBatch.Draw(sprite, new Vector2(this.X - Game1.TileSize, this.Y - (sprite.Height * 4) + Game1.TileSize).DrawPos(), null, Color.White * this.Alpha, 0, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.Object - ((Y + Game1.TileSize / 2) / 1e5f) - ((X + Game1.TileSize / 2) / 1e8f));
       base.Draw(spriteBatch);
     }

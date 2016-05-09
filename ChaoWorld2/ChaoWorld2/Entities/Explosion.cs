@@ -35,7 +35,7 @@ namespace ChaoWorld2.Entities
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(ContentLibrary.Sprites["exploooded"], new Vector2(X - Game1.TileSize, Y - Game1.TileSize).DrawPos(), new Rectangle(this.Frame * 64, 0, 64, 64), Color.White, 0f, Vector2.Zero, 2f * (Game1.PixelZoom / 4), SpriteEffects.None, Layer.AboveObject - (Y / 1e5f));
+      spriteBatch.Draw(ContentLibrary.Sprites["ent:exploooded"], new Vector2(X - Game1.TileSize, Y - Game1.TileSize).DrawPos(), new Rectangle(this.Frame * 64, 0, 64, 64), Color.White, 0f, Vector2.Zero, 2f * (Game1.PixelZoom / 4), SpriteEffects.None, Layer.AboveObject - (Y / 1e5f));
     }
   }
 }

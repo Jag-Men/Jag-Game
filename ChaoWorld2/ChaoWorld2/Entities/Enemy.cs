@@ -26,7 +26,7 @@ namespace ChaoWorld2.Entities
     public Rectangle GetSpriteSize()
     {
       float scale = 0.25f;
-      Texture2D texture = ContentLibrary.Sprites["littlenailgun"];
+      Texture2D texture = ContentLibrary.Sprites["head:littlenailgun"];
       return new Rectangle(0, 0, (int)(texture.Width * scale), (int)(texture.Height * scale));
     }
 
@@ -61,7 +61,7 @@ namespace ChaoWorld2.Entities
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(ContentLibrary.Sprites["littlenailgun"], new Vector2(X - (GetSpriteSize().Width / 2), Y - GetSpriteSize().Height).DrawPos(), null, Color.White, 0f, Vector2.Zero, 0.25f * (Game1.PixelZoom / 4), SpriteEffects.None, 0.5f - Y / 100000);
+      spriteBatch.Draw(ContentLibrary.Sprites["head:littlenailgun"], new Vector2(X - (GetSpriteSize().Width / 2), Y - GetSpriteSize().Height).DrawPos(), null, Color.White, 0f, Vector2.Zero, 0.25f * (Game1.PixelZoom / 4), SpriteEffects.None, 0.5f - Y / 100000);
       spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 0.51f);
     }
   }

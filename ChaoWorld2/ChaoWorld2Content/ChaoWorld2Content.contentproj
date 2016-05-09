@@ -44,7 +44,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\dogo.png">
+    <Compile Include="sprites\ent\dogo.png">
       <Name>dogo</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -65,7 +65,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\cursorPict.png">
+    <Compile Include="sprites\ui\cursorPict.png">
       <Name>cursorPict</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -79,28 +79,28 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\Ashley.png">
+    <Compile Include="sprites\head\Ashley.png">
       <Name>Ashley</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\MadokaPortrait.png">
+    <Compile Include="sprites\head\MadokaPortrait.png">
       <Name>MadokaPortrait</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\Untitled.png">
+    <Compile Include="sprites\ui\Untitled.png">
       <Name>Untitled</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\superfancyhpbar1.png">
+    <Compile Include="sprites\ui\superfancyhpbar1.png">
       <Name>superfancyhpbar1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -114,14 +114,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\hp.png">
+    <Compile Include="sprites\ui\hp.png">
       <Name>hp</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\backgo.png">
+    <Compile Include="sprites\ui\backgo.png">
       <Name>backgo</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -142,35 +142,28 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\littlenailgun.png">
+    <Compile Include="sprites\head\littlenailgun.png">
       <Name>littlenailgun</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\crossman.png">
+    <Compile Include="sprites\wep\crossman.png">
       <Name>crossman</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\crossman.png">
-      <Name>crossman</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="sprites\arrow.png">
+    <Compile Include="sprites\wep\arrow.png">
       <Name>arrow</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\exploooded.png">
+    <Compile Include="sprites\ent\exploooded.png">
       <Name>exploooded</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -215,14 +208,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\plant.png">
+    <Compile Include="sprites\ent\plant.png">
       <Name>plant</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sprites\Tree.png">
+    <Compile Include="sprites\ent\Tree.png">
       <Name>Tree</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -233,6 +226,20 @@
       <Name>fonfman</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="sprites\ent\SpriteWolf.png">
+      <Name>SpriteWolf</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="sprites\head\chiakihead.png">
+      <Name>chiakihead</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

@@ -75,7 +75,7 @@ namespace ChaoWorld2.Entities
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(ContentLibrary.Sprites["arrow"], new Vector2(X, Y - (Game1.TileSize / 2)).DrawPos(), null, Color.White, (float)this.Angle, new Vector2(8, 8), 3f * (Game1.PixelZoom / 4), SpriteEffects.None, Layer.Object - Y / 1e5f);
+      spriteBatch.Draw(ContentLibrary.Sprites["wep:arrow"], new Vector2(X, Y - (Game1.TileSize / 2)).DrawPos(), null, Color.White, (float)this.Angle, new Vector2(8, 8), 3f * (Game1.PixelZoom / 4), SpriteEffects.None, Layer.Object - Y / 1e5f);
       spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.BelowObject);
     }
   }

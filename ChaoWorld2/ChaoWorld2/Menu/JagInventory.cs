@@ -28,7 +28,7 @@ namespace ChaoWorld2.Menu
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(ContentLibrary.Sprites["Untitled"],new Vector2(Game1.GameWidth/2-128*2, Game1.GameHeight/2 -128*2),new Rectangle(0,0,128,128),Color.White,0f,Vector2.Zero,new Vector2(4,4),SpriteEffects.None,Layer.Menu);
+      spriteBatch.Draw(ContentLibrary.Sprites["ui:Untitled"],new Vector2(Game1.GameWidth/2-128*2, Game1.GameHeight/2 -128*2),new Rectangle(0,0,128,128),Color.White,0f,Vector2.Zero,new Vector2(4,4),SpriteEffects.None,Layer.Menu);
     }
   }
 }
