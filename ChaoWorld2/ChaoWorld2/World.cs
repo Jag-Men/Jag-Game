@@ -29,6 +29,7 @@ namespace ChaoWorld2
 
     public GameMap Map;
     public List<WorldWarpPoint> WarpPoints = new List<WorldWarpPoint>();
+    public RenderTarget2D GroundRender;
 
     public ConcurrentDictionary<int, Entity> Entities = new ConcurrentDictionary<int, Entity>();
     public int NextEntityID = 0;
@@ -259,15 +260,19 @@ namespace ChaoWorld2
       return true;
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public void DrawGround(SpriteBatch spriteBatch)
     {
       foreach (var tile in GetTilesInLayer("Ground"))
       {
         TmxTileset tileset = Utility.GetTilesetForTile(Map, tile);
         if (tileset == null)
           continue;
-        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * Game1.TileSize, tile.Y * Game1.TileSize).DrawPos(), Utility.GetTileSourceRect(Map, tile), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.Ground);
+        spriteBatch.Draw(ContentLibrary.Tilesets[tileset.Name], new Vector2(tile.X * 16, tile.Y * 16), Utility.GetTileSourceRect(Map, tile), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, Layer.Ground);
       }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
       foreach (var tile in GetTilesInLayer("Solid"))
       {
         TmxTileset tileset = Utility.GetTilesetForTile(Map, tile);

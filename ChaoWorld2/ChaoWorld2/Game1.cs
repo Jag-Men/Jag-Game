@@ -197,18 +197,27 @@ namespace ChaoWorld2
 
       base.Update(gameTime);
     }
-    string stringman;
-    
-    float vecx;
-    float vecy;
+
     protected override void Draw(GameTime gameTime)
     {
       GraphicsDevice.Clear(Color.Black);
 
+      if(Game1.World != null && Game1.World.Map != null && Game1.World.GroundRender == null)
+      {
+        Game1.World.GroundRender = new RenderTarget2D(GraphicsDevice, Game1.World.Map.Width * 16, Game1.World.Map.Height * 16);
+        GraphicsDevice.SetRenderTarget(Game1.World.GroundRender);
+        spriteBatch.Begin();
+        Game1.World.DrawGround(spriteBatch);
+        spriteBatch.End();
+      }
+
       GraphicsDevice.SetRenderTarget(gameRender);
       spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-      if (Game1.World != null)
+      if (Game1.World != null && Game1.World.GroundRender != null)
+      {
+        spriteBatch.Draw(Game1.World.GroundRender, Vector2.Zero.DrawPos(), null, Color.White, 0, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, 1);
         Game1.World.Draw(spriteBatch);
+      }
       Texture2D blank = new Texture2D(GraphicsDevice, 1, 1);
       blank.SetData(new Color[] { Color.White });
       spriteBatch.Draw(blank, new Rectangle(0, 0, Game1.GameWidth, Game1.GameHeight), Color.Black * Fade);
