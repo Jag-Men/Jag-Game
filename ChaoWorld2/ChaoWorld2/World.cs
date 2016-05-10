@@ -185,7 +185,7 @@ namespace ChaoWorld2
     {
       if (!Map.Layers.Contains(layer))
         return new List<TmxLayerTile>();
-      return Map.Layers[layer].Tiles.ToList();
+      return Map.OptLayers[layer];
     }
 
     public TmxLayerTile GetTileAt(Vector2 pos, string layer)
@@ -233,21 +233,12 @@ namespace ChaoWorld2
 
     public bool RectCollidesWith(Rectangle rect, params string[] collision)
     {
+      if (collision.Contains("Solid"))
+        foreach (var i in Map.SolidTiles)
+          if (rect.Intersects(new Rectangle((int)i.X * Game1.TileSize, (int)i.Y * Game1.TileSize, Game1.TileSize, Game1.TileSize)))
+            return true;
       if (GetEntitiesInside(rect, collision).Count() > 0)
         return true;
-      foreach (var i in collision)
-        if (Map.Layers.Contains(i))
-          foreach (var tile in GetTilesInside(rect, i))
-            if (i == "Ground")
-            {
-              if (tile.Gid == 0)
-                return true;
-            }
-            else
-            {
-              if (tile.Gid != 0)
-                return true;
-            }
       return false;
     }
 
@@ -267,6 +258,7 @@ namespace ChaoWorld2
         return false;
       return true;
     }
+
     public void Draw(SpriteBatch spriteBatch)
     {
       foreach (var tile in GetTilesInLayer("Ground"))

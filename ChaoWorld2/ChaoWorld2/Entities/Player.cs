@@ -173,7 +173,7 @@ namespace ChaoWorld2.Entities
       if(speed == 24)
         Owner.AddEntity(new FakePlayer(this.X, this.Y, this.facing, this.frame));
 
-      string[] collisions = new string[] { "Solid", "Ground", "NPC" };
+      string[] collisions = new string[] { "Solid", "NPC" };
       var cbox = GetCollisionBox();
       if (move.X != 0 && move.Y != 0)
       {
