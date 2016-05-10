@@ -67,6 +67,7 @@
     <Compile Include="ContentLibrary.cs" />
     <Compile Include="Entities\Soda.cs" />
     <Compile Include="Entities\Sodamachine.cs" />
+    <Compile Include="Items\Item.cs" />
     <Compile Include="Thyme.cs" />
     <Compile Include="Entities\Arrow.cs" />
     <Compile Include="Entities\DamageIdiot.cs" />
@@ -80,9 +81,9 @@
     <Compile Include="Entities\Treeeeeeee.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="GameMap.cs" />
-    <Compile Include="Menu\DialogueBox.cs" />
-    <Compile Include="Menu\IMenu.cs" />
-    <Compile Include="Menu\JagInventory.cs" />
+    <Compile Include="UI\Menu\DialogueBox.cs" />
+    <Compile Include="UI\Menu\IMenu.cs" />
+    <Compile Include="UI\Menu\JagInventory.cs" />
     <Compile Include="Networking\Client\Client.cs" />
     <Compile Include="Networking\Packets\Client\ClientPingPacket.cs" />
     <Compile Include="Networking\Packets\Client\ConnectPacket.cs" />

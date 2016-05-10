@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ChaoWorld2.Util;
 
-namespace ChaoWorld2.Menu
+namespace ChaoWorld2.UI.Menu
 {
   public class DialogueBox : IMenu
   {

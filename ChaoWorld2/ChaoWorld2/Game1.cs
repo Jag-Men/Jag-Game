@@ -13,7 +13,7 @@ using System.IO;
 using ChaoWorld2.Util;
 using ChaoWorld2.Entities;
 using System.Collections.Concurrent;
-using ChaoWorld2.Menu;
+using ChaoWorld2.UI.Menu;
 using ChaoWorld2.Networking.Server;
 using ChaoWorld2.Networking.Packets.Server;
 

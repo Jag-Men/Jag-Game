@@ -1,5 +1,5 @@
 ﻿using ChaoWorld2.Entities;
-using ChaoWorld2.Menu;
+using ChaoWorld2.UI.Menu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

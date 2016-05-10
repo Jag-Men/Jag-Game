@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ChaoWorld2.Menu
+namespace ChaoWorld2.UI.Menu
 {
   public interface IMenu
   {
