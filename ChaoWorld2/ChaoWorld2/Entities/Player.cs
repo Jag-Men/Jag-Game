@@ -9,6 +9,7 @@ using TiledSharp;
 using System.IO;
 using System.Collections.Concurrent;
 using ChaoWorld2.Util;
+using ChaoWorld2.Items;
 
 namespace ChaoWorld2.Entities
 {
@@ -19,10 +20,14 @@ namespace ChaoWorld2.Entities
     public int frame;
     public int health = 115;
     public int maxhealth = 115;
+
+    public Item[] Inventory = new Item[16];
     
     public Player()
     {
       Collision.Add("Player");
+      Inventory[0] = Item.TestItem;
+      Inventory[1] = Item.Groomba;
     }
 
     public Player(float x, float y)

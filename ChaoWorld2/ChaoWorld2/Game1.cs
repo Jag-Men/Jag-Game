@@ -16,7 +16,7 @@ using System.Collections.Concurrent;
 using ChaoWorld2.UI.Menu;
 using ChaoWorld2.Networking.Server;
 using ChaoWorld2.Networking.Packets.Server;
-
+using ChaoWorld2.Items;
 
 namespace ChaoWorld2
 {
@@ -101,6 +101,7 @@ namespace ChaoWorld2
       lighting = new RenderTarget2D(GraphicsDevice, Game1.GameWidth, Game1.GameHeight);
 
       ContentLibrary.Init();
+      Item.Init();
       Game1.World = new World("area");
 
       if (Game1.Host)

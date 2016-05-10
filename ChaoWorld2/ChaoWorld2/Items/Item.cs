@@ -10,10 +10,12 @@ namespace ChaoWorld2.Items
   public class Item
   {
     public static Item TestItem;
+    public static Item Groomba;
     
-    public static void Initialize()
+    public static void Init()
     {
-      TestItem = new Item().SetName("test tem");
+      TestItem = new Item().SetTexture("Item");
+      Groomba = new Item().SetTexture("groomba").SetScale(4);
     }
 
     public string Name;
@@ -24,9 +26,9 @@ namespace ChaoWorld2.Items
     public Item()
     {
       this.Name = "Unnamed";
-      this.Texture = "groomba";
+      this.Texture = "Item";
       this.TexSource = null;
-      this.Scale = 4;
+      this.Scale = 1;
     }
 
     public Item SetName(string name)
