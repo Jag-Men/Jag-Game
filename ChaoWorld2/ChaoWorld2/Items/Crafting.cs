@@ -12,6 +12,7 @@ namespace ChaoWorld2.Items
     public static void Init()
     {
       Recipes.Add(new CraftingRecipe(Item.LogPile, Item.Log, Item.Log, Item.Log));
+      Recipes.Add(new CraftingRecipe(Item.Groomba, Item.Sosda, Item.Sosda, Item.Sosda, Item.Sosda, Item.Sosda, Item.Sosda, Item.Sosda, Item.Sosda, Item.Sosda, Item.Sosda, Item.Sosda, Item.Sosda, Item.Sosda, Item.Sosda));
     }
 
     public static Item Craft(List<Item> ingredients)

@@ -12,12 +12,14 @@ namespace ChaoWorld2.Items
     public static Item Log;
     public static Item LogPile;
     public static Item Groomba;
+    public static Item Sosda;
     
     public static void Init()
     {
       Log = new Item().SetTexture("log");
       LogPile = new Item().SetTexture("logpile");
       Groomba = new Item().SetTexture("groomba").SetScale(2);
+      Sosda = new Item().SetTexture("soda").SetScale(2);
     }
 
     public string Name;

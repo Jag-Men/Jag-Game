@@ -133,7 +133,8 @@ namespace ChaoWorld2
 
       if(!Game1.IsPaused())
         Thyme.Update(gameTime);
-
+      if (KeyboardUtil.KeyPressed(Keys.B))
+        World.AddEntity(new Sodamachine(Utility.GetTilePos(MouseUtil.WorldPos.X, MouseUtil.WorldPos.Y)));
       if (KeyboardUtil.KeyPressed(Keys.K))
         timeman++;
       if (KeyboardUtil.KeyPressed(Keys.J))
