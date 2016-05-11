@@ -17,7 +17,7 @@ namespace ChaoWorld2.Entities
     public override void Update(GameTime gameTime)
     {
       if (KeyboardUtil.KeyPressed(Keys.H) && Vector2.Distance(this.XandY, Game1.Player.XandY) <= Game1.TileSize * 4)
-        Owner.AddEntity(new ItemDrop(Item.Sosda, this.X, this.Y));
+        Owner.AddEntity(new ItemDrop(Item.Sosda, this.X + (Game1.TileSize / 2), this.Y + (Game1.TileSize / 2)));
       base.Update(gameTime);
     }
     public Sodamachine(Vector2 pos)
@@ -28,7 +28,7 @@ namespace ChaoWorld2.Entities
     }
     public override void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(ContentLibrary.Sprites["ent:sodamachine"], new Vector2(this.X, this.Y).DrawPos(), null, Color.White, 0f,Vector2.Zero, 4f, SpriteEffects.None, Layer.Object - (Y + Game1.TileSize) / 1e5f);
+      spriteBatch.Draw(ContentLibrary.Sprites["ent:sodamachine"], new Vector2(this.X, this.Y - Game1.TileSize).DrawPos(), null, Color.White, 0f,Vector2.Zero, 4f, SpriteEffects.None, Layer.Object - (Y + Game1.TileSize) / 1e5f);
       base.Draw(spriteBatch);
     }
   }

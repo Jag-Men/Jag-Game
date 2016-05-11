@@ -139,14 +139,23 @@ namespace ChaoWorld2.UI.Menu
           spriteSize *= item.Scale * 2;
           Vector2 itemPos = new Vector2((i % 4) * 128, (i / 4) * 128);
           itemPos = itemPos + new Vector2(64, 64) - new Vector2(spriteSize.X / 2, spriteSize.Y / 2);
-          spriteBatch.Draw(itemSprite, invPos + itemPos, item.TexSource, Color.White, 0, Vector2.Zero, item.Scale * 2, SpriteEffects.None, Layer.Menu - 0.0001f);
+          spriteBatch.Draw(itemSprite, invPos + itemPos, item.TexSource, Color.White, 0, Vector2.Zero, item.Scale * 2, SpriteEffects.None, Layer.Menu - 0.0002f);
         }
       }
       if(slotSelection.HasValue)
       {
         Rectangle ba = new Rectangle(slotSelection.Value.X, slotSelection.Value.Y, slotSelection.Value.Width, slotSelection.Value.Height);
         ba.Offset((int)invPos.X, (int)invPos.Y);
-        spriteBatch.Draw(ContentLibrary.Sprites["ui:slotselect"], ba, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, Layer.Menu - 0.0002f);
+        List<int> slots = new List<int>();
+        for (int i = 0; i < Game1.Player.Inventory.Length; i++)
+        {
+          int slotX = (i % 4) * 128;
+          int slotY = (i / 4) * 128;
+          if (slotSelection.Value.Contains(slotX, slotY))
+            slots.Add(i);
+        }
+        foreach(var slols in slots)
+          spriteBatch.Draw(ContentLibrary.Sprites["ui:slotselect"], new Rectangle((int)invPos.X + ((slols % 4) * 128), (int)invPos.Y + ((slols / 4) * 128), 128, 128), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, Layer.Menu - 0.0001f);
       }
       if(this.heldSlot != -1)
       {
