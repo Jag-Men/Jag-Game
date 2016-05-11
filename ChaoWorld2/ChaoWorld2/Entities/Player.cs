@@ -302,5 +302,24 @@ namespace ChaoWorld2.Entities
       wtr.Write(maxhealth);
       base.Write(wtr);
     }
+
+    public bool HasEmptySlot()
+    {
+      for (int i = 0; i < Inventory.Length; i++)
+        if (Inventory[i] == null)
+          return true;
+      return false;
+    }
+
+    public bool AddItem(Item item)
+    {
+      for (int i = 0; i < Inventory.Length; i++)
+        if (Inventory[i] == null)
+        {
+          Inventory[i] = item;
+          return true;
+        }
+      return false;
+    }
   }
 }

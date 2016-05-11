@@ -12,6 +12,7 @@ namespace ChaoWorld2.Entities
   public class ItemDrop : Entity
   {
     public Item Item;
+    float Speed;
 
     public ItemDrop() { }
 
@@ -21,6 +22,7 @@ namespace ChaoWorld2.Entities
       this.X = x;
       this.Y = y;
       this.Item = item;
+      this.Speed = 0;
     }
 
     public override Rectangle GetCollisionBox()
@@ -30,26 +32,34 @@ namespace ChaoWorld2.Entities
 
     public override void Update(GameTime gameTime)
     {
+      if (Game1.Player.HasEmptySlot() && Vector2.Distance(Game1.Player.XandY, this.XandY) <= Game1.TileSize * 4)
+      {
+        if(Speed < 4f)
+          Speed += 0.1f;
+        if (Speed > 4f)
+          Speed = 4f;
+      }
+      else
+      {
+        if (Speed > 0)
+          Speed -= 0.2f;
+        if (Speed < 0)
+          Speed = 0;
+      }
+
       float py = Game1.Player.Y - this.Y;
       float px = Game1.Player.X - this.X;
 
-      this.X += 3 * (float)Math.Cos(Math.Atan2(py, px));
-      this.Y += 3 * (float)Math.Sin(Math.Atan2(py, px));
+      this.X += Speed * (float)Math.Cos(Math.Atan2(py, px));
+      this.Y += Speed * (float)Math.Sin(Math.Atan2(py, px));
 
-      if(Game1.Player.GetCollisionBox().Intersects(GetCollisionBox()))
-      {
-        for(int i = 0; i < Game1.Player.Inventory.Length; i++)
+      if (Game1.Player.GetCollisionBox().Intersects(GetCollisionBox()))
+        if (Game1.Player.AddItem(this.Item))
         {
-          var item = Game1.Player.Inventory[i];
-          if(item == null)
-          {
-            Game1.Player.Inventory[i] = this.Item;
-            Game1.PlaySound("pickup", 0.4f);
-            Owner.RemoveEntity(this);
-            return;
-          }
+          Game1.PlaySound("pickup", 0.2f);
+          Owner.RemoveEntity(this);
+          return;
         }
-      }
     }
 
     public override void Draw(SpriteBatch spriteBatch)
