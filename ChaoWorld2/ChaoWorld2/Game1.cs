@@ -102,6 +102,7 @@ namespace ChaoWorld2
 
       ContentLibrary.Init();
       Item.Init();
+      Crafting.Init();
       Game1.World = new World("area");
 
       if (Game1.Host)
@@ -129,7 +130,10 @@ namespace ChaoWorld2
     {
       KeyboardUtil.Update();
       MouseUtil.Update();
-      Thyme.Update(gameTime);
+
+      if(!Game1.IsPaused())
+        Thyme.Update(gameTime);
+
       if (KeyboardUtil.KeyPressed(Keys.K))
         timeman++;
       if (KeyboardUtil.KeyPressed(Keys.J))

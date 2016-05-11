@@ -69,8 +69,10 @@ namespace ChaoWorld2
     }
     public static void Draw(SpriteBatch spriteBatch)
     {
-      if (minutes < 10)
-      spriteBatch.DrawString(ContentLibrary.Fonts["fonfman"], ""+ hours + ":" +"0"+ minutes + (ampm), new Vector2(100, 100), Color.Pink);
+      if(Game1.IsPaused())
+        spriteBatch.DrawString(ContentLibrary.Fonts["fonfman"], "PAUSED", new Vector2(100, 100), Color.Pink);
+      else if (minutes < 10)
+        spriteBatch.DrawString(ContentLibrary.Fonts["fonfman"], ""+ hours + ":" +"0"+ minutes + (ampm), new Vector2(100, 100), Color.Pink);
       else
         spriteBatch.DrawString(ContentLibrary.Fonts["fonfman"], "" + hours + ":" + minutes + (ampm), new Vector2(100, 100), Color.Pink);
     }

@@ -68,6 +68,7 @@
     <Compile Include="Entities\ItemDrop.cs" />
     <Compile Include="Entities\Soda.cs" />
     <Compile Include="Entities\Sodamachine.cs" />
+    <Compile Include="Items\Crafting.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Thyme.cs" />
     <Compile Include="Entities\Arrow.cs" />
