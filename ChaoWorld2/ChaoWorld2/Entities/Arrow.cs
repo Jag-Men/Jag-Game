@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ChaoWorld2.Util;
+using ChaoWorld2.Items;
 
 namespace ChaoWorld2.Entities
 {
@@ -46,9 +47,20 @@ namespace ChaoWorld2.Entities
         else if(i is Stupidmadoka)
         {
           Owner.AddEntity(new Explosion(i.X, i.Y - (Game1.TileSize / 2)));
+          Owner.AddEntity(new ItemDrop(Item.Groomba, i.X, i.Y));
           Owner.RemoveEntity(i);
           Owner.RemoveEntity(this);
           Game1.PlaySound("madoka_death", 0.2f);
+          return;
+        }
+
+      foreach(var i in Owner.GetEntitiesInside(this.GetCollisionBox(), "Solid"))
+        if(i is Treeeeeeee)
+        {
+          Owner.AddEntity(new Explosion(i.X + (Game1.TileSize / 2), i.Y + (Game1.TileSize / 2)));
+          Owner.AddEntity(new ItemDrop(Item.Log, i.X + (Game1.TileSize / 2), i.Y + (Game1.TileSize / 2)));
+          Owner.RemoveEntity(i);
+          Owner.RemoveEntity(this);
           return;
         }
 

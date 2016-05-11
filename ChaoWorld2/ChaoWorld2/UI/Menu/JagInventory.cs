@@ -31,15 +31,14 @@ namespace ChaoWorld2.UI.Menu
       if (MouseUtil.X >= invPos.X && MouseUtil.X < invPos.X + GetSize().X &&
         MouseUtil.Y >= invPos.Y && MouseUtil.Y < invPos.Y + GetSize().Y)
       {
+        int slot = (int)((Math.Floor(mouseRelative.Y / 128) * 4) + Math.Floor(mouseRelative.X / 128));
         if (MouseUtil.ButtonPressed(MouseButton.LeftButton))
         {
-          int slot = (int)((Math.Floor(mouseRelative.Y / 128) * 4) + Math.Floor(mouseRelative.X / 128));
           if (Game1.Player.Inventory[slot] != null)
             this.heldSlot = slot;
         }
         if (MouseUtil.IsButtonUp(MouseButton.LeftButton) && this.heldSlot != -1)
         {
-          int slot = (int)((Math.Floor(mouseRelative.Y / 128) * 4) + Math.Floor(mouseRelative.X / 128));
           Item replacedWith = Game1.Player.Inventory[slot];
           Game1.Player.Inventory[slot] = Game1.Player.Inventory[this.heldSlot];
           Game1.Player.Inventory[this.heldSlot] = replacedWith;
@@ -72,10 +71,10 @@ namespace ChaoWorld2.UI.Menu
           var item = Game1.Player.Inventory[i];
           Texture2D itemSprite = ContentLibrary.Sprites["item:" + item.Texture];
           Vector2 spriteSize = item.TexSource.HasValue ? new Vector2(item.TexSource.Value.Width, item.TexSource.Value.Height) : new Vector2(itemSprite.Width, itemSprite.Height);
-          spriteSize *= item.Scale;
+          spriteSize *= item.Scale * 2;
           Vector2 itemPos = new Vector2((i % 4) * 128, (i / 4) * 128);
           itemPos = itemPos + new Vector2(64, 64) - new Vector2(spriteSize.X / 2, spriteSize.Y / 2);
-          spriteBatch.Draw(itemSprite, invPos + itemPos, item.TexSource, Color.White, 0, Vector2.Zero, item.Scale, SpriteEffects.None, Layer.Menu - 0.0001f);
+          spriteBatch.Draw(itemSprite, invPos + itemPos, item.TexSource, Color.White, 0, Vector2.Zero, item.Scale * 2, SpriteEffects.None, Layer.Menu - 0.0001f);
         }
       }
       if(this.heldSlot != -1)
@@ -83,9 +82,9 @@ namespace ChaoWorld2.UI.Menu
         var item = Game1.Player.Inventory[this.heldSlot];
         Texture2D itemSprite = ContentLibrary.Sprites["item:" + item.Texture];
         Vector2 spriteSize = item.TexSource.HasValue ? new Vector2(item.TexSource.Value.Width, item.TexSource.Value.Height) : new Vector2(itemSprite.Width, itemSprite.Height);
-        spriteSize *= item.Scale;
+        spriteSize *= item.Scale * 2;
         Vector2 itemPos = MouseUtil.XandY - new Vector2(spriteSize.X / 2, spriteSize.Y / 2);
-        spriteBatch.Draw(itemSprite, itemPos, item.TexSource, Color.White, 0, Vector2.Zero, item.Scale, SpriteEffects.None, Layer.Menu - 0.0002f);
+        spriteBatch.Draw(itemSprite, itemPos, item.TexSource, Color.White, 0, Vector2.Zero, item.Scale * 2, SpriteEffects.None, Layer.Menu - 0.0002f);
       }
     }
   }

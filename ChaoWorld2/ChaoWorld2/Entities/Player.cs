@@ -26,8 +26,6 @@ namespace ChaoWorld2.Entities
     public Player()
     {
       Collision.Add("Player");
-      Inventory[0] = Item.TestItem;
-      Inventory[1] = Item.Groomba;
     }
 
     public Player(float x, float y)

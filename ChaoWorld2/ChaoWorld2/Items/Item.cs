@@ -9,13 +9,13 @@ namespace ChaoWorld2.Items
 {
   public class Item
   {
-    public static Item TestItem;
+    public static Item Log;
     public static Item Groomba;
     
     public static void Init()
     {
-      TestItem = new Item().SetTexture("Item");
-      Groomba = new Item().SetTexture("groomba").SetScale(4);
+      Log = new Item().SetTexture("log");
+      Groomba = new Item().SetTexture("groomba").SetScale(2);
     }
 
     public string Name;
@@ -58,6 +58,12 @@ namespace ChaoWorld2.Items
     {
       this.Scale = scale;
       return this;
+    }
+
+    public Vector2 GetSpriteSize()
+    {
+      Texture2D sprite = ContentLibrary.Sprites["item:" + this.Texture];
+      return this.Scale * (this.TexSource.HasValue ? new Vector2(this.TexSource.Value.Width, this.TexSource.Value.Height) : new Vector2(sprite.Width, sprite.Height));
     }
   }
 }
