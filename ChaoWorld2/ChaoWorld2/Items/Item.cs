@@ -13,6 +13,8 @@ namespace ChaoWorld2.Items
     public static Item LogPile;
     public static Item Groomba;
     public static Item Sosda;
+    public static Item sword;
+    public static Item sword2;
     
     public static void Init()
     {
@@ -20,6 +22,8 @@ namespace ChaoWorld2.Items
       LogPile = new Item().SetTexture("logpile");
       Groomba = new Item().SetTexture("groomba").SetScale(2);
       Sosda = new Item().SetTexture("soda").SetScale(2);
+      sword = new Item().SetTexture("sword").SetScale(1);
+      sword2 = new Item().SetTexture("Katana").SetScale(1.5f);
     }
 
     public string Name;
