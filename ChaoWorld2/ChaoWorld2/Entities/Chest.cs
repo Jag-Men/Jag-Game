@@ -30,7 +30,7 @@ namespace ChaoWorld2.Entities
     public override void Update(GameTime gameTime)
     {
       if (KeyboardUtil.KeyPressed(Keys.Enter) && Vector2.Distance(this.XandY, Game1.Player.XandY) < Game1.TileSize * 3)
-        Game1.OpenMenu(new Chestm());
+        Game1.OpenMenu(new ChestInventory());
       base.Update(gameTime);
     }
     public override void Draw(SpriteBatch spriteBatch)

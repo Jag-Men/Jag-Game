@@ -18,9 +18,11 @@ namespace ChaoWorld2.UI.Menu
     int currentSelected = -1;
     int originalSelected = -1;
 
+    Vector2 Position;
+
     public JagInventory()
     {
-
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
     }
 
     public void Update(GameTime gameTime)
@@ -30,11 +32,11 @@ namespace ChaoWorld2.UI.Menu
         Game1.CloseMenu();
         return;
       }
-      Vector2 invPos = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
-      Vector2 mouseRelative = MouseUtil.XandY - invPos;
 
-      if (MouseUtil.X >= invPos.X && MouseUtil.X < invPos.X + GetSize().X &&
-        MouseUtil.Y >= invPos.Y && MouseUtil.Y < invPos.Y + GetSize().Y)
+      Vector2 mouseRelative = MouseUtil.XandY - Position;
+
+      if (MouseUtil.X >= Position.X && MouseUtil.X < Position.X + GetSize().X &&
+        MouseUtil.Y >= Position.Y && MouseUtil.Y < Position.Y + GetSize().Y)
       {
         int slot = (int)((Math.Floor(mouseRelative.Y / 128) * 4) + Math.Floor(mouseRelative.X / 128));
         if (KeyboardUtil.IsKeyDown(Keys.LeftShift) && this.heldSlot == -1)
@@ -100,8 +102,8 @@ namespace ChaoWorld2.UI.Menu
       if (this.heldSlot != -1)
       {
         Texture2D trash = ContentLibrary.Sprites["ui:trash1"];
-        if (MouseUtil.X >= invPos.X + GetSize().X && MouseUtil.X < invPos.X + GetSize().X + trash.Width &&
-          MouseUtil.Y >= invPos.Y + GetSize().Y - trash.Height && MouseUtil.Y < invPos.Y + GetSize().Y)
+        if (MouseUtil.X >= Position.X + GetSize().X && MouseUtil.X < Position.X + GetSize().X + trash.Width &&
+          MouseUtil.Y >= Position.Y + GetSize().Y - trash.Height && MouseUtil.Y < Position.Y + GetSize().Y)
         {
           overTrash = true;
         }
@@ -127,8 +129,7 @@ namespace ChaoWorld2.UI.Menu
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      Vector2 invPos = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
-      spriteBatch.Draw(ContentLibrary.Sprites["ui:Untitled"],new Vector2(Game1.GameWidth/2-128*2, Game1.GameHeight/2 -128*2),new Rectangle(0,0,128,128),Color.White,0f,Vector2.Zero,4,SpriteEffects.None,Layer.Menu);
+      spriteBatch.Draw(ContentLibrary.Sprites["ui:Untitled"], Position, new Rectangle(0,0,128,128),Color.White,0f,Vector2.Zero,4,SpriteEffects.None,Layer.Menu);
       for(int i = 0; i < Game1.Player.Inventory.Length; i++)
       {
         if(i != heldSlot && Game1.Player.Inventory[i] != null)
@@ -139,13 +140,13 @@ namespace ChaoWorld2.UI.Menu
           spriteSize *= item.Scale * 2;
           Vector2 itemPos = new Vector2((i % 4) * 128, (i / 4) * 128);
           itemPos = itemPos + new Vector2(64, 64) - new Vector2(spriteSize.X / 2, spriteSize.Y / 2);
-          spriteBatch.Draw(itemSprite, invPos + itemPos, item.TexSource, Color.White, 0, Vector2.Zero, item.Scale * 2, SpriteEffects.None, Layer.Menu - 0.0002f);
+          spriteBatch.Draw(itemSprite, Position + itemPos, item.TexSource, Color.White, 0, Vector2.Zero, item.Scale * 2, SpriteEffects.None, Layer.Menu - 0.0002f);
         }
       }
       if(slotSelection.HasValue)
       {
         Rectangle ba = new Rectangle(slotSelection.Value.X, slotSelection.Value.Y, slotSelection.Value.Width, slotSelection.Value.Height);
-        ba.Offset((int)invPos.X, (int)invPos.Y);
+        ba.Offset((int)Position.X, (int)Position.Y);
         List<int> slots = new List<int>();
         for (int i = 0; i < Game1.Player.Inventory.Length; i++)
         {
@@ -155,7 +156,7 @@ namespace ChaoWorld2.UI.Menu
             slots.Add(i);
         }
         foreach(var slols in slots)
-          spriteBatch.Draw(ContentLibrary.Sprites["ui:slotselect"], new Rectangle((int)invPos.X + ((slols % 4) * 128), (int)invPos.Y + ((slols / 4) * 128), 128, 128), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, Layer.Menu - 0.0001f);
+          spriteBatch.Draw(ContentLibrary.Sprites["ui:slotselect"], new Rectangle((int)Position.X + ((slols % 4) * 128), (int)Position.Y + ((slols / 4) * 128), 128, 128), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, Layer.Menu - 0.0001f);
       }
       if(this.heldSlot != -1)
       {
@@ -167,7 +168,7 @@ namespace ChaoWorld2.UI.Menu
         spriteBatch.Draw(itemSprite, itemPos, item.TexSource, Color.White, 0, Vector2.Zero, item.Scale * 2, SpriteEffects.None, Layer.Menu - 0.0003f);
       }
       Texture2D trash = ContentLibrary.Sprites["ui:" + (overTrash ? "trash2" : "trash1")];
-      spriteBatch.Draw(trash, invPos + GetSize() - new Vector2(0, trash.Height), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, Layer.Menu);
+      spriteBatch.Draw(trash, Position + GetSize() - new Vector2(0, trash.Height), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, Layer.Menu);
     }
   }
 }
