@@ -182,10 +182,13 @@ namespace ChaoWorld2
 
       if(Game1.World != null)
         Game1.World.Update(gameTime);
+      if (KeyboardUtil.KeyPressed(Keys.X))
+        World.AddEntity(new Chest(Utility.GetTilePos(MouseUtil.WorldPos.X, MouseUtil.WorldPos.Y)));
 
       if (KeyboardUtil.KeyPressed(Keys.E) && Game1.CurrentMenu == null)
         Game1.OpenMenu(new JagInventory());
-
+      if (KeyboardUtil.KeyPressed(Keys.V))
+        World.AddEntity(new Chest((Utility.GetTilePos(MouseUtil.WorldPos.X, MouseUtil.WorldPos.Y))));
       if (KeyboardUtil.KeyPressed(Keys.OemPlus))
       {
         if (Game1.PixelZoom < 1)
