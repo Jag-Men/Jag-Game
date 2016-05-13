@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentLibrary.cs" />
+    <Compile Include="Entities\Chest.cs" />
     <Compile Include="Entities\ItemDrop.cs" />
     <Compile Include="Entities\Soda.cs" />
     <Compile Include="Entities\Sodamachine.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Entities\Treeeeeeee.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="GameMap.cs" />
+    <Compile Include="UI\Menu\Chestm.cs" />
     <Compile Include="UI\Menu\DialogueBox.cs" />
     <Compile Include="UI\Menu\IMenu.cs" />
     <Compile Include="UI\Menu\JagInventory.cs" />

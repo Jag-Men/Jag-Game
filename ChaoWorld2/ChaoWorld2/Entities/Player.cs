@@ -142,7 +142,7 @@ namespace ChaoWorld2.Entities
       {
         double my = MouseUtil.Y - this.XandY.DrawPos().Y;
         double mx = MouseUtil.X - this.XandY.DrawPos().X;
-        Arrow arrow = new Arrow(Math.Atan2(my, mx), 8, 1000);
+        Arrow arrow = new Arrow(Math.Atan2(my, mx), 16, 1000);
         arrow.X = this.X;
         arrow.Y = this.Y;
         Owner.AddEntity(arrow);
