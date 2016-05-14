@@ -23,6 +23,66 @@ namespace ChaoWorld2.UI.Menu
     public ChestInventory()
     {
       this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
+      this.Position = new Vector2(Game1.GameWidth / 2 - 128 * 2, Game1.GameHeight / 2 - 128 * 2);
     }
 
     public void Update(GameTime gameTime)
