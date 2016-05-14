@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="ContentLibrary.cs" />
     <Compile Include="Entities\Chest.cs" />
+    <Compile Include="Entities\IContainer.cs" />
     <Compile Include="Entities\ItemDrop.cs" />
     <Compile Include="Entities\Soda.cs" />
     <Compile Include="Entities\Sodamachine.cs" />

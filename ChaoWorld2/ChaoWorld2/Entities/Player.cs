@@ -13,7 +13,7 @@ using ChaoWorld2.Items;
 
 namespace ChaoWorld2.Entities
 {
-  public class Player : Entity
+  public class Player : Entity, IContainer
   {
     public int god;
     public int facing;
@@ -320,6 +320,11 @@ namespace ChaoWorld2.Entities
           return true;
         }
       return false;
+    }
+
+    public Item[] GetInventory()
+    {
+      return this.Inventory;
     }
   }
 }

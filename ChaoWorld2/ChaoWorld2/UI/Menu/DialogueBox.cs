@@ -26,7 +26,7 @@ namespace ChaoWorld2.UI.Menu
 
     public void Update(GameTime gameTime)
     {
-      if(KeyboardUtil.KeyPressed(Keys.Enter))
+      if(KeyboardUtil.KeyPressed(Keys.Enter) || KeyboardUtil.KeyPressed(Keys.Escape))
       {
         Game1.CloseMenu();
         return;
