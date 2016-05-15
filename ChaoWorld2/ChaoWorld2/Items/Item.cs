@@ -15,6 +15,7 @@ namespace ChaoWorld2.Items
     public static Item Sosda;
     public static Item Sword;
     public static Item Sword2;
+    public static Item doritos;
     
     public static void Init()
     {
@@ -24,6 +25,7 @@ namespace ChaoWorld2.Items
       Sosda = new Item().SetTexture("soda").SetScale(2);
       Sword = new Item().SetTexture("sword").SetScale(1);
       Sword2 = new Item().SetTexture("Katana").SetScale(1.5f);
+      doritos = new Item().SetTexture("doritos");
     }
 
     public string Name;
