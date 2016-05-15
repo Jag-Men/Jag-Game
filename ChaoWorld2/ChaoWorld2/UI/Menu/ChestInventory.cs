@@ -166,7 +166,7 @@ namespace ChaoWorld2.UI.Menu
       spriteBatch.Draw(ContentLibrary.Sprites["ui:chestinv"], ChestPosition, new Rectangle(0, 0, 128, 128), Color.White, 0f, Vector2.Zero, 4, SpriteEffects.None, Layer.Menu);
       for (int i = 0; i < Game1.Player.Inventory.Length; i++)
       {
-        if (i != heldSlot && Game1.Player.Inventory[i] != null)
+        if (Game1.Player.Inventory[i] != null && ((heldFrom == Game1.Player && i != heldSlot) || heldFrom != Game1.Player))
         {
           var item = Game1.Player.Inventory[i];
           Texture2D itemSprite = ContentLibrary.Sprites["item:" + item.Texture];
@@ -179,7 +179,7 @@ namespace ChaoWorld2.UI.Menu
       }
       for (int i = 0; i < Chest.GetInventory().Length; i++)
       {
-        if (i != heldSlot && Chest.GetInventory()[i] != null)
+        if (Chest.GetInventory()[i] != null && ((heldFrom == Chest && i != heldSlot) || heldFrom != Chest))
         {
           var item = Chest.GetInventory()[i];
           Texture2D itemSprite = ContentLibrary.Sprites["item:" + item.Texture];
