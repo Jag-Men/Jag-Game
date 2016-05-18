@@ -223,6 +223,7 @@ namespace ChaoWorld2
       }
 
       GraphicsDevice.SetRenderTarget(gameRender);
+      GraphicsDevice.Clear(Color.Black);
       spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
       if (Game1.World != null && Game1.World.GroundRender != null)
       {
