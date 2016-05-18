@@ -51,7 +51,7 @@ namespace ChaoWorld2.Entities
 
       if(KeyboardUtil.KeyPressed(Keys.Z))
       {
-        Pathing.Pathfind(Utility.GetTilePos(Game1.Player.X, Game1.Player.Y), "Solid");
+        Pathing.Pathfind(Utility.GetTilePos(MouseUtil.WorldPos.X, MouseUtil.WorldPos.Y), "Solid");
         Pathing.PathPosition = 1;
         IsPathing = true;
         frameCount = 32;
