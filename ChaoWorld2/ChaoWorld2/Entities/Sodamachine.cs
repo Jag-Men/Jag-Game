@@ -22,6 +22,7 @@ namespace ChaoWorld2.Entities
         Owner.AddEntity(new ItemDrop(Item.Sword, this.X + (Game1.TileSize / 2), this.Y + (Game1.TileSize / 2)));
       if (KeyboardUtil.KeyPressed(Keys.P) && Vector2.Distance(this.XandY, Game1.Player.XandY) <= Game1.TileSize * 4)
         Owner.AddEntity(new ItemDrop(Item.doritos, this.X + (Game1.TileSize / 2), this.Y + (Game1.TileSize / 2)));
+
       base.Update(gameTime);
     }
     public Sodamachine(Vector2 pos)
