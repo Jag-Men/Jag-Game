@@ -21,9 +21,13 @@ namespace ChaoWorld2.Entities
     public bool grool = false;
     public int emotion;
 
+    public PathFinding Pathing;
+    public bool IsPathing = false;
+
     public Stupidmadoka()
     {
       Collision.Add("NPC");
+      Pathing = new PathFinding(this);
     }
 
     public Stupidmadoka(float x, float y)
@@ -45,43 +49,92 @@ namespace ChaoWorld2.Entities
       if (!Game1.Host)
         return;
 
-      int speed = 2;
-      if (desiredPos != Vector2.Zero)
+      if(KeyboardUtil.KeyPressed(Keys.Z))
       {
-        if (Vector2.Distance(this.XandY, desiredPos) < 2f)
+        Pathing.Pathfind(Utility.GetTilePos(Game1.Player.X, Game1.Player.Y), "Solid");
+        Pathing.PathPosition = 1;
+        IsPathing = true;
+        frameCount = 32;
+      }
+
+      if (!IsPathing)
+      {
+        int speed = 2;
+        if (desiredPos != Vector2.Zero)
         {
-          this.X = desiredPos.X;
-          this.Y = desiredPos.Y;
-          framesUntilWalk = Game1.Random.Next(120, 480);
-          move = Vector2.Zero;
-          desiredPos = Vector2.Zero;
-          frameCount = 0;
+          if (Vector2.Distance(this.XandY, desiredPos) < 2f)
+          {
+            this.X = desiredPos.X;
+            this.Y = desiredPos.Y;
+            framesUntilWalk = Game1.Random.Next(120, 480);
+            move = Vector2.Zero;
+            desiredPos = Vector2.Zero;
+            frameCount = 0;
+          }
+          else
+          {
+            var cbox = GetCollisionBox();
+            if (!Owner.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), "Player"))
+            {
+              this.X += move.X;
+              this.Y += move.Y;
+            }
+            this.frameCount += 3;
+          }
+        }
+        if (framesUntilWalk <= 0 && desiredPos == Vector2.Zero)
+        {
+          Vector2 desiredMove = new Vector2(Game1.Random.Next(-1, 2), Game1.Random.Next(-1, 2));
+          if (desiredMove != Vector2.Zero && Owner.IsTilePassable(Utility.GetTilePos(this.XandY.X, this.XandY.Y) + (desiredMove)))
+          {
+            desiredPos = this.XandY + (desiredMove) * Game1.TileSize;
+            move = desiredMove;
+            move *= speed;
+            if (move.X != 0 && move.Y != 0)
+            {
+              move.X /= (float)Math.Sqrt(2);
+              move.Y /= (float)Math.Sqrt(2);
+            }
+            frameCount = 32;
+          }
+        }
+        framesUntilWalk--;
+      }
+      else
+      {
+        this.frameCount += 3;
+        PathTile currentTile = Pathing.FinalPath[Pathing.PathPosition];
+        Vector2 goal = new Vector2(currentTile.Pos.X * Game1.TileSize + (Game1.TileSize / 2), currentTile.Pos.Y * Game1.TileSize + (Game1.TileSize / 2));
+        if (Vector2.Distance(this.XandY, goal) < 2f)
+        {
+          this.X = goal.X;
+          this.Y = goal.Y;
+          Pathing.PathPosition++;
+          if (Pathing.PathPosition == Pathing.FinalPath.Length)
+          {
+            move = new Vector2(0, 0);
+            frameCount = 0;
+            IsPathing = false;
+          }
         }
         else
         {
           var cbox = GetCollisionBox();
-          if(!Owner.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), "Player"))
+          move = new Vector2(0, 0);
+          if (goal.X > this.X)
+            move.X += 1;
+          if (goal.X < this.X)
+            move.X -= 1;
+          if (goal.Y > this.Y)
+            move.Y += 1;
+          if (goal.Y < this.Y)
+            move.Y -= 1;
+          move *= 2;
+          if (!Owner.RectCollidesWith(new Rectangle(cbox.X + (int)move.X, cbox.Y + (int)move.Y, cbox.Width, cbox.Height), "Player"))
           {
             this.X += move.X;
             this.Y += move.Y;
           }
-          this.frameCount += 3;
-        }
-      }
-      if (framesUntilWalk <= 0 && desiredPos == Vector2.Zero)
-      {
-        Vector2 desiredMove = new Vector2(Game1.Random.Next(-1, 2), Game1.Random.Next(-1, 2));
-        if (desiredMove != Vector2.Zero && Owner.IsTilePassable(Utility.GetTilePos(this.XandY.X, this.XandY.Y) + (desiredMove)))
-        {
-          desiredPos = this.XandY + (desiredMove) * Game1.TileSize;
-          move = desiredMove;
-          move *= speed;
-          if (move.X != 0 && move.Y != 0)
-          {
-            move.X /= (float)Math.Sqrt(2);
-            move.Y /= (float)Math.Sqrt(2);
-          }
-          frameCount = 32;
         }
       }
       if (move.X < 0)
@@ -89,8 +142,6 @@ namespace ChaoWorld2.Entities
       if (move.X > 0)
         this.facing = 0;
       this.frame = (int)Math.Floor(frameCount / 32.0) % 4;
-
-      framesUntilWalk--;
     }
 
     int timesgrooled;
