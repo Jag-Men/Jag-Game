@@ -101,6 +101,7 @@
     <Compile Include="Entities\Sodamachine.cs" />
     <Compile Include="Items\Crafting.cs" />
     <Compile Include="Items\Item.cs" />
+    <Compile Include="PathFinding.cs" />
     <Compile Include="Thyme.cs" />
     <Compile Include="Entities\Arrow.cs" />
     <Compile Include="Entities\DamageIdiot.cs" />

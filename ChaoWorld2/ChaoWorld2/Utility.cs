@@ -84,6 +84,13 @@ namespace ChaoWorld2
       return (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
     }
 
+    public static int ManhattanDist(Vector2 a, Vector2 b)
+    {
+      int distX = (int)(a.X - b.X);
+      int distY = (int)(a.Y - b.Y);
+      return Math.Abs(distX) + Math.Abs(distY);
+    }
+
     public static void DrawOutlinedString(this SpriteBatch spriteBatch, SpriteFont spriteFont, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth, Color outlineColor, int outlineDepth)
     {
       spriteBatch.DrawString(spriteFont, text, Vector2.Add(new Vector2(-outlineDepth, -outlineDepth), position), outlineColor, rotation, origin, scale, effects, layerDepth + (0.0000001f));
