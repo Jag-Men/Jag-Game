@@ -8,13 +8,16 @@ using ChaoWorld2.Util;
 
 namespace ChaoWorld2.Entities.Weapons
 {
-  class Crossbow : Weapon
+  public class Crossbow : Weapon
   {
     public string weaponName = "wep:crossman";
+    public int weaponSize = 16;
+    public float weaponScale = 3.5f;
     public bool chargingShot;
     public bool lockedShot;
     public int timeUntilJoj;
     public int joj;
+
     public override void Update(GameTime gameTime)
     {
       if (MouseUtil.ButtonPressed(MouseButton.LeftButton) && !lockedShot && !chargingShot)
@@ -27,6 +30,7 @@ namespace ChaoWorld2.Entities.Weapons
       }
       if (chargingShot || lockedShot)
       {
+        Game1.Player.speedMult = 0.5f;
         if (MouseUtil.X < Game1.Player.XandY.DrawPos().X)
           Game1.Player.facing = 1;
         else if (MouseUtil.X > Game1.Player.XandY.DrawPos().X)
@@ -47,6 +51,8 @@ namespace ChaoWorld2.Entities.Weapons
           Game1.PlaySound("lock");
         }
       }
+      else
+        Game1.Player.speedMult = 1;
       if (MouseUtil.ButtonPressed(MouseButton.LeftButton) && lockedShot)
       {
         double my = MouseUtil.Y - Game1.Player.XandY.DrawPos().Y;
@@ -97,18 +103,18 @@ namespace ChaoWorld2.Entities.Weapons
       if (chargingShot || lockedShot)
       {
         if (Game1.Player.facing == 0)
-          spriteBatch.Draw(ContentLibrary.Sprites[weaponName], new Vector2(Game1.Player.X + 13 + joaje, Game1.Player.Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.None, Layer.Object - (Game1.Player.Y + 1) / 1e5f);
+          spriteBatch.Draw(ContentLibrary.Sprites[weaponName], new Vector2(Game1.Player.X + 13 + joaje, Game1.Player.Y - 67).DrawPos(), new Rectangle(joj * weaponSize, 0, weaponSize, weaponSize), Color.White, 0, Vector2.Zero, weaponScale * (Game1.PixelZoom / 4), SpriteEffects.None, Layer.Object - (Game1.Player.Y + 1) / 1e5f);
         if (Game1.Player.facing == 1)
-          spriteBatch.Draw(ContentLibrary.Sprites[weaponName], new Vector2(Game1.Player.X + 50 + -90 + joaje, Game1.Player.Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.FlipHorizontally, Layer.Object - (Game1.Player.Y + 1) / 1e5f);
+          spriteBatch.Draw(ContentLibrary.Sprites[weaponName], new Vector2(Game1.Player.X + 50 + -90 + joaje, Game1.Player.Y - 67).DrawPos(), new Rectangle(joj * weaponSize, 0, weaponSize, weaponSize), Color.White, 0, Vector2.Zero, weaponScale * (Game1.PixelZoom / 4), SpriteEffects.FlipHorizontally, Layer.Object - (Game1.Player.Y + 1) / 1e5f);
       }
       else
       {
         if (Game1.Player.facing == 0)
-          spriteBatch.Draw(ContentLibrary.Sprites[weaponName], new Vector2(Game1.Player.X + 50 + joaje, Game1.Player.Y - 50).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, -30, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.None, Layer.Object - (Game1.Player.Y + 1) / 1e5f);
+          spriteBatch.Draw(ContentLibrary.Sprites[weaponName], new Vector2(Game1.Player.X + 50 + joaje, Game1.Player.Y - 50).DrawPos(), new Rectangle(joj * weaponSize, 0, weaponSize, weaponSize), Color.White, -30, Vector2.Zero, weaponScale * (Game1.PixelZoom / 4), SpriteEffects.None, Layer.Object - (Game1.Player.Y + 1) / 1e5f);
         if (Game1.Player.facing == 1)
-          spriteBatch.Draw(ContentLibrary.Sprites[weaponName], new Vector2(Game1.Player.X + 58 + -90 + joaje, Game1.Player.Y + 10).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 30, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.FlipHorizontally, Layer.Object - (Game1.Player.Y + 1) / 1e5f);
+          spriteBatch.Draw(ContentLibrary.Sprites[weaponName], new Vector2(Game1.Player.X + 58 + -90 + joaje, Game1.Player.Y + 10).DrawPos(), new Rectangle(joj * weaponSize, 0, weaponSize, weaponSize), Color.White, 30, Vector2.Zero, weaponScale * (Game1.PixelZoom / 4), SpriteEffects.FlipHorizontally, Layer.Object - (Game1.Player.Y + 1) / 1e5f);
       }
       base.Draw(spriteBatch);
     }
-    }
   }
+}

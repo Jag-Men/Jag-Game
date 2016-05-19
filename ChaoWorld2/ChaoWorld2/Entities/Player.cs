@@ -23,6 +23,8 @@ namespace ChaoWorld2.Entities
     public int maxhealth = 115;
     public Weapon weapon;
 
+    public float speedMult = 1;
+
     public Item[] Inventory = new Item[16];
     
     public Player()
@@ -49,12 +51,13 @@ namespace ChaoWorld2.Entities
     int somSpawnTime = 0;
     public override void Update(GameTime gameTime)
     {
+      if (this != Game1.Player)
+        return;
+
       if (KeyboardUtil.KeyPressed(Keys.Q))
         weapon = new Crossbow();
       if (KeyboardUtil.KeyPressed(Keys.L))
         weapon = new Gunderwear();
-      if (this != Game1.Player)
-        return;
 
       if (KeyboardUtil.KeyPressed(Keys.H))
         health--;
@@ -113,7 +116,11 @@ namespace ChaoWorld2.Entities
         this.facing = 0;
       if (move.X < 0)
         this.facing = 1;
-      move *= speed;
+
+      if (weapon != null)
+        weapon.Update(gameTime);
+
+      move *= (speed * speedMult);
       if (move.X != 0 && move.Y != 0)
       {
         move.X /= (float)Math.Sqrt(2);

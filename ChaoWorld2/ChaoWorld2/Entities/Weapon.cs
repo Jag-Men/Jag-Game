@@ -13,9 +13,5 @@ namespace ChaoWorld2.Entities
     public virtual void Update(GameTime gameTime) { }
     public virtual void UpdateEvenWhenPaused(GameTime gameTime) { }
     public virtual void Draw(SpriteBatch spriteBatch){ }
-
-
-
-
   }
 }
