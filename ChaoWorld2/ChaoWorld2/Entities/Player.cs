@@ -10,6 +10,7 @@ using System.IO;
 using System.Collections.Concurrent;
 using ChaoWorld2.Util;
 using ChaoWorld2.Items;
+using ChaoWorld2.Entities.Weapons;
 
 namespace ChaoWorld2.Entities
 {
@@ -20,11 +21,13 @@ namespace ChaoWorld2.Entities
     public int frame;
     public int health = 115;
     public int maxhealth = 115;
+    public Weapon weapon;
 
     public Item[] Inventory = new Item[16];
     
     public Player()
     {
+
       Collision.Add("Player");
     }
 
@@ -46,6 +49,10 @@ namespace ChaoWorld2.Entities
     int somSpawnTime = 0;
     public override void Update(GameTime gameTime)
     {
+      if (KeyboardUtil.KeyPressed(Keys.Q))
+        weapon = new Crossbow();
+      if (KeyboardUtil.KeyPressed(Keys.L))
+        weapon = new Gunderwear();
       if (this != Game1.Player)
         return;
 
@@ -106,57 +113,6 @@ namespace ChaoWorld2.Entities
         this.facing = 0;
       if (move.X < 0)
         this.facing = 1;
-      if(MouseUtil.ButtonPressed(MouseButton.LeftButton) && !lockedShot && !chargingShot)
-        chargingShot = true;
-      if(MouseUtil.IsButtonUp(MouseButton.LeftButton) && !lockedShot && chargingShot)
-      {
-        joj = 0;
-        timeUntilJoj = 0;
-        chargingShot = false;
-      }
-      if (chargingShot || lockedShot)
-      {
-        move.X /= 2;
-        move.Y /= 2;
-        if (MouseUtil.X < this.XandY.DrawPos().X)
-          this.facing = 1;
-        else if (MouseUtil.X > this.XandY.DrawPos().X)
-          this.facing = 0;
-        if (joj < 3)
-        {
-          timeUntilJoj += gameTime.ElapsedGameTime.Milliseconds;
-          if (timeUntilJoj >= 200)
-          {
-            joj++;
-            timeUntilJoj = 0;
-          }
-        }
-        if(joj == 3 && !lockedShot)
-        {
-          chargingShot = false;
-          lockedShot = true;
-          Game1.PlaySound("lock");
-        }
-      }
-      if(MouseUtil.ButtonPressed(MouseButton.LeftButton) && lockedShot)
-      {
-        double my = MouseUtil.Y - this.XandY.DrawPos().Y;
-        double mx = MouseUtil.X - this.XandY.DrawPos().X;
-        Arrow arrow = new Arrow(Math.Atan2(my, mx), 16, 1000);
-        arrow.X = this.X;
-        arrow.Y = this.Y;
-        Owner.AddEntity(arrow);
-        Game1.PlaySound("shoot");
-        lockedShot = false;
-        joj = 0;
-        timeUntilJoj = 0;
-      }
-      if(MouseUtil.IsButtonUp(MouseButton.LeftButton) && !lockedShot)
-      {
-        joj = 0;
-        timeUntilJoj = 0;
-      }
-
       move *= speed;
       if (move.X != 0 && move.Y != 0)
       {
@@ -224,55 +180,14 @@ namespace ChaoWorld2.Entities
       spriteBatch.Draw(ContentLibrary.Sprites["ent:dogo"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 24, 16, 24), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.Object - Y / 1e5f);
       spriteBatch.Draw(ContentLibrary.Sprites["shadow"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize / 4)).DrawPos(), null, Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.BelowObject);
       this.DrawHealthBar(spriteBatch);
-      this.DrawCrossBow(spriteBatch);
+      if (weapon != null)
+        weapon.Draw(spriteBatch);
       this.jon("tronss",spriteBatch);
     }
 
     void jon(string trons, SpriteBatch spriteBatch)
     {
       spriteBatch.DrawString(ContentLibrary.Fonts["fonnman"], trons, Vector2.Zero, Color.White);
-    }
-    void DrawCrossBow(SpriteBatch spriteBatch)
-    {
-      Vector2 bowdirection = new Vector2();
-      float joaje;
-      switch (this.frame)
-      {
-        case 0 :
-          joaje = 0;
-          break;
-        case 1 :
-          joaje = 4;
-          break;
-        case 2 :
-          joaje = 0;
-          break;
-        case 3 :
-          joaje = -8;
-          break;
-        default:
-          joaje = 0;
-          break;
-          
-      }
-      string byakuya = "morning naegi";
-      if (byakuya == "morning naegi")
-      {
-      }
-      if (chargingShot || lockedShot)
-      {
-        if (this.facing == 0)
-          spriteBatch.Draw(ContentLibrary.Sprites["wep:crossman"], new Vector2(X +13 + joaje, Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.None, Layer.Object - (Y + 1) / 1e5f);
-        if (this.facing == 1)
-          spriteBatch.Draw(ContentLibrary.Sprites["wep:crossman"], new Vector2(X + 50 + -90 + joaje, Y - 67).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 0, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.FlipHorizontally, Layer.Object - (Y + 1) / 1e5f);
-      }
-      else
-      {
-        if (this.facing == 0)
-          spriteBatch.Draw(ContentLibrary.Sprites["wep:crossman"], new Vector2(X + 50 + joaje, Y - 50).DrawPos(), new Rectangle(joj*16, 0, 16, 16), Color.White, -30, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.None, Layer.Object - (Y + 1) / 1e5f);
-        if (this.facing == 1)
-          spriteBatch.Draw(ContentLibrary.Sprites["wep:crossman"], new Vector2(X + 58 + -90 + joaje, Y + 10).DrawPos(), new Rectangle(joj * 16, 0, 16, 16), Color.White, 30, Vector2.Zero, 3.5f * (Game1.PixelZoom / 4), SpriteEffects.FlipHorizontally, Layer.Object - (Y + 1) / 1e5f);
-      }
     }
 
     void DrawHealthBar(SpriteBatch spriteBatch)

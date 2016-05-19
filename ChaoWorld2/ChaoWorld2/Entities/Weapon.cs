@@ -7,13 +7,15 @@ using System.Text;
 
 namespace ChaoWorld2.Entities
 {
-  class Weapon : Entity
+  public class Weapon
   {
-    public void weapontype(string type)
-    {
-      
+    public Weapon() { }
+    public virtual void Update(GameTime gameTime) { }
+    public virtual void UpdateEvenWhenPaused(GameTime gameTime) { }
+    public virtual void Draw(SpriteBatch spriteBatch){ }
 
-    }
-    
+
+
+
   }
 }
