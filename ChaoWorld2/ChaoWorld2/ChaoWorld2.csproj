@@ -103,6 +103,7 @@
     <Compile Include="Entities\Weapon.cs" />
     <Compile Include="Entities\Weapons\Crossbow.cs" />
     <Compile Include="Entities\Weapons\Gunderwear.cs" />
+    <Compile Include="Entities\Weapons\Sword.cs" />
     <Compile Include="Items\Crafting.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="PathFinding.cs" />
