@@ -11,9 +11,15 @@ namespace ChaoWorld2.Entities
   class Giantdog : Entity
   {
 
+    public static string dog(string dog)
+    {
+      return dog;
+    }
+    string dogs = "dog";
     public override void Update(GameTime gameTime)
     {
-      
+      if (dog("dog") == dogs)
+        dogs = dog(dogs); 
       base.Update(gameTime);
     }
     public Giantdog(Vector2 pos)
