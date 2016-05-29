@@ -110,8 +110,9 @@ namespace ChaoWorld2.Entities
         move.X -= 1;
       if (KeyboardUtil.IsKeyDown(Keys.D))
         move.X += 1;
-
-        if (Game1.Player.Inventory[1] == Item.Sword2 && !(weapon is Crossbow))
+      if (KeyboardUtil.KeyPressed(Keys.Y))
+        Buffs.AddBuff(BuffType.Speed, 1000, 2);
+        if (Game1.Player.Inventory[1] == Item.Sword2 && (weapon is Gunderwear))
           weapon = new Crossbow();
         if (Game1.Player.Inventory[1] == Item.Sword && !(weapon is Gunderwear))
           weapon = new Gunderwear();

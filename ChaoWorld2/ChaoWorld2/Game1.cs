@@ -128,6 +128,7 @@ namespace ChaoWorld2
     }
     protected override void Update(GameTime gameTime)
     {
+      Buffs.Update(gameTime);
       KeyboardUtil.Update();
       MouseUtil.Update();
 

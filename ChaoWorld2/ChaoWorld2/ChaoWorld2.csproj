@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs.cs" />
     <Compile Include="ContentLibrary.cs" />
     <Compile Include="Entities\Chest.cs" />
     <Compile Include="Entities\Doritos.cs" />
