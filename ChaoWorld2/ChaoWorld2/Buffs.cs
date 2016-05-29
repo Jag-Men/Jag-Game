@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ChaoWorld2.Util;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +44,13 @@ namespace ChaoWorld2
       }
       foreach (var i in RemovedBuffs)
         Bufflist.Remove(i);
+    }
+    public static void Draw(SpriteBatch spriteBatch)
+    {
+      foreach (var i in Bufflist)
+      {
+        spriteBatch.Draw(ContentLibrary.Sprites["ent:sodamachine"], new Vector2(1, 1), null, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, Layer.Menu);
+      }
     }
   }
   class Buff
