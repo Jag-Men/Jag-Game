@@ -188,6 +188,8 @@ namespace ChaoWorld2
       if (KeyboardUtil.KeyPressed(Keys.X))
         World.AddEntity(new Chest(Utility.GetTilePos(MouseUtil.WorldPos.X, MouseUtil.WorldPos.Y)));
 
+      if (KeyboardUtil.KeyPressed(Keys.Escape) && Game1.CurrentMenu == null)
+        Game1.OpenMenu(new Menu());
       if (KeyboardUtil.KeyPressed(Keys.E) && Game1.CurrentMenu == null)
         Game1.OpenMenu(new JagInventory());
       if (KeyboardUtil.KeyPressed(Keys.V))

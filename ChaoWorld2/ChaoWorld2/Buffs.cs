@@ -47,9 +47,11 @@ namespace ChaoWorld2
     }
     public static void Draw(SpriteBatch spriteBatch)
     {
+      int index = 0;
       foreach (var i in Bufflist)
       {
-        spriteBatch.Draw(ContentLibrary.Sprites["ent:sodamachine"], new Vector2(1, 1), null, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, Layer.Menu);
+        spriteBatch.Draw(ContentLibrary.Sprites["ent:sodamachine"], new Vector2(index * 64, 1), null, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, Layer.Menu);
+        index++;
       }
     }
   }
