@@ -99,6 +99,7 @@
     <Compile Include="Entities\Giantdog.cs" />
     <Compile Include="Entities\IContainer.cs" />
     <Compile Include="Entities\ItemDrop.cs" />
+    <Compile Include="Entities\Jasmine.cs" />
     <Compile Include="Entities\Soda.cs" />
     <Compile Include="Entities\Sodamachine.cs" />
     <Compile Include="Entities\Weapon.cs" />

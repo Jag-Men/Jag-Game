@@ -109,8 +109,8 @@ namespace ChaoWorld2
       {
         Game1.Player = (Player)Game1.World.AddEntity(new Player(5, 5));
         Game1.PlayerId = Game1.Player.ID;
-        Game1.World.AddEntity(new Stupidmadoka(8, 6));
         Game1.World.AddEntity(new Stupidmadoka(10, 8));
+        Game1.World.AddEntity(new Jasmine(8, 6));
       }
     }
 
