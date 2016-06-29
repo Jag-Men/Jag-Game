@@ -28,11 +28,33 @@ namespace ChaoWorld2.Entities
     private bool grool;
     private int timesgrooled;
     private int emotion;
+    private int timeN;
+    private int timeB;
 
+    private bool john = true;
     public string jajetron { get; private set; }
 
     public override void Update(GameTime gameTime)
     {
+
+      if (KeyboardUtil.IsKeyDown(Keys.B))
+        timeB += gameTime.ElapsedGameTime.Milliseconds;
+      if (timeB > 0 && KeyboardUtil.IsKeyUp(Keys.B))
+      {
+        Animation.Animate("spin", this);
+        timeB -= gameTime.ElapsedGameTime.Milliseconds;
+      }
+      if (KeyboardUtil.IsKeyDown(Keys.N))
+        timeN += gameTime.ElapsedGameTime.Milliseconds;
+      if (timeN > 0 && KeyboardUtil.IsKeyUp(Keys.N))
+      {
+        Animation.Animate("bspin", this);
+        timeN -= gameTime.ElapsedGameTime.Milliseconds;
+      }
+      if (timeN == 0 && timeB == 0 && ani > 0)
+        ani -= 0.01f;
+      if (timeN == 0 && timeB == 0 && ani < 0)
+        ani += 0.01f;
       int speed = 2;
       if (desiredPos != Vector2.Zero)
       {
@@ -113,7 +135,7 @@ namespace ChaoWorld2.Entities
     }
     public override void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(ContentLibrary.Sprites["ent:Jasmine spritesheet"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 32, 16, 32), Color.White, 0f, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.Object - Y / 1e5f);
+      spriteBatch.Draw(ContentLibrary.Sprites["ent:Jasmine spritesheet"], new Vector2(X - (Game1.TileSize / 2), Y - (Game1.TileSize * 1.5f)).DrawPos(), new Rectangle(this.frame * 16, this.facing * 32, 16, 32), Color.White, this.ani, Vector2.Zero, Game1.PixelZoom, SpriteEffects.None, Layer.Object - Y / 1e5f);
       base.Draw(spriteBatch);
     }
   }

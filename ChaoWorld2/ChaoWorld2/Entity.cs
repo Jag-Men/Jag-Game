@@ -12,6 +12,10 @@ namespace ChaoWorld2
   {
     public float X;
     public float Y;
+    public float ani;
+    public int animation;
+    public int animationb;
+    public int speed;
     public int ID = -1;
     public World Owner;
     public List<string> Collision = new List<string>();

@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffs.cs" />
+    <Compile Include="Animation.cs" />
     <Compile Include="ContentLibrary.cs" />
     <Compile Include="Entities\Chest.cs" />
     <Compile Include="Entities\Doritos.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Entities\Weapons\Crossbow.cs" />
     <Compile Include="Entities\Weapons\Gunderwear.cs" />
     <Compile Include="Entities\Weapons\Sword.cs" />
+    <Compile Include="Entities\WWolf.cs" />
     <Compile Include="Items\Crafting.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="PathFinding.cs" />
